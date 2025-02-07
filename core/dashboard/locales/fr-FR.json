@@ -1,0 +1,24 @@
+{
+    "TITLE": "Noyau",
+    "DESCRIPTION": "Module de base pour l'application",
+    
+    "SETTINGS_TITLE": "Paramètres",
+    "PREFIX_TITLE": "Préfixe",
+    "PREFIX_DESC": "Le préfixe des commandes du bot",
+    "LOCALE_TITLE": "Locales",
+    "LOCALE_DESC": "Les paramètres régionaux du bot",
+
+    "SERVER_DEFAULTS": "Paramètres par défaut du serveur",
+    "SUPPORT": "Serveur d'assistance",
+    "SUPPORT_DESC": "Lien d'invitation Discord pour le serveur d'assistance",
+    "SLASH": "Slash Commandes",
+    "SLASH_DESC": "Activer/désactiver les commandes slash",
+    "CONTEXT": "Menu contextuel",
+    "CONTEXT_DESC": "Activer/désactiver les menus contextuels",
+
+    "DASH_DEFAULTS": "Paramètres par défaut du tableau de bord",
+    "LOGO": "Logo",
+    "LOGO_DESC": "Logo pour le tableau de bord",
+    "LOGO_URL": "Logo URL",
+    "LOGO_URL_DESC": "URL vers l'image du logo"
+}

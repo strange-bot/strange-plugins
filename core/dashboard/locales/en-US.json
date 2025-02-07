@@ -1,0 +1,24 @@
+{
+    "TITLE": "Core",
+    "DESCRIPTION": "Core module for the application",
+    
+    "SETTINGS_TITLE": "Settings",
+    "PREFIX_TITLE": "Prefix",
+    "PREFIX_DESC": "The prefix for the bot commands",
+    "LOCALE_TITLE": "Locale",
+    "LOCALE_DESC": "The locale for the bot",
+
+    "SERVER_DEFAULTS": "Server Defaults",
+    "SUPPORT": "Support Server",
+    "SUPPORT_DESC": "Discord invite link for the support server",
+    "SLASH": "Slash Commands",
+    "SLASH_DESC": "Enable/disable slash commands",
+    "CONTEXT": "Context Menu",
+    "CONTEXT_DESC": "Enable/disable context menus",
+
+    "DASH_DEFAULTS": "Dashboard Defaults",
+    "LOGO": "Logo",
+    "LOGO_DESC": "Logo for the dashboard",
+    "LOGO_URL": "Logo URL",
+    "LOGO_URL_DESC": "URL to the logo image"
+}

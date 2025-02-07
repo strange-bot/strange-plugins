@@ -1,0 +1,78 @@
+{
+    "TITLE": "Noyau",
+    "DESCRIPTION": "Module de base pour l'application",
+
+    "HANDLER": {
+        "PLUGIN_DISABLED": "Ce plugin est désactivé par l'administrateur du serveur",
+        "CMD_DISABLED": "Cette commande est désactivée par l'administrateur du serveur",
+        "CMD_NOT_FOUND": "Commande introuvable",
+        "OWNER_ONLY": "Cette commande n'est disponible que pour le propriétaire du bot",
+        "USER_PERMISSIONS": "Vous avez besoin des autorisations suivantes pour exécuter cette commande : {{permissions}}",
+        "BOT_PERMISSIONS": "J'ai besoin des autorisations suivantes pour exécuter cette commande : {{permissions}}",
+        "COOLDOWN": "Vous êtes en temps de recharge ! Veuillez patienter {{time}} secondes",
+        "ERROR": "Une erreur s'est produite lors de l'exécution de cette commande"
+    },
+
+    "HELP": {
+        "DESCRIPTION": "menu d'aide des commandes",
+        "PLUGIN_DESC": "nom du plugin",
+        "COMMAND_DESC": "nom de la commande",
+
+        "INFO_MISSING_PLUGIN": "Vous devez spécifier un plugin pour obtenir de l'aide",
+        "PLUGIN_NOT_FOUND": "Aucun plugin correspondant trouvé",
+        "COMMAND_NOT_FOUND": "Aucune commande correspondante trouvée",
+        "NOT_FOUND": "Aucun plugin ou commande correspondant trouvé",
+
+        "MENU_DESC": "Afficher les commandes dans le plugin {{plugin}}",
+        "MENU_PLACEHOLDER": "Sélectionnez le plugin pour lequel vous avez besoin d'aide",
+        "EMPTY_CATEGORY": "Il n'y a aucune commande dans ce plugin",
+
+        "CMD_DESC": "Description",
+        "CMD_SUBCOMMANDS": "Sous-commandes",
+        "PLUGIN_EMBED_FOOTER": "Page {{page}} sur {{pages}}. Tapez {{prefix}}help <commande> pour plus d'informations sur la commande"
+    },
+
+    "PING": {
+        "DESCRIPTION": "affiche le ping actuel du bot vers les serveurs Discord",
+        "RESPONSE": "🏓 Pong : `{{ping}}ms`"
+    },
+
+    "PLUGIN": {
+        "DESCRIPTION": "Commandes de gestion des plugins",
+        "SUB_LIST": "liste tous les plugins",
+        "SUB_INFO": "obtenir des informations sur un plugin",
+        "SUB_STATUS": "gérer le statut d'un plugin",
+
+        "LIST_EMBED_TITLE": "Liste des plugins disponibles",
+        "LIST_EMBED_FOOTER": "Total : {{count}}",
+        "ENABLED": "Activé",
+        "DISABLED": "Désactivé",
+
+        "NOT_FOUND": "Aucun plugin trouvé avec le nom : {{plugin}}",
+        "INFO_EMBED_TITLE": "Informations sur le plugin : {{plugin}}",
+        "INFO_EMBED_DESC": "**Nom :** {{name}}\n**Version :** {{version}}\n**Statut :** {{status}}\n**Commandes de préfixe :** {{prefixCmds}}\n**Commandes Slash :** {{slashCmds}}",
+
+        "STATUS_SELECT_PLACEHOLDER": "Plugins disponibles",
+        "STATUS_SELECT_PROMPT": "Sélectionnez/Désélectionnez les plugins que vous souhaitez activer/désactiver",
+        "STATUS_SELECT_TIMEOUT": "Temps écoulé ! Vous n'avez pas fait de sélection",
+        "STATUS_SELECT_PROCESSING": "Traitement de votre sélection...",
+        "STATUS_SELECT_SUCCESS": "Plugins sélectionnés activés/désactivés avec succès",
+
+        "SUB_ENABLE": "activer un plugin",
+        "SUB_DISABLE": "désactiver un plugin"
+    },
+
+    "LANG": {
+        "DESCRIPTION": "Définit la langue du bot",
+        "NEW_LANG": "nouvelle langue",
+        "INVALID_LANG": "Oops ! `{{lang}}` n'est pas une langue valide.\nLangues disponibles : `{{langChoices}}`",
+        "SUCCESS": "Succès ! La langue a été définie sur `{{lang}}`"
+    },
+
+    "PREFIX": {
+        "DESCRIPTION": "Définit un nouveau préfixe pour ce serveur",
+        "NEW_PREFIX": "nouveau préfixe à définir",
+        "TOO_LONG": "Le préfixe est trop long ! Il doit comporter 2 caractères ou moins.",
+        "SUCCESS": "Le nouveau préfixe a été défini sur `{{prefix}}`"
+    }
+}
