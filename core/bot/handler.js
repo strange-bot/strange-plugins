@@ -148,7 +148,9 @@ async function handleSlashCommand(interaction, cmd, context) {
     }
 
     try {
-        await interaction.deferReply({ flags: cmd.slashCommand.ephemeral ? MessageFlags.Ephemeral : 0 });
+        await interaction.deferReply({
+            flags: cmd.slashCommand.ephemeral ? MessageFlags.Ephemeral : 0,
+        });
         context.interaction = interaction;
         await cmd.interactionRun(context);
     } catch (ex) {

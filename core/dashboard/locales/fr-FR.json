@@ -1,7 +1,7 @@
 {
     "TITLE": "Noyau",
     "DESCRIPTION": "Module de base pour l'application",
-    
+
     "SETTINGS_TITLE": "Paramètres",
     "PREFIX_TITLE": "Préfixe",
     "PREFIX_DESC": "Le préfixe des commandes du bot",

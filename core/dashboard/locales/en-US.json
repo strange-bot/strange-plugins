@@ -1,7 +1,7 @@
 {
     "TITLE": "Core",
     "DESCRIPTION": "Core module for the application",
-    
+
     "SETTINGS_TITLE": "Settings",
     "PREFIX_TITLE": "Prefix",
     "PREFIX_DESC": "The prefix for the bot commands",
