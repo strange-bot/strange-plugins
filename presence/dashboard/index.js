@@ -1,12 +1,7 @@
-const { Plugin } = require("strange-sdk");
+const { DashboardPlugin } = require("strange-sdk");
 
-module.exports = new Plugin({
-    dependencies: [],
+module.exports = new DashboardPlugin({
     ownerOnly: true,
     baseDir: __dirname,
-
-    dashboard: {
-        enabled: true,
-        adminRouter: require("./dashboard/router"),
-    },
+    adminRouter: require("./router"),
 });

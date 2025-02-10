@@ -1,34 +1,35 @@
 const path = require("path");
 const router = require("express").Router();
-const config = require("../config");
 
 router.get("/", (_req, res) => {
-    res.render(path.join(__dirname, "view.ejs"), {
-        config: config.data,
-    });
+    res.render(path.join(__dirname, "view.ejs"));
 });
 
-router.post("/", async (req, res) => {
-    const body = req.body;
+router.put("/", async (req, res) => {
+    const { status, type, message } = req.body;
 
-    // Config
-    if (Object.prototype.hasOwnProperty.call(body, "config")) {
-        if (
-            (body.status && typeof body.status !== "string") ||
-            (body.type && typeof body.type !== "string") ||
-            (body.message && typeof body.message !== "string")
-        ) {
-            return res.status(400);
-        }
-
-        config.set("STATUS", body.status);
-        config.set("TYPE", body.type);
-        config.set("MESSAGE", body.message);
-
-        await config.saveToDb();
+    if (
+        !status ||
+        !type ||
+        !message ||
+        typeof status !== "string" ||
+        typeof type !== "string" ||
+        typeof message !== "string"
+    ) {
+        return res.status(400).json({ error: "Invalid request body" });
     }
 
-    res.redirect("/admin/guild-logger");
+    try {
+        const config = res.locals.config;
+        config.STATUS = status;
+        config.TYPE = type;
+        config.MESSAGE = message;
+
+        await res.locals.plugin.setConfig(config);
+        res.json({ success: true });
+    } catch (error) {
+        res.sendStatus(500);
+    }
 });
 
 module.exports = router;

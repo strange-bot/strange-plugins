@@ -3,11 +3,43 @@
     class="rounded-lg border border-gray-200 bg-white p-4 shadow-sm dark:border-gray-700 dark:bg-gray-800 sm:p-6 2xl:col-span-2">
     <!-- START: Card Header -->
     <div class="mb-4 flex items-center justify-between border-b border-gray-200 pb-4 dark:border-gray-700">
-      <h3 class="text-lg font-semibold text-gray-800 dark:text-white"><%= tr("presence:DASH.CONFIG_TITLE") %></h3>
+      <h3 class="text-lg font-semibold text-gray-800 dark:text-white"><%= tr("presence:CONFIG_TITLE") %></h3>
     </div>
     <!-- END: Card Header -->
 
-    <form method="post">
+    <form x-data="{ 
+      formData: {
+        status: '<%= config.STATUS %>',
+        type: '<%= config.TYPE %>',
+        message: '<%= config.MESSAGE %>'
+      },
+      isSubmitting: false,
+      submitForm() {
+        if (this.isSubmitting) return;
+        this.isSubmitting = true;
+        fetch(window.location.href, {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(this.formData)
+        })
+        .then(response => {
+          if (response.ok) {
+            Alpine.store('toast').show('Settings saved successfully', 'success');
+          } else {
+            throw new Error('Update failed');
+          }
+        })
+        .catch(error => {
+          Alpine.store('toast').show('Failed to update settings', 'error');
+          console.error('Error:', error);
+        })
+        .finally(() => {
+          this.isSubmitting = false;
+        });
+      }
+    }">
       <!-- START: Card Body -->
       <div class="mb-3">
         <div class="grid gap-4 md:grid-cols-2 xl:grid-cols-2">
@@ -15,13 +47,14 @@
           <div>
             <div class="mb-2">
               <label for="status" class="text-sm font-semibold text-gray-900 dark:text-white"
-                ><%= tr("presence:DASH.STATUS") %></label
+                ><%= tr("presence:STATUS") %></label
               >
               <div class="text-sm font-normal text-gray-500 dark:text-gray-400">
-                <%= tr("presence:DASH.STATUS_DESC") %>
+                <%= tr("presence:STATUS_DESC") %>
               </div>
             </div>
             <select
+              x-model="formData.status"
               name="status"
               id="status"
               class="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-primary-500 focus:ring-primary-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-primary-500 dark:focus:ring-primary-500">
@@ -42,13 +75,14 @@
           <div>
             <div class="mb-2">
               <label for="type" class="text-sm font-semibold text-gray-900 dark:text-white"
-                ><%= tr("presence:DASH.TYPE") %></label
+                ><%= tr("presence:TYPE") %></label
               >
               <div class="text-sm font-normal text-gray-500 dark:text-gray-400">
-                <%= tr("presence:DASH.TYPE_DESC") %>
+                <%= tr("presence:TYPE_DESC") %>
               </div>
             </div>
             <select
+              x-model="formData.type"
               name="type"
               id="type"
               class="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-primary-500 focus:ring-primary-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-primary-500 dark:focus:ring-primary-500">
@@ -73,18 +107,18 @@
           <div>
             <div class="mb-2">
               <label for="message" class="text-sm font-semibold text-gray-900 dark:text-white"
-                ><%= tr("presence:DASH.MESSAGE") %></label
+                ><%= tr("presence:MESSAGE") %></label
               >
               <div class="text-sm font-normal text-gray-500 dark:text-gray-400">
-                <%= tr("presence:DASH.MESSAGE_DESC") %>
+                <%= tr("presence:MESSAGE_DESC") %>
               </div>
             </div>
             <input
+              x-model="formData.message"
               type="text"
               name="message"
               id="message"
               class="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-gray-900 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-primary-500 dark:focus:ring-primary-500 sm:text-sm"
-              value="<%= config.MESSAGE %>"
               required />
           </div>
           <!-- END: Column 1 -->
@@ -97,10 +131,12 @@
         <div></div>
         <div class="flex-shrink-0">
           <button
-            type="submit"
+            type="button"
             name="config"
-            class="inline-flex items-center rounded-lg bg-primary-700 px-3 py-2 text-center text-sm font-medium text-white hover:bg-primary-800 focus:outline-none focus:ring-4 focus:ring-primary-300 dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">
-            <%= tr("common:DASH.UPDATE_ALL") %>
+            @click="submitForm"
+            :disabled="isSubmitting"
+            class="inline-flex items-center rounded-lg bg-primary-700 px-3 py-2 text-center text-sm font-medium text-white hover:bg-primary-800 focus:outline-none focus:ring-4 focus:ring-primary-300 dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800 disabled:opacity-50">
+            <span x-text="isSubmitting ? '<%= tr("SAVING") %>' : '<%= tr("SAVE") %>'"></span>
           </button>
         </div>
       </div>
