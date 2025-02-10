@@ -1,0 +1,17 @@
+{
+    "name": "moderation",
+    "version": "1.0.0",
+    "main": "index.js",
+    "author": "Sai Teja Madha",
+    "license": "ISC",
+    "dependencies": {
+        "common-tags": "^1.8.2",
+        "enhanced-ms": "^2.3.0"
+    },
+    "peerDependencies": {
+        "discord.js": "^14.0.0",
+        "mongoose": "^7.0.0",
+        "strange-db-client": "workspace:*",
+        "strange-sdk": "workspace:*"
+    }
+}

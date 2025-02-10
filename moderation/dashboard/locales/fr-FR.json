@@ -1,0 +1,15 @@
+{
+    "TITLE": "Modération",
+    "DESCRIPTION": "Gérez les paramètres de modération de votre serveur.",
+
+    "CHANNEL_SELECT": "Sélectionnez une chaîne",
+    "ROLE_SELECT": "Sélectionnez un rôle",
+
+    "SETTINGS_TITLE": "Paramètres",
+    "CH_TITLE": "Canal de journal",
+    "CH_DESC": "Le canal où toutes les actions de modération seront envoyées.",
+    "MAXWARN_TITLE": "Max Avertit",
+    "MAXWARN_DESC": "Le nombre maximum d'avertissements qu'un utilisateur peut recevoir avant que l'action ne soit entreprise.",
+    "MAXWARN_ACTION_TITLE": "Action d'avertissement maximale",
+    "MAXWARN_ACTION_DESC": "L'action à entreprendre lorsqu'un utilisateur atteint le nombre maximum d'avertissements."
+}
