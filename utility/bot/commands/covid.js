@@ -44,7 +44,7 @@ async function getCovid({ guild }, country) {
     const response = await HttpUtils.getJson(`https://disease.sh/v2/countries/${country}`);
 
     if (response.status === 404) return "```css\n" + guild.getT("utility:COVID.NOT_FOUND") + "```";
-    if (!response.success) return guild.getT("common:API_ERROR");
+    if (!response.success) return guild.getT("API_ERROR");
     const { data } = response;
 
     const mg = timestampToDate(data?.updated, "dd.MM.yyyy at HH:mm");

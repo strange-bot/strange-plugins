@@ -44,7 +44,7 @@ async function urban({ guild }, word) {
     const response = await HttpUtils.getJson(
         `http://api.urbandictionary.com/v0/define?term=${word}`,
     );
-    if (!response.success) return guild.getT("common:API_ERROR");
+    if (!response.success) return guild.getT("API_ERROR");
 
     const json = response.data;
     if (!json.list[0]) return guild.getT("utility:URBAN.NOT_FOUND", { word });

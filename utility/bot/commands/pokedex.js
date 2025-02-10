@@ -43,7 +43,7 @@ module.exports = {
 async function pokedex({ guild }, pokemon) {
     const response = await HttpUtils.getJson(`https://pokeapi.glitch.me/v1/pokemon/${pokemon}`);
     if (response.status === 404) return "```" + guild.getT("utility:POKEDEX.NOT_FOUND") + "```";
-    if (!response.success) return guild.getT("common:API_ERROR");
+    if (!response.success) return guild.getT("API_ERROR");
 
     const json = response.data[0];
 

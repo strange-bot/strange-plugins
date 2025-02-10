@@ -50,7 +50,7 @@ function getEmoji(guild, user, emoji) {
             name: guild.getT("utility:BIGEMOJI.EMBED_TITLE"),
         })
         .setFooter({
-            text: guild.getT("common:REQUESTED_BY", { user: user.username }),
+            text: guild.getT("REQUESTED_BY", { user: user.username }),
         });
 
     if (custom.id) {

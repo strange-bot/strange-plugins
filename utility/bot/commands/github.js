@@ -46,7 +46,7 @@ const websiteProvided = (text) => (text.startsWith("http://") ? true : text.star
 async function getGithubUser({ guild }, target, author) {
     const response = await HttpUtils.getJson(`https://api.github.com/users/${target}`);
     if (response.status === 404) return "```" + guild.getT("utility:GITHUB.NOT_FOUND") + "```";
-    if (!response.success) return guild.getT("common:API_ERROR");
+    if (!response.success) return guild.getT("API_ERROR");
 
     const json = response.data;
     const {
@@ -94,7 +94,7 @@ async function getGithubUser({ guild }, target, author) {
         .setDescription(`**Bio**:\n${bio || guild.getT("utility:GITHUB.NOT_PROVIDED")}`)
         .setImage(avatarUrl)
         .setColor(0x6e5494)
-        .setFooter({ text: guild.getT("common:REQUESTED_BY", { user: author.username }) });
+        .setFooter({ text: guild.getT("REQUESTED_BY", { user: author.username }) });
 
     return { embeds: [embed] };
 }

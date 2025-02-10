@@ -47,7 +47,7 @@ async function weather({ guild }, place) {
     const response = await HttpUtils.getJson(
         `http://api.weatherstack.com/current?access_key=${API_KEY}&query=${place}`,
     );
-    if (!response.success) return guild.getT("common:API_ERROR");
+    if (!response.success) return guild.getT("API_ERROR");
 
     const json = response.data;
     if (!json.request) return guild.getT("utility:WEATHER.NOT_FOUND", { place });
