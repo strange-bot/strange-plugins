@@ -17,7 +17,7 @@ module.exports = {
         enabled: false,
     },
 
-    async messageRun({message, args}) {
+    async messageRun({ message, args }) {
         const target = await message.guild.resolveMember(args[0], true);
         if (!target) return message.replyT("common:NO_MATCH_USER", { query: args[0] });
         const reason = message.content.split(args[0])[1].trim();

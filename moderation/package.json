@@ -11,7 +11,6 @@
     "peerDependencies": {
         "discord.js": "^14.0.0",
         "mongoose": "^7.0.0",
-        "strange-db-client": "workspace:*",
         "strange-sdk": "workspace:*"
     }
 }

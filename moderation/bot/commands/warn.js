@@ -31,29 +31,28 @@ module.exports = {
         ],
     },
 
-    async messageRun({ message, args, settings }) {
+    async messageRun({ message, args }) {
         const target = await message.guild.resolveMember(args[0], true);
         if (!target) return message.replyT("common:NO_MATCH_USER", { query: args[0] });
         const reason = message.content.split(args[0])[1].trim();
-        const response = await warn(message.member, target, reason, settings);
+        const response = await warn(message.member, target, reason);
         await message.reply(response);
     },
 
-    async interactionRun({ interaction, settings }) {
+    async interactionRun({ interaction }) {
         const user = interaction.options.getUser("user");
         const reason = interaction.options.getString("reason");
         const target = await interaction.guild.members.fetch(user.id);
 
-        const response = await warn(interaction.member, target, reason, settings);
+        const response = await warn(interaction.member, target, reason);
         await interaction.followUp(response);
     },
 };
 
-
-async function warn(issuer, target, reason, settings) {
+async function warn(issuer, target, reason) {
     const guild = issuer.guild;
 
-    const response = await warnTarget(issuer, target, reason, settings);
+    const response = await warnTarget(issuer, target, reason);
     if (typeof response === "boolean")
         return guild.getT("moderation:WARN.SUCCESS", { target: target.user.username });
     if (response === "BOT_PERM")

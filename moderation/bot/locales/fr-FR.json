@@ -219,7 +219,6 @@
         "SUB_CLEAR_USER": "utilisateur pour lequel effacer les avertissements",
 
         "NO_USER": "Aucun utilisateur fourni",
-        "NO_BOTS": "Les bots n'ont pas d'avertissements",
         "NO_WARNINGS": "{{target}} n'a pas d'avertissements",
         "WARNINGS_TITLE": "Avertissements pour {{target}}",
         "WARN_CLEAR": "Tous les avertissements pour {{target}} ont été effacés"

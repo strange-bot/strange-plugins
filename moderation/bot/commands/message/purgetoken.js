@@ -14,7 +14,7 @@ module.exports = {
         minArgsCount: 1,
     },
 
-    async messageRun({message, args}) {
+    async messageRun({ message, args }) {
         const token = args[0];
         const amount = (args.length > 1 && args[1]) || 99;
 

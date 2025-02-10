@@ -1,4 +1,5 @@
 const { ApplicationCommandOptionType } = require("discord.js");
+const plugin = require("../index");
 
 /**
  * @type {import('strange-sdk').CommandType}
@@ -68,14 +69,14 @@ module.exports = {
         ],
     },
 
-    async messageRun({ message, args, settings }) {
+    async messageRun({ message, args }) {
         const input = args[0].toLowerCase();
 
         let response;
         if (input === "limit") {
             const max = parseInt(args[1]);
             if (isNaN(max) || max < 1) return message.replyT("moderation:MAXWARN.INVALID_LIMIT");
-            response = await setLimit(message.guild, max, settings);
+            response = await setLimit(message.guild, max);
         }
 
         //
@@ -83,7 +84,7 @@ module.exports = {
             const action = args[1]?.toUpperCase();
             if (!action || !["TIMEOUT", "KICK", "BAN"].includes(action))
                 return message.replyT("moderation:MAXWARN.INVALID_ACTION");
-            response = await setAction(message.guild, action, settings);
+            response = await setAction(message.guild, action);
         }
 
         //
@@ -94,24 +95,16 @@ module.exports = {
         await message.reply(response);
     },
 
-    async interactionRun({ interaction, settings }) {
+    async interactionRun({ interaction }) {
         const sub = interaction.options.getSubcommand();
 
         let response;
         if (sub === "limit") {
-            response = await setLimit(
-                interaction.guild,
-                interaction.options.getInteger("amount"),
-                settings,
-            );
+            response = await setLimit(interaction.guild, interaction.options.getInteger("amount"));
         }
 
         if (sub === "action") {
-            response = await setAction(
-                interaction.guild,
-                interaction.options.getString("action"),
-                settings,
-            );
+            response = await setAction(interaction.guild, interaction.options.getString("action"));
         }
 
         await interaction.followUp(response);
@@ -121,16 +114,17 @@ module.exports = {
 /**
  *
  */
-async function setLimit(guild, limit, settings) {
+async function setLimit(guild, limit) {
+    const settings = await plugin.getSettings(guild);
     settings.max_warn.limit = limit;
-    await guild.updateSettings("moderation", settings);
+    await plugin.updateSettings(guild, settings);
     return guild.getT("moderation:MAXWARN.LIMIT_SET", { limit });
 }
 
 /**
  *
  */
-async function setAction(guild, action, settings) {
+async function setAction(guild, action) {
     if (action === "TIMEOUT") {
         if (!guild.members.me.permissions.has("ModerateMembers")) {
             return guild.geT("moderation:MAXWARN.TIMEOUT_PERM");
@@ -148,8 +142,8 @@ async function setAction(guild, action, settings) {
             return guild.getT("moderation:MAXWARN.BAN_PERM");
         }
     }
-
+    const settings = await plugin.getSettings(guild);
     settings.max_warn.action = action;
-    await guild.updateSettings("moderation", settings);
+    await plugin.updateSettings(guild, settings);
     return guild.getT("moderation:MAXWARN.ACTION_SET", { action });
 }

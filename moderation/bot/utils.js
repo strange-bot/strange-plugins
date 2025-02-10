@@ -137,7 +137,7 @@ const logModeration = async (issuer, target, reason, type, data = {}) => {
             id: issuer.id,
             tag: issuer.user.tag,
         },
-        type,
+        type: type?.toUpperCase(),
     }).save();
     if (logChannel) logChannel.send({ embeds: [embed] });
 };
@@ -262,11 +262,11 @@ module.exports = class ModUtils {
      * @param {import('discord.js').GuildMember} issuer
      * @param {import('discord.js').GuildMember} target
      * @param {string} reason
-     * @param {object} settings
      */
-    static async warnTarget(issuer, target, reason, settings) {
+    static async warnTarget(issuer, target, reason) {
         if (!memberInteract(issuer, target)) return "MEMBER_PERM";
         if (!memberInteract(issuer.guild.members.me, target)) return "BOT_PERM";
+        const settings = await plugin.getSettings(issuer.guild.id);
 
         try {
             const warnings = await Model.find({

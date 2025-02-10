@@ -1,4 +1,5 @@
 const { ApplicationCommandOptionType, ChannelType } = require("discord.js");
+const plugin = require("../index");
 
 /**
  * @type {import('strange-sdk').CommandType}
@@ -26,7 +27,7 @@ module.exports = {
         ],
     },
 
-    async messageRun({ message, args, settings }) {
+    async messageRun({ message, args }) {
         const input = args[0].toLowerCase();
         let targetChannel;
 
@@ -36,31 +37,33 @@ module.exports = {
             targetChannel = message.mentions.channels.first();
         }
 
-        const response = await setChannel(message, targetChannel, settings);
+        const response = await setChannel(message, targetChannel);
         return message.reply(response);
     },
 
-    async interactionRun({ interaction, settings }) {
+    async interactionRun({ interaction }) {
         const channel = interaction.options.getChannel("channel");
-        const response = await setChannel(interaction, channel, settings);
+        const response = await setChannel(interaction, channel);
         return interaction.followUp(response);
     },
 };
 
 /**
- *
+ * @param {import('discord.js').CommandInteraction|import('discord.js').Message} message
+ * @param {import('discord.js').Channel} targetChannel
  */
-async function setChannel({ guild }, targetChannel, settings) {
+async function setChannel({ guild }, targetChannel) {
+    const settings = await plugin.getSettings(guild);
     if (!targetChannel && !settings.modlog_channel) {
         return guild.getT("moderation:MODLOG.ALREADY_DISABLED");
     }
 
-    if (targetChannel && !targetChannel.canSendEmbeds()) {
+    if (targetChannel && !guild.canSendEmbeds(targetChannel)) {
         return guild.getT("moderation:MODLOG.CHANNEL_PERMS");
     }
 
     settings.modlog_channel = targetChannel?.id;
-    await guild.updateSettings("moderation", settings);
+    await plugin.updateSettings(guild, settings);
 
     return targetChannel
         ? guild.getT("moderation:MODLOG.SUCCESS", { channel: targetChannel.toString() })

@@ -14,7 +14,7 @@ module.exports = {
         aliases: ["purgelink"],
     },
 
-    async messageRun({message, args}) {
+    async messageRun({ message, args }) {
         const amount = args[0] || 99;
 
         if (amount) {

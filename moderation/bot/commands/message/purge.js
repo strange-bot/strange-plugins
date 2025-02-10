@@ -14,7 +14,7 @@ module.exports = {
         minArgsCount: 1,
     },
 
-    async messageRun({message, args}) {
+    async messageRun({ message, args }) {
         const amount = args[0];
 
         if (isNaN(amount)) return message.replyT("moderation:PURGE.INVALID_AMOUNT");

@@ -219,7 +219,6 @@
         "SUB_CLEAR_USER": "user to clear warnings for",
 
         "NO_USER": "No user provided",
-        "NO_BOTS": "Bots do not have warnings",
         "NO_WARNINGS": "{{target}} has no warnings",
         "WARNINGS_TITLE": "Warnings for {{target}}",
         "WARN_CLEAR": "All warnings for {{target}} have been cleared"

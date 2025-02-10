@@ -111,7 +111,6 @@ module.exports = {
  */
 async function listWarnings(target, { guild, guildId }) {
     if (!target) return guild.getT("moderation:WARNINGS.NO_USER");
-    if (target.user.bot) return guild.getT("moderation:WARNINGS.NO_BOTS");
 
     const warnings = await Model.find({
         guild_id: guildId,
