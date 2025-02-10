@@ -1,5 +1,6 @@
 const { ApplicationCommandOptionType } = require("discord.js");
 const { Logger } = require("strange-sdk/utils");
+const plugin = require("../index");
 
 let langChoices = [];
 try {
@@ -35,17 +36,16 @@ module.exports = {
         ],
     },
 
-    async messageRun({ message, args, settings }) {
+    async messageRun({ message, args }) {
         const newLang = args[0];
-        const response = await setNewLang(message.guild, newLang, settings);
+        const response = await setNewLang(message.guild, newLang);
         await message.reply(response);
     },
 
-    async interactionRun({ interaction, settings }) {
+    async interactionRun({ interaction }) {
         const response = await setNewLang(
             interaction.guild,
             interaction.options.getString("newlang"),
-            settings,
         );
         await interaction.followUp(response);
     },
@@ -54,15 +54,15 @@ module.exports = {
 /**
  * @param {import('discord.js').Guild} guild
  * @param {string} newLang
- * @param {object} settings
  */
-async function setNewLang(guild, newLang, settings) {
+async function setNewLang(guild, newLang) {
     if (!langChoices.some((lang) => lang.value === newLang))
         return guild.getT("core:LANG.INVALID_LANG", {
             lang: newLang,
             langChoices: langChoices.map((lang) => lang.value).join(", "),
         });
 
+    const settings = await plugin.getSettings(guild);
     settings.locale = newLang;
     await guild.updateSettings("core", settings);
 

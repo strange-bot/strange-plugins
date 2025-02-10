@@ -7,10 +7,9 @@ const OWNER_IDS = process.env.OWNER_IDS?.split(",").map((id) => id.trim());
 /**
  * @param {import('discord.js').Message} message
  * @param {import('strange-sdk').CommandType} cmd
- * @param {object} context
+ * @param {string} prefix
  */
-async function handlePrefixCommand(message, cmd, context) {
-    const prefix = context.settings.prefix;
+async function handlePrefixCommand(message, cmd, prefix) {
     const args = message.content.replace(prefix, "").split(/\s+/);
     const invoke = args.shift().toLowerCase();
 
@@ -69,6 +68,7 @@ async function handlePrefixCommand(message, cmd, context) {
     }
 
     try {
+        const context = {};
         context.message = message;
         context.prefix = prefix;
         context.invoke = invoke;
@@ -85,9 +85,8 @@ async function handlePrefixCommand(message, cmd, context) {
 /**
  * @param {import('discord.js').ChatInputCommandInteraction} interaction
  * @param {import('strange-sdk').CommandType} cmd
- * @param {object} context
  */
-async function handleSlashCommand(interaction, cmd, context) {
+async function handleSlashCommand(interaction, cmd) {
     const guild = interaction.guild;
 
     // callback validations
@@ -151,6 +150,7 @@ async function handleSlashCommand(interaction, cmd, context) {
         await interaction.deferReply({
             flags: cmd.slashCommand.ephemeral ? MessageFlags.Ephemeral : 0,
         });
+        const context = {};
         context.interaction = interaction;
         await cmd.interactionRun(context);
     } catch (ex) {
@@ -247,7 +247,7 @@ async function handleContext(interaction, context) {
 
     try {
         await interaction.deferReply({ flags: context.ephemeral ? MessageFlags.Ephemeral : 0 });
-        await context.run(interaction);
+        await context.run({ interaction });
     } catch (ex) {
         interaction.followUpT("core:HANDLER.ERROR");
         interaction.client.logger.error("contextRun", ex);

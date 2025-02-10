@@ -3,9 +3,8 @@ const { handleSlashCommand, handleContext } = require("../handler");
 
 /**
  * @param {import('discord.js').Interaction} interaction
- * @param {import('strange-sdk').BotPlugin} plugin
  */
-module.exports = async (interaction, plugin) => {
+module.exports = async (interaction) => {
     if (!interaction.guild) {
         return interaction
             .reply({
@@ -29,10 +28,9 @@ module.exports = async (interaction, plugin) => {
                 .catch(() => {});
         }
 
-        const [settings, pluginSettings, config] = await Promise.all([
+        const [settings, pluginSettings] = await Promise.all([
             guild.getSettings("core"),
             guild.getSettings(cmd.plugin.name),
-            plugin.getConfig(),
         ]);
 
         // check if the plugin is disabled
@@ -55,8 +53,7 @@ module.exports = async (interaction, plugin) => {
                 .catch(() => {});
         }
 
-        const context = { plugin, settings, config };
-        await handleSlashCommand(interaction, cmd, context);
+        await handleSlashCommand(interaction, cmd);
     }
 
     // Context Menu

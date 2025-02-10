@@ -1,4 +1,5 @@
 const { ApplicationCommandOptionType } = require("discord.js");
+const plugin = require("../index");
 
 /**
  * @type {import('strange-sdk').CommandType}
@@ -25,17 +26,16 @@ module.exports = {
         ],
     },
 
-    async messageRun({ message, args, settings }) {
+    async messageRun({ message, args }) {
         const newPrefix = args[0];
-        const response = await setNewPrefix(message.guild, newPrefix, settings);
+        const response = await setNewPrefix(message.guild, newPrefix);
         await message.reply(response);
     },
 
-    async interactionRun({ interaction, settings }) {
+    async interactionRun({ interaction }) {
         const response = await setNewPrefix(
             interaction.guild,
             interaction.options.getString("newprefix"),
-            settings,
         );
         await interaction.followUp(response);
     },
@@ -44,10 +44,10 @@ module.exports = {
 /**
  * @param {import('discord.js').Guild} guild
  * @param {string} newPrefix
- * @param {object} settings
  */
-async function setNewPrefix(guild, newPrefix, settings) {
+async function setNewPrefix(guild, newPrefix) {
     if (newPrefix.length > 2) return guild.getT("core:PREFIX.TOO_LONG");
+    const settings = await plugin.getSettings(guild);
 
     settings.prefix = newPrefix;
     await guild.updateSettings("core", settings);

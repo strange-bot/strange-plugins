@@ -9,10 +9,7 @@ module.exports = async (message, plugin) => {
     if (!message.guild || message.author.bot) return;
     const guild = message.guild;
 
-    const [config, settings] = await Promise.all([
-        plugin.getConfig(),
-        guild.getSettings(plugin.name),
-    ]);
+    const [config, settings] = await Promise.all([plugin.getConfig(), plugin.getSettings(guild)]);
 
     if (!config["PREFIX_COMMANDS"]["ENABLED"]) return;
 
@@ -33,8 +30,7 @@ module.exports = async (message, plugin) => {
             if (settings.disabled_prefix.includes(cmd.name)) return;
 
             message.isCommand = true;
-            const context = { plugin, settings, config };
-            handlePrefixCommand(message, cmd, context);
+            handlePrefixCommand(message, cmd, settings.prefix);
         }
     }
 };

@@ -10,6 +10,7 @@ const {
 } = require("discord.js");
 const { getCommandUsage, getSlashUsage } = require("../handler");
 const { EmbedUtils } = require("strange-sdk/utils");
+const plugin = require("../index");
 
 const CMDS_PER_PAGE = 5;
 const IDLE_TIMEOUT = 30;
@@ -44,7 +45,7 @@ module.exports = {
         ],
     },
 
-    async messageRun({ message, args, prefix, settings }) {
+    async messageRun({ message, args, prefix }) {
         let trigger = args[0];
 
         // !help
@@ -66,7 +67,8 @@ module.exports = {
 
         // check if command help (!help cmdName)
         const cmd = message.client.prefixCommands.get(trigger);
-        if (cmd && settings?.enabled) {
+        const settings = await plugin.getSettings(message.guild);
+        if (cmd && !settings.disabled_prefix.includes(trigger)) {
             const embed = getCommandUsage(message.guild, cmd, prefix, trigger);
             return message.reply({ embeds: [embed] });
         }
@@ -75,7 +77,7 @@ module.exports = {
         await message.replyT("core:HELP.NOT_FOUND");
     },
 
-    async interactionRun({ interaction, settings }) {
+    async interactionRun({ interaction }) {
         let pluginName = interaction.options.getString("plugin");
         let cmdName = interaction.options.getString("command");
 
@@ -102,7 +104,8 @@ module.exports = {
         // check if command help (!help cmdName)
         if (cmdName) {
             const cmd = interaction.client.slashCommands.get(cmdName);
-            if (cmd && settings?.enabled) {
+            const settings = await plugin.getSettings(interaction.guild);
+            if (cmd && !settings.disabled_slash.includes(cmd.name)) {
                 const embed = getSlashUsage(interaction.guild, cmd);
                 return interaction.followUp({ embeds: [embed] });
             }
@@ -118,7 +121,7 @@ async function getHelpMenu({ client, guild }) {
     // Menu Row
     const options = [];
     for (const plugin of client.pluginManager.plugins.filter((p) => !p.ownerOnly)) {
-        const settings = await guild.getSettings(plugin.name);
+        const settings = await plugin.getSettings(guild);
         if (!settings?.enabled) continue;
         options.push({
             label: plugin.name,

@@ -148,7 +148,8 @@ async function pluginInfo({ client, guild }, plugin) {
         .filter((p) => !p.ownerOnly)
         .find((p) => p.name === plugin);
     if (!p) return guild.getT("core:PLUGIN.NOT_FOUND", { plugin });
-    const settings = await guild.getSettings(p.name);
+
+    const settings = p.getSettings(guild);
 
     const embed = EmbedUtils.embed()
         .setAuthor({ name: guild.getT("core:PLUGIN.INFO_EMBED_TITLE", { plugin }) })
@@ -175,7 +176,7 @@ async function pluginStatus(arg0) {
 
     const options = [];
     for (const p of client.pluginManager.plugins.filter((p) => !p.ownerOnly)) {
-        const settings = await guild.getSettings(p.name);
+        const settings = await p.getSettings(guild);
         options.push({
             label: p.name,
             value: p.name,
