@@ -1,13 +1,48 @@
 <section class="mb-6 px-4">
   <div
-    class="rounded-lg border border-gray-200 bg-white p-4 shadow-sm dark:border-gray-700 dark:bg-gray-800 sm:p-6 2xl:col-span-2">
+    class="rounded-lg border border-gray-200 bg-white p-4 shadow-sm dark:border-gray-700 dark:bg-gray-800 sm:p-6 2xl:col-span-2"
+    x-data="{
+      isSubmitting: false,
+      formData: {
+        prefix: '<%= config.PREFIX_COMMANDS.DEFAULT_PREFIX %>',
+        locale: '<%= settings.locale %>',
+        support_server: '<%= config.SUPPORT_SERVER %>',
+        slash_commands: '<%= config.INTERACTIONS.SLASH ? `on` : `off` %>',
+        context_menus: '<%= config.INTERACTIONS.CONTEXT ? `on` : `off` %>'
+      },
+      async submitServerConfig() {
+        if (this.isSubmitting) return;
+        this.isSubmitting = true;
+        
+        try {
+          const response = await fetch('/admin/core', {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              ...this.formData,
+              server_config: true
+            })
+          });
+          
+          if (response.ok) {
+            Alpine.store('toast').show('Configuration udpated', 'success');
+          } else {
+            throw new Error('Failed to save changes');
+          }
+        } catch (error) {
+          Alpine.store('toast').show('Failed to update configuration', 'error');
+        } finally {
+          this.isSubmitting = false;
+        }
+      }
+    }">
     <!-- START: Card Header -->
     <div class="mb-4 flex items-center justify-between border-b border-gray-200 pb-4 dark:border-gray-700">
       <h3 class="text-lg font-semibold text-gray-800 dark:text-white"><%= tr("core:SERVER_DEFAULTS") %></h3>
     </div>
     <!-- END: Card Header -->
 
-    <form method="post">
+    <form @submit.prevent="submitServerConfig">
       <!-- START: Card Body -->
       <div class="mb-3">
         <div class="grid gap-4 md:grid-cols-3 xl:grid-cols-3">
@@ -22,12 +57,11 @@
             </div>
             <input
               type="text"
-              name="prefix"
+              x-model="formData.prefix"
               minlength="1"
               maxlength="2"
               id="prefix"
               class="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-gray-900 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-primary-500 dark:focus:ring-primary-500 sm:text-sm"
-              value="<%= config.PREFIX_COMMANDS.DEFAULT_PREFIX %>"
               required
             />
           </div>
@@ -42,11 +76,11 @@
               </div>
             </div>
             <select
-              name="locale"
+              x-model="formData.locale"
               id="locale"
               class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500">
               <% languages.forEach((lang) => { %>
-                <option value="<%= lang %>"<%= lang === settings.locale ? ' selected' : '' %>><%= lang %></option>
+                <option value="<%= lang %>"><%= lang %></option>
               <% }) %>
             </select>
           </div>
@@ -62,10 +96,9 @@
             </div>
             <input
               type="url"
-              name="support_server"
+              x-model="formData.support_server"
               id="support_server"
               class="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-gray-900 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-primary-500 dark:focus:ring-primary-500 sm:text-sm"
-              value="<%= config.SUPPORT_SERVER %>"
               required
             />
           </div>
@@ -79,11 +112,11 @@
               </div>
             </div>
             <select
-              name="slash_commands"
+              x-model="formData.slash_commands"
               id="slash_commands"
               class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500">
-                <option value="on"<%= config.INTERACTIONS.SLASH ? ' selected' : '' %>><%= tr("ENABLED") %></option>
-                <option value="off"<%= !config.INTERACTIONS.SLASH ? ' selected' : '' %>><%= tr("DISABLED") %></option>
+                <option value="on"><%=tr("ENABLED") %></option>
+                <option value="off"><%=tr("DISABLED") %></option>
             </select>
           </div>
           <!-- END: Column 4 -->
@@ -97,11 +130,11 @@
               </div>
             </div>
             <select
-              name="context_menus"
+              x-model="formData.context_menus"
               id="context_menus"
               class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500">
-                <option value="on"<%= config.INTERACTIONS.CONTEXT ? ' selected' : '' %>><%= tr("ENABLED") %></option>
-                <option value="off"<%= !config.INTERACTIONS.CONTEXT ? ' selected' : '' %>><%= tr("DISABLED") %></option>
+                <option value="on"><%=tr("ENABLED") %></option>
+                <option value="off"><%=tr("DISABLED") %></option>
             </select>
           </div>
           <!-- END: Column 5 -->
@@ -116,9 +149,9 @@
         <div class="flex-shrink-0">
           <button
             type="submit"
-            name="server_config"
-            class="inline-flex items-center rounded-lg bg-primary-700 px-3 py-2 text-center text-sm font-medium text-white hover:bg-primary-800 focus:outline-none focus:ring-4 focus:ring-primary-300 dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">
-            <%= tr("UPDATE_ALL") %>
+            :disabled="isSubmitting"
+            class="inline-flex items-center rounded-lg bg-primary-700 px-3 py-2 text-center text-sm font-medium text-white hover:bg-primary-800 focus:outline-none focus:ring-4 focus:ring-primary-300 dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800 disabled:opacity-50">
+            <span x-text="isSubmitting ? '<%= tr("SAVING") %>' : '<%= tr("SAVE") %>'"></span>
           </button>
         </div>
       </div>
@@ -129,17 +162,48 @@
 
 <section class="mb-6 px-4">
   <div
-    class="rounded-lg border border-gray-200 bg-white p-4 shadow-sm dark:border-gray-700 dark:bg-gray-800 sm:p-6 2xl:col-span-2">
+    class="rounded-lg border border-gray-200 bg-white p-4 shadow-sm dark:border-gray-700 dark:bg-gray-800 sm:p-6 2xl:col-span-2"
+    x-data="{
+      isSubmitting: false,
+      formData: {
+        logo: '<%= config.DASHBOARD.LOGO_NAME %>',
+        logo_url: '<%= config.DASHBOARD.LOGO_URL %>'
+      },
+      async submitDashConfig() {
+        if (this.isSubmitting) return;
+        this.isSubmitting = true;
+        
+        try {
+          const response = await fetch('/admin/core', {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              ...this.formData,
+              dash_config: true
+            })
+          });
+          
+          if (response.ok) {
+            Alpine.store('toast').show('Configuration updated', 'success');
+          } else {
+            throw new Error('Failed to save changes');
+          }
+        } catch (error) {
+          Alpine.store('toast').show('Failed to update configuration', 'error');
+        } finally {
+          this.isSubmitting = false;
+        }
+      }
+    }">
     <!-- START: Card Header -->
     <div class="mb-4 flex items-center justify-between border-b border-gray-200 pb-4 dark:border-gray-700">
       <h3 class="text-lg font-semibold text-gray-800 dark:text-white"><%= tr("core:DASH_DEFAULTS") %></h3>
     </div>
     <!-- END: Card Header -->
 
-    <form method="post">
+    <form @submit.prevent="submitDashConfig">
       <!-- START: Card Body -->
       <div class="mb-3">
-
         <div class="grid gap-4 md:grid-cols-2 xl:grid-cols-2">
 
           <!-- START: Column 1 -->
@@ -153,10 +217,9 @@
             <input
               type="text"
               minlength="1"
-              name="logo"
+              x-model="formData.logo"
               id="logo"
               class="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-gray-900 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-primary-500 dark:focus:ring-primary-500 sm:text-sm"
-              value="<%= config.DASHBOARD.LOGO_NAME %>"
               required
             />
           </div>
@@ -171,11 +234,10 @@
               </div>
             </div>
             <input
-              type="url"
-              name="logo_url"
+              type="text"
+              x-model="formData.logo_url"
               id="logo_url"
               class="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-gray-900 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-primary-500 dark:focus:ring-primary-500 sm:text-sm"
-              value="<%= config.DASHBOARD.LOGO_URL %>"
               required
             />
           </div>
@@ -191,9 +253,9 @@
         <div class="flex-shrink-0">
           <button
             type="submit"
-            name="dash_config"
-            class="inline-flex items-center rounded-lg bg-primary-700 px-3 py-2 text-center text-sm font-medium text-white hover:bg-primary-800 focus:outline-none focus:ring-4 focus:ring-primary-300 dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">
-            <%= tr("UPDATE_ALL") %>
+            :disabled="isSubmitting"
+            class="inline-flex items-center rounded-lg bg-primary-700 px-3 py-2 text-center text-sm font-medium text-white hover:bg-primary-800 focus:outline-none focus:ring-4 focus:ring-primary-300 dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800 disabled:opacity-50">
+            <span x-text="isSubmitting ? '<%= tr("SAVING") %>' : '<%= tr("SAVE") %>'"></span>
           </button>
         </div>
       </div>

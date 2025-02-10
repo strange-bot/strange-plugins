@@ -9,7 +9,7 @@ router.get("/", (_req, res) => {
     });
 });
 
-router.post("/", async (req, res) => {
+router.put("/", async (req, res) => {
     const body = req.body;
     const { plugin, config } = res.locals;
 
@@ -51,7 +51,7 @@ router.post("/", async (req, res) => {
         await plugin.setConfig(config);
     }
 
-    res.redirect("/admin/core");
+    res.sendStatus(200);
 });
 
 module.exports = router;
