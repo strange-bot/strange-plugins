@@ -1,0 +1,57 @@
+{
+    "TITLE": "Gestionnaire de cadeaux",
+    "DESCRIPTION": "Gérez les cadeaux sur votre serveur",
+
+    "SERVER_DEFAULTS": "Paramètres par défaut du serveur",
+
+    "SETTINGS_TITLE": "Paramètres de base",
+    "REACTION_TITLE": "Emoji de réaction",
+    "REACTION_DESC": "L'emoji avec lequel réagir pour participer au concours",
+    "START_EMBED_TITLE": "Démarrer l'intégration de la couleur",
+    "START_EMBED_DESC": "La couleur de l'intégration lorsque le concours commence",
+    "END_EMBED_TITLE": "Fin de la couleur intégrée",
+    "END_EMBED_DESC": "La couleur de l'intégration à la fin du cadeau",
+
+    "LIST_TITLE": "Cadeaux",
+    "LIST_DESC": "Liste des cadeaux en cours sur ce serveur",
+    "LIST_PRIZE": "Prix",
+    "LIST_ENDS_AT": "Se termine par",
+    "LIST_WINNERS": "Gagnants",
+    "LIST_HOST": "Hébergé par",
+    "LIST_CHANNEL": "Canal",
+    "LIST_ACTION": "Actions",
+
+    "CREATE_NEW_BTN": "Créer un nouveau cadeau",
+    "CREATE_TITLE": "Créer un cadeau",
+    "CREATE_CLOSE_BTN": "Fermer",
+    "CREATE_CHANNEL": "Chaîne du cadeau",
+    "CREATE_CHANNEL_DESC": "La chaîne sur laquelle démarrer le cadeau",
+    "CREATE_CHANNEL_PLACEHOLDER": "Sélectionnez une chaîne",
+    "CREATE_PRIZE": "Prix",
+    "CREATE_PRIZE_DESC": "Le prix du cadeau",
+    "CREATE_DURATION": "Durée",
+    "CREATE_DURATION_DESC": "La durée du cadeau",
+    "CREATE_WINNERS": "Gagnants",
+    "CREATE_WINNERS_DESC": "Le nombre de gagnants du cadeau",
+    "CREATE_HOST": "Hôte",
+    "CREATE_HOST_DESC": "L'hôte du giveaway",
+    "CREATE_MEM_ROLE": "Rôle du participant",
+    "CREATE_MEM_ROLE_DESC": "Le rôle qui peut participer au giveaway",
+    "CREATE_MEM_ROLE_PLACEHOLDER": "Sélectionnez un rôle",
+    "CREATE_BTN": "Créer un giveaway",
+
+    "PAUSE_BTN": "Pause",
+    "PAUSE_CONFIRMATION": "Êtes-vous sûr de vouloir mettre ce giveaway en pause?",
+    "PAUSE_CONFIRM_YES": "Oui, pause",
+    "PAUSE_CONFIRM_NO": "Non, annuler",
+
+    "RESUME_BTN": "Reprendre",
+    "RESUME_CONFIRMATION": "Êtes-vous sûr de vouloir reprendre ce giveaway?",
+    "RESUME_CONFIRM_YES": "Oui, reprendre",
+    "RESUME_CONFIRM_NO": "Non, annuler",
+
+    "END_BTN": "Fin",
+    "END_CONFIRMATION": "Êtes-vous sûr de vouloir Voulez-vous mettre fin à ce concours?",
+    "END_CONFIRM_YES": "Oui, terminer",
+    "END_CONFIRM_NO": "Non, annuler"
+}

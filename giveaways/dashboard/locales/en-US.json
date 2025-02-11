@@ -1,0 +1,57 @@
+{
+    "TITLE": "Giveaway Manager",
+    "DESCRIPTION": "Manage giveaways in your server",
+
+    "SERVER_DEFAULTS": "Server Defaults",
+
+    "SETTINGS_TITLE": "Basic Settings",
+    "REACTION_TITLE": "Reaction Emoji",
+    "REACTION_DESC": "The emoji to react with to enter the giveaway",
+    "START_EMBED_TITLE": "Start Embed Color",
+    "START_EMBED_DESC": "The color of the embed when the giveaway starts",
+    "END_EMBED_TITLE": "End Embed Color",
+    "END_EMBED_DESC": "The color of the embed when the giveaway ends",
+
+    "LIST_TITLE": "Giveaways",
+    "LIST_DESC": "List of ongoing giveaways in this server",
+    "LIST_PRIZE": "Prize",
+    "LIST_ENDS_AT": "Ends In",
+    "LIST_WINNERS": "Winners",
+    "LIST_HOST": "Hosted By",
+    "LIST_CHANNEL": "Channel",
+    "LIST_ACTION": "Action",
+
+    "CREATE_NEW_BTN": "Create New Giveaway",
+    "CREATE_TITLE": "Create Giveaway",
+    "CREATE_CLOSE_BTN": "Close",
+    "CREATE_CHANNEL": "Giveaway Channel",
+    "CREATE_CHANNEL_DESC": "The channel to start the giveaway in",
+    "CREATE_CHANNEL_PLACEHOLDER": "Select a channel",
+    "CREATE_PRIZE": "Prize",
+    "CREATE_PRIZE_DESC": "The prize for the giveaway",
+    "CREATE_DURATION": "Duration",
+    "CREATE_DURATION_DESC": "The duration of the giveaway",
+    "CREATE_WINNERS": "Winners",
+    "CREATE_WINNERS_DESC": "The number of winners for the giveaway",
+    "CREATE_HOST": "Host",
+    "CREATE_HOST_DESC": "The host of the giveaway",
+    "CREATE_MEM_ROLE": "Participant Role",
+    "CREATE_MEM_ROLE_DESC": "The role that can enter the giveaway",
+    "CREATE_MEM_ROLE_PLACEHOLDER": "Select a role",
+    "CREATE_BTN": "Create Giveaway",
+
+    "PAUSE_BTN": "Pause",
+    "PAUSE_CONFIRMATION": "Are you sure you want to pause this giveaway?",
+    "PAUSE_CONFIRM_YES": "Yes, Pause",
+    "PAUSE_CONFIRM_NO": "No, Cancel",
+
+    "RESUME_BTN": "Resume",
+    "RESUME_CONFIRMATION": "Are you sure you want to resume this giveaway?",
+    "RESUME_CONFIRM_YES": "Yes, Resume",
+    "RESUME_CONFIRM_NO": "No, Cancel",
+
+    "END_BTN": "End",
+    "END_CONFIRMATION": "Are you sure you want to end this giveaway?",
+    "END_CONFIRM_YES": "Yes, End",
+    "END_CONFIRM_NO": "No, Cancel"
+}

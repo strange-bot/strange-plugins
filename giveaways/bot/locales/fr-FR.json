@@ -1,0 +1,106 @@
+{
+    "TITLE": "Gestionnaire de cadeaux",
+    "DESCRIPTION": "Gérez les cadeaux sur votre serveur",
+
+    "CMD_DESC": "commandes de giveaway",
+
+    "SUB_START_DESC": "démarrer un giveaway",
+    "SUB_START_CHANNEL_DESC": "le canal où démarrer le giveaway",
+    "SUB_START_DURATION_DESC": "la durée du giveaway. (par exemple : 1j, 1h, 1m, 1s)",
+    "SUB_START_PRIZE_DESC": "le prix du giveaway",
+    "SUB_START_WINNERS_DESC": "le nombre de gagnants pour le giveaway",
+    "SUB_START_ROLES_DESC": "les rôles autorisés à participer au giveaway. (séparés par une virgule)",
+    "SUB_START_HOST_DESC": "l'hôte du giveaway",
+
+    "SUB_PAUSE_DESC": "mettre en pause un giveaway",
+    "SUB_PAUSE_MESSAGE_ID_DESC": "l'identifiant du message du giveaway",
+
+    "SUB_RESUME_DESC": "reprendre un giveaway",
+    "SUB_RESUME_MESSAGE_ID_DESC": "l'identifiant du message du giveaway",
+
+    "SUB_END_DESC": "terminer un giveaway",
+    "SUB_END_MESSAGE_ID_DESC": "l'identifiant du message du giveaway",
+
+    "SUB_REROLL_DESC": "reroll un giveaway",
+    "SUB_REROLL_MESSAGE_ID_DESC": "l'identifiant du message du giveaway",
+
+    "SUB_LIST_DESC": "liste tous les giveaways",
+
+    "SUB_EDIT_NAME": "modifier",
+    "SUB_EDIT_DESC": "modifier un giveaway",
+    "SUB_EDIT_MESSAGE_ID_DESC": "l'identifiant du message du giveaway",
+    "SUB_EDIT_DURATION_DESC": "le nombre de minutes à ajouter à la durée du giveaway",
+    "SUB_EDIT_PRIZE_DESC": "le nouveau prix pour le giveaway",
+    "SUB_EDIT_WINNERS_DESC": "le nouveau nombre de gagnants pour le giveaway",
+
+    "INVALID_MESSAGE_ID": "Vous n'avez pas fourni un identifiant de message valide.",
+    "MEMBER_PERMS": "Vous avez besoin de l'autorisation `Gérer les messages` pour utiliser cette commande.",
+    "NOT_FOUND": "Je n'ai pas trouvé de giveaway avec cet identifiant de message : {{messageId}}",
+
+    "EDIT_BTN_LABEL": "Modifier le Giveaway",
+    "EDIT_BTN_CONTENT": "Veuillez cliquer sur le bouton ci-dessous pour modifier le giveaway",
+    "EDIT_NO_RESPONSE": "Aucune réponse reçue ! Annulation de la mise à jour du giveaway.",
+    "EDIT_MODAL_TITLE": "Mise à jour du Giveaway",
+    "EDIT_MODAL_DURATION": "Durée à ajouter au giveaway ?",
+    "EDIT_MODAL_PRIZE": "Nouveau prix pour le giveaway ?",
+    "EDIT_MODAL_WINNERS": "Nouveau nombre de gagnants pour le giveaway ?",
+    "EDIT_CREATING": "Mise à jour du giveaway en cours...",
+    "EDIT_INVALID_DURATION": "Vous n'avez pas fourni une durée valide. Annulation de la mise à jour du giveaway.",
+    "EDIT_INVALID_WINNERS": "Vous n'avez pas fourni un nombre valide de gagnants. Annulation de la mise à jour du giveaway.",
+    "EDIT_SUCCESS": "Succès ! Giveaway modifié !",
+    "EDIT_ERROR": "Une erreur s'est produite lors de la tentative de modification du giveaway.",
+
+    "ALREADY_ENDED": "Ce giveaway est déjà terminé.",
+    "END_SUCCESS": "Succès ! Giveaway terminé !",
+    "END_ERROR": "Une erreur s'est produite lors de la tentative de terminer le giveaway.",
+
+    "NO_GIVEAWAYS": "Il n'y a aucun giveaway en cours dans ce serveur.",
+    "LISTING_ERROR": "Une erreur s'est produite lors de l'énumération des giveaways.",
+
+    "ALREADY_PAUSED": "Ce giveaway est déjà en pause.",
+    "PAUSE_SUCCESS": "Succès ! Giveaway en pause !",
+    "PAUSE_ERROR": "Une erreur s'est produite lors de la tentative de mettre en pause le giveaway.",
+
+    "STILL_RUNNING": "Vous ne pouvez pas reroll un giveaway en cours.",
+    "REROLL_SUCCESS": "Succès ! Giveaway rerolled !",
+    "REROLL_ERROR": "Une erreur s'est produite lors de la tentative de reroll le giveaway.",
+
+    "ALREADY_RESUMED": "Ce giveaway n'est pas en pause.",
+    "RESUME_SUCCESS": "Succès ! Giveaway repris !",
+    "RESUME_ERROR": "Une erreur s'est produite lors de la tentative de reprendre le giveaway.",
+
+    "START_CHANNEL": "Utilisation incorrecte ! Veuillez fournir un canal où démarrer le giveaway.",
+    "START_INVALID_CHANNEL": "Oops ! Vous n'avez pas mentionné de canal",
+    "START_BTN_LABEL": "Configurer le Giveaway",
+    "START_BTN_CONTENT": "Veuillez cliquer sur le bouton ci-dessous pour configurer un nouveau giveaway",
+    "START_NO_RESPONSE": "La configuration du giveaway a été annulée. Vous n'avez pas fourni de réponse valide.",
+    "START_MODEL_TITLE": "Configuration du Giveaway",
+    "START_MODAL_DURATION": "Quelle est la durée ?",
+    "START_MODAL_PRIZE": "Quel est le prix ?",
+    "START_MODAL_WINNERS": "Combien de gagnants ?",
+    "START_MODAL_ROLES": "Identifiants des rôles pouvant participer au giveaway ?",
+    "START_MODAL_HOST": "ID utilisateur de la personne organisant le giveaway ?",
+    "START_CREATING": "Configuration du giveaway en cours...",
+    "START_CHANNEL_TYPE": "Vous pouvez seulement configurer un giveaway dans un canal de texte.",
+    "START_CHANNEL_PERMS": "Oops ! Je ne peux pas démarrer le giveaway !\nJ'ai besoin de {{permissions}} dans {{channel}}",
+    "START_INVALID_DURATION": "Vous n'avez pas fourni une durée valide. La configuration du giveaway a été annulée.",
+    "START_INVALID_WINNERS": "Vous n'avez pas fourni un nombre valide de gagnants. La configuration du giveaway a été annulée.",
+    "START_INVALID_HOST": "Vous n'avez pas fourni un identifiant utilisateur valide. La configuration du giveaway a été annulée.",
+    "START_SUCCESS": "Succès ! Giveaway démarré dans {{channel}} !",
+    "START_ERROR": "Une erreur s'est produite lors de la tentative de démarrer le giveaway.",
+
+    "MESSAGES": {
+        "giveaway": "🎉 **TIRAGE AU SORT** 🎉",
+        "giveawayEnded": "🎉 **TIRAGE AU SORT TERMINÉ** 🎉",
+        "title": "{{prize}}",
+        "inviteToParticipate": "Réagissez avec 🎁 pour participer",
+        "winMessage": "Félicitations, {{winners}} ! Vous avez remporté **{{prize}}** !\n{{messageURL}}",
+        "drawing": "Tirage au sort : {{timestamp}}",
+        "dropMessage": "Soyez le premier à réagir avec 🎁 pour gagner !",
+        "embedFooter": "{{winnerCount}} gagnant(s)",
+        "noWinner": "Tirage au sort annulé, aucun participant valide.",
+        "winners": "Gagnant(s)",
+        "endedAt": "Terminé à",
+        "hostedBy": "Organisé par : {{host}}"
+    }
+}

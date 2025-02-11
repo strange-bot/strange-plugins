@@ -1,0 +1,16 @@
+{
+    "name": "giveaways",
+    "version": "1.0.0",
+    "main": "index.js",
+    "author": "Sai Teja Madha",
+    "license": "ISC",
+    "dependencies": {
+        "discord-giveaways": "^6.0.1",
+        "enhanced-ms": "^2.3.0"
+    },
+    "peerDependencies": {
+        "discord.js": "^14.0.0",
+        "mongoose": "^7.0.0",
+        "strange-sdk": "workspace:*"
+    }
+}
