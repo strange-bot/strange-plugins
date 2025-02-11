@@ -1,0 +1,26 @@
+{
+    "TITLE": "Suggestions",
+    "DESCRIPTION": "Gérer les suggestions pour votre serveur",
+
+    "SETTINGS_TITLE": "Paramètres",
+    "UPVOTE_TITLE": "Votez pour Emoji",
+    "UPVOTE_DESC": "L'emoji à utiliser pour les suggestions de vote positif",
+    "DOWNVOTE_TITLE": "Votez contre Emoji",
+    "DOWNVOTE_DESC": "L'emoji à utiliser pour les suggestions de vote défavorable",
+    "DEFAULT_CH_TITLE": "Chaîne de suggestions",
+    "DEFAULT_CH_DESC": "Le canal auquel envoyer les suggestions",
+    "DEFAULT_EMBED_TITLE": "Intégration par défaut",
+    "DEFAULT_EMBED_DESC": "La couleur par défaut pour les intégrations de suggestions",
+    "APPROVED_CH_TITLE": "Canal approuvé",
+    "APPROVED_CH_DESC": "Le canal auquel envoyer les suggestions approuvées",
+    "APPROVED_EMBED_TITLE": "Intégration approuvée",
+    "APPROVED_EMBED_DESC": "La couleur des intégrations de suggestions approuvées",
+    "REJECTED_CH_TITLE": "Chaîne rejetée",
+    "REJECTED_CH_DESC": "Le canal auquel envoyer les suggestions rejetées",
+    "REJECTED_EMBED_TITLE": "Intégration rejetée",
+    "REJECTED_EMBED_DESC": "La couleur des suggestions rejetées",
+    "STAFF_TITLE": "Rôles du personnel",
+    "STAFF_DESC": "Les rôles pouvant gérer les suggestions",
+
+    "ADMIN_DEFAULTS": "Paramètres par défaut de l'administrateur"
+}

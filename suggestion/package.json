@@ -1,0 +1,14 @@
+{
+    "name": "suggestion",
+    "version": "1.0.0",
+    "main": "index.js",
+    "author": "Sai Teja Madha",
+    "license": "ISC",
+    "dependencies": {
+        "common-tags": "1.8.2"
+    },
+    "peerDependencies": {
+        "discord.js": "^14.0.0",
+        "strange-sdk": "workspace:*"
+    }
+}

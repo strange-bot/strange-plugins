@@ -1,0 +1,26 @@
+{
+    "TITLE": "Suggestions",
+    "DESCRIPTION": "Manage suggestions for your server",
+
+    "SETTINGS_TITLE": "Settings",
+    "UPVOTE_TITLE": "Upvote Emoji",
+    "UPVOTE_DESC": "The emoji to use for upvoting suggestions",
+    "DOWNVOTE_TITLE": "Downvote Emoji",
+    "DOWNVOTE_DESC": "The emoji to use for downvoting suggestions",
+    "DEFAULT_CH_TITLE": "Suggestions Channel",
+    "DEFAULT_CH_DESC": "The channel to send suggestions to",
+    "DEFAULT_EMBED_TITLE": "Default Embed",
+    "DEFAULT_EMBED_DESC": "The default color for suggestion embeds",
+    "APPROVED_CH_TITLE": "Approved Channel",
+    "APPROVED_CH_DESC": "The channel to send approved suggestions to",
+    "APPROVED_EMBED_TITLE": "Approved Embed",
+    "APPROVED_EMBED_DESC": "The color for approved suggestion embeds",
+    "REJECTED_CH_TITLE": "Rejected Channel",
+    "REJECTED_CH_DESC": "The channel to send rejected suggestions to",
+    "REJECTED_EMBED_TITLE": "Rejected Embed",
+    "REJECTED_EMBED_DESC": "The color for rejected suggestion embeds",
+    "STAFF_TITLE": "Staff Roles",
+    "STAFF_DESC": "The roles that can manage suggestions",
+
+    "ADMIN_DEFAULTS": "Admin Defaults"
+}
