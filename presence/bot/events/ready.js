@@ -7,9 +7,6 @@ const { ActivityType } = require("discord.js");
 module.exports = async (client, plugin) => {
     const config = await plugin.getConfig();
 
-    /**
-     *
-     */
     function updatePresence(client) {
         let message = config["MESSAGE"];
 

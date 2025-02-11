@@ -1,4 +1,7 @@
 {
+    "TITLE": "Presence",
+    "DESCRIPTION": "Configure the bot's presence",
+
     "CONFIG_TITLE": "Configuration",
     "STATUS": "Status",
     "STATUS_DESC": "Set the status for the bot",
