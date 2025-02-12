@@ -1,0 +1,133 @@
+<section class="rounded-lg border border-gray-200 bg-white p-4 shadow-sm dark:border-gray-700 dark:bg-gray-800">
+  <form
+    x-data="{
+      formData: {
+        currency: '<%= settings.currency %>',
+        daily_coins: <%= settings.daily_coins %>,
+        min_beg_amount: <%= settings.min_beg_amount %>,
+        max_beg_amount: <%= settings.max_beg_amount %>
+      },
+      saving: false,
+      async submitForm() {
+        this.saving = true;
+        try {
+          const response = await fetch(window.location.href, {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(this.formData)
+          });
+          
+          if (response.ok) {
+            Alpine.store('toast').show('<%=tr(`SETTINGS_SAVE`)%>', 'success');
+          } else {
+            throw new Error('Failed to update settings');
+          }
+        } catch (error) {
+          Alpine.store('toast').show('<%=tr(`SETTINGS_SAVE_ERROR`)%>', 'error');
+        } finally {
+          this.saving = false;
+        }
+      }
+    }"
+    @submit.prevent="submitForm"
+  >
+    <!-- START: Card Body -->
+    <div class="mb-3">
+      <div class="grid gap-4 md:grid-cols-2 xl:grid-cols-2">
+        <!-- START: Column 1 (Currency) -->
+        <div>
+          <div class="mb-2">
+            <label for="currency" class="text-sm font-semibold text-gray-900 dark:text-white"
+              ><%= tr("economy:CURRENCY_TITLE") %></label
+            >
+            <div class="text-sm font-normal text-gray-500 dark:text-gray-400">
+              <%= tr("economy:CURRENCY_DESC") %>
+            </div>
+          </div>
+          <input
+            type="text"
+            minlength="1"
+            maxlength="2"
+            x-model="formData.currency"
+            id="currency"
+            class="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-gray-900 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-primary-500 dark:focus:ring-primary-500 sm:text-sm"
+            required />
+        </div>
+        <!-- END: Column 1 -->
+
+        <!-- START: Column 2 (Daily Coins) -->
+        <div>
+          <div class="mb-2">
+            <label for="daily_coins" class="text-sm font-semibold text-gray-900 dark:text-white"
+              ><%= tr("economy:DAILY_TITLE") %></label
+            >
+            <div class="text-sm font-normal text-gray-500 dark:text-gray-400"><%= tr("economy:DAILY_DESC") %></div>
+          </div>
+          <input
+            type="number"
+            x-model="formData.daily_coins"
+            id="daily_coins"
+            class="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-gray-900 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-primary-500 dark:focus:ring-primary-500 sm:text-sm"
+            required />
+        </div>
+        <!-- END: Column 2 -->
+
+        <!-- START: Column 3 (Minimum Beg Amount) -->
+        <div>
+          <div class="mb-2">
+            <label for="min_beg_amount" class="text-sm font-semibold text-gray-900 dark:text-white"
+              ><%= tr("economy:MIN_BEG_TITLE") %></label
+            >
+            <div class="text-sm font-normal text-gray-500 dark:text-gray-400">
+              <%= tr("economy:MIN_BEG_DESC") %>
+            </div>
+          </div>
+          <input
+            type="number"
+            x-model="formData.min_beg_amount"
+            id="min_beg_amount"
+            class="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-gray-900 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-primary-500 dark:focus:ring-primary-500 sm:text-sm"
+            required />
+        </div>
+        <!-- END: Column 3 -->
+
+        <!-- START: Column 4 (Maximum Beg Amount) -->
+        <div>
+          <div class="mb-2">
+            <label for="max_beg_amount" class="text-sm font-semibold text-gray-900 dark:text-white"
+              ><%= tr("economy:MAX_BEG_TITLE") %></label
+            >
+            <div class="text-sm font-normal text-gray-500 dark:text-gray-400">
+              <%= tr("economy:MAX_BEG_DESC") %>
+            </div>
+          </div>
+          <input
+            type="number"
+            x-model="formData.max_beg_amount"
+            id="max_beg_amount"
+            class="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-gray-900 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-primary-500 dark:focus:ring-primary-500 sm:text-sm"
+            required />
+        </div>
+        <!-- END: Column 4 -->
+      </div>
+    </div>
+    <!-- END: Card Body -->
+
+    <!-- START: Card Footer -->
+    <div class="mt-4 flex items-center justify-between border-t border-gray-200 pt-3 dark:border-gray-700 sm:pt-6">
+      <div></div>
+      <div class="flex-shrink-0">
+        <button
+          type="submit"
+          :disabled="saving"
+          :class="{'opacity-50': saving}"
+          class="inline-flex items-center rounded-lg bg-primary-700 px-3 py-2 text-center text-sm font-medium text-white hover:bg-primary-800 focus:outline-none focus:ring-4 focus:ring-primary-300 dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
+        >
+          <span x-show="!saving"><%= tr('BTN_SAVE') %></span>
+          <span x-show="saving"><%= tr('BTN_SAVING') %></span>
+        </button>
+      </div>
+    </div>
+    <!-- END: Card Footer -->
+  </form>
+</section>

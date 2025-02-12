@@ -1,0 +1,17 @@
+{
+    "TITLE": "Economy",
+    "DESCRIPTION": "Manage your server's economy with this plugin.",
+
+    "SETTINGS_TITLE": "Settings",
+    "CURRENCY_TITLE": "Currency",
+    "CURRENCY_DESC": "Set the emoji/character that represents your server's currency.",
+    "DAILY_TITLE": "Daily Coins",
+    "DAILY_DESC": "Set the amount of coins a player can claim daily.",
+    "MIN_BEG_TITLE": "Minimum Beg Amount",
+    "MIN_BEG_DESC": "Set the minimum amount of coins a player can beg for.",
+    "MAX_BEG_TITLE": "Maximum Beg Amount",
+    "MAX_BEG_DESC": "Set the maximum amount of coins a player can beg for.",
+    "DEFAULTS": "Server Defaults",
+    "BEG_INTERVAL": "Beg Interval",
+    "BEG_INTERVAL_DESC": "Set the interval in which a player can beg for coins (in hours)."
+}
