@@ -1,0 +1,330 @@
+<section>
+  <div class="grid gap-4 xl:grid-cols-2">
+    <!-- START: Col 1 (Basic Settings)-->
+    <div x-data="{
+      formData: {
+        log_channel: '<%= settings.log_channel %>',
+        max_strikes: <%= settings.strikes %>,
+        automod_action: '<%= settings.action %>',
+        log_embed: '<%= settings.embed_colors.log %>',
+        dm_embed: '<%= settings.embed_colors.dm %>',
+        wh_channels: <%= JSON.stringify(settings.wh_channels) %>,
+        basic_settings: true
+      },
+      isSubmitting: false,
+      async submitForm() {
+        this.isSubmitting = true;
+        try {
+          const response = await fetch(window.location.pathname, {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(this.formData)
+          });
+          if (response.ok) {
+            Alpine.store('toast').show('Settings updated successfully', 'success');
+          } else {
+            throw new Error('Failed to update settings');
+          }
+        } catch (error) {
+          Alpine.store('toast').show('Failed to update settings', 'error');
+        }
+        this.isSubmitting = false;
+      }
+    }" class="rounded-lg border border-gray-200 bg-white p-4 shadow-sm dark:border-gray-700 dark:bg-gray-800 sm:p-6 2xl:col-span-2">
+      <!-- START: Card Header -->
+      <div class="mb-4 flex items-center justify-between border-b border-gray-200 pb-4 dark:border-gray-700">
+        <h3 class="text-lg font-semibold text-gray-800 dark:text-white"><%= tr("automod:BASIC_TITLE") %></h3>
+      </div>
+      <!-- END: Card Header -->
+
+      <form @submit.prevent="submitForm">
+        <!-- START: Card Body -->
+        <div>
+          <div class="mb-3">
+            <div class="mb-2">
+              <label for="log_channel" class="text-sm font-semibold text-gray-900 dark:text-white"><%= tr("automod:LOGS_TITLE") %></label>
+              <div class="text-sm font-normal text-gray-500 dark:text-gray-400">
+                <%= tr("automod:LOGS_DESC") %>
+              </div>
+            </div>
+            <select x-model="formData.log_channel" name="log_channel" id="log_channel" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500">
+              <option value=""><%= tr("CHANNEL_SELECT") %></option>
+              <% channels.map((ch) => { %>
+                <option value="<%= ch.id %>"><%= ch.name %></option>
+              <% }) %>
+            </select>
+          </div>
+
+          <div class="mb-3">
+            <div class="mb-2">
+              <label for="max_strikes" class="text-sm font-semibold text-gray-900 dark:text-white"><%= tr("automod:STRIKES_TITLE") %></label>
+              <div class="text-sm font-normal text-gray-500 dark:text-gray-400">
+                <%= tr("automod:STRIKES_DESC") %>
+              </div>
+            </div>
+            <input
+              type="number"
+              min="0"
+              max="20"
+              x-model="formData.max_strikes"
+              name="max_strikes"
+              class="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-gray-900 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-primary-500 dark:focus:ring-primary-500 sm:text-sm"
+              />
+          </div>
+
+          <div class="mb-3">
+            <div class="mb-2">
+              <label for="automod_action" class="text-sm font-semibold text-gray-900 dark:text-white"><%= tr("automod:ACTION_TITLE") %></label>
+              <div class="text-sm font-normal text-gray-500 dark:text-gray-400">
+                <%= tr("automod:ACTION_DESC") %>
+              </div>
+            </div>
+            <select x-model="formData.automod_action" name="automod_action" id="automod_action" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500">
+              <option>TIMEOUT</option>
+              <option>KICK</option>
+              <option>BAN</option>
+            </select>
+          </div>
+
+          <div class="mb-3">
+            <div class="mb-2">
+              <label for="log_embed" class="text-sm font-semibold text-gray-900 dark:text-white"><%= tr("automod:LOG_EMBED_TITLE") %></label>
+              <div class="text-sm font-normal text-gray-500 dark:text-gray-400">
+                <%= tr("automod:LOG_EMBED_DESC") %>
+              </div>
+            </div>
+            <div class="grid grid-cols-2 gap-4">
+              <input
+                type="color"
+                x-model="formData.log_embed"
+                id="log_embed"
+                name="log_embed"
+                class="block w-full h-full min-h-10 rounded-lg border border-gray-300 p-0.5 text-gray-900 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-primary-500 dark:focus:ring-primary-500 sm:text-sm"
+              />
+            </div>
+          </div>
+
+          <div class="mb-3">
+            <div class="mb-2">
+              <label for="dm_embed" class="text-sm font-semibold text-gray-900 dark:text-white"><%= tr("automod:DM_EMBED_TITLE") %></label>
+              <div class="text-sm font-normal text-gray-500 dark:text-gray-400">
+                <%= tr("automod:DM_EMBED_DESC") %>
+              </div>
+            </div>
+            <div class="grid grid-cols-2 gap-4">
+              <input
+                type="color"
+                x-model="formData.dm_embed"
+                id="dm_embed"
+                name="dm_embed"
+                class="block w-full h-full min-h-10 rounded-lg border border-gray-300 p-0.5 text-gray-900 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-primary-500 dark:focus:ring-primary-500 sm:text-sm"
+              />
+            </div>
+          </div>
+
+          <div class="mb-3">
+            <div class="mb-2">
+              <label for="wh_channels" class="text-sm font-semibold text-gray-900 dark:text-white"><%= tr("automod:WHITELIST_CH_TITLE") %></label>
+              <div class="text-sm font-normal text-gray-500 dark:text-gray-400">
+                <%= tr("automod:WHITELIST_CH_DESC") %>
+              </div>
+            </div>
+            <select multiple x-model="formData.wh_channels" name="wh_channels" id="wh_channels" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500">
+              <option value=""><%= tr("CHANNEL_SELECT") %></option>
+              <% channels.map((ch) => { %>
+                <option value="<%= ch.id %>"><%= ch.name %></option>
+              <% }) %>
+            </select>
+          </div>
+        </div>
+        <!-- END: Card Body -->
+
+        <!-- START: Card Footer -->
+        <div class="mt-4 flex items-center justify-between border-t border-gray-200 pt-3 dark:border-gray-700 sm:pt-6">
+          <div></div>
+          <div class="flex-shrink-0">
+            <button
+              type="submit"
+              :disabled="isSubmitting"
+              :class="{'opacity-50': isSubmitting}"
+              class="inline-flex items-center rounded-lg bg-primary-700 px-3 py-2 text-center text-sm font-medium text-white hover:bg-primary-800 focus:outline-none focus:ring-4 focus:ring-primary-300 dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">
+              <span x-show="!isSubmitting"><%= tr('COMMON.BTN_SAVE') %></span>
+              <span x-show="isSubmitting"><%= tr('COMMON.BTN_SAVING') %></span>
+            </button>
+          </div>
+        </div>
+        <!-- END: Card Footer -->
+      </form>
+    </div>
+    <!-- END: Col 1 -->
+
+    <!-- START: Col 2 (Quick Toggle) -->
+    <div x-data="{
+      formData: {
+        debug: <%= settings.debug || false %>,
+        anti_attachments: <%= settings.anti_attachments || false %>,
+        anti_invites: <%= settings.anti_invites || false %>,
+        anti_links: <%= settings.anti_links || false %>,
+        anti_spam: <%= settings.anti_spam || false %>,
+        anti_ghostping: <%= settings.anti_ghostping || false %>,
+        anti_massmention: <%= settings.anti_massmention || false %>,
+        max_lines: <%= settings.max_lines || 0 %>,
+        automod_toggle: true
+      },
+      isSubmitting: false,
+      async submitForm() {
+        this.isSubmitting = true;
+        try {
+          const response = await fetch(window.location.pathname, {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(this.formData)
+          });
+          if (response.ok) {
+            Alpine.store('toast').show('Settings updated successfully', 'success');
+          } else {
+            throw new Error('Failed to update settings');
+          }
+        } catch (error) {
+          Alpine.store('toast').show('Failed to update settings', 'error');
+        }
+        this.isSubmitting = false;
+      }
+    }" class="rounded-lg border border-gray-200 bg-white p-4 shadow-sm dark:border-gray-700 dark:bg-gray-800 sm:p-6 2xl:col-span-2">
+      <!-- START: Card Header -->
+      <div class="mb-4 flex items-center justify-between border-b border-gray-200 pb-4 dark:border-gray-700">
+        <h3 class="text-lg font-semibold text-gray-800 dark:text-white"><%= tr("automod:TOGGLE_TITLE") %></h3>
+      </div>
+      <!-- END: Card Header -->
+
+      <form @submit.prevent="submitForm">
+        <!-- START: Card Body -->
+        <div>
+          <div class="mb-3 flex items-center justify-between">
+            <div class="flex flex-grow flex-col">
+              <div class="mb-1 text-sm font-semibold text-gray-900 dark:text-white"><%= tr("automod:DEBUG_TITLE") %></div>
+              <div class="text-sm font-normal text-gray-500 dark:text-gray-400">
+                <%= tr("automod:DEBUG_DESC") %>
+              </div>
+            </div>
+            <label class="relative flex cursor-pointer items-center">
+              <input type="checkbox" x-model="formData.debug" class="sr-only" />
+              <span class="toggle-bg h-6 w-11 rounded-full border border-gray-200 bg-gray-200 dark:border-gray-600 dark:bg-gray-700"></span>
+            </label>
+          </div>
+
+          <div class="mb-3 flex items-center justify-between">
+            <div class="flex flex-grow flex-col">
+              <div class="mb-1 text-sm font-semibold text-gray-900 dark:text-white"><%= tr("automod:ATTACH_TITLE") %></div>
+              <div class="text-sm font-normal text-gray-500 dark:text-gray-400">
+                <%= tr("automod:ATTACH_DESC") %>
+              </div>
+            </div>
+            <label class="relative flex cursor-pointer items-center">
+              <input type="checkbox" x-model="formData.anti_attachments" class="sr-only" />
+              <span class="toggle-bg h-6 w-11 rounded-full border border-gray-200 bg-gray-200 dark:border-gray-600 dark:bg-gray-700"></span>
+            </label>
+          </div>
+
+          <div class="mb-3 flex items-center justify-between">
+            <div class="flex flex-grow flex-col">
+              <div class="mb-1 text-sm font-semibold text-gray-900 dark:text-white"><%= tr("automod:INVITES_TITLE") %></div>
+              <div class="text-sm font-normal text-gray-500 dark:text-gray-400">
+                <%= tr("automod:INVITES_DESC") %>
+              </div>
+            </div>
+            <label class="relative flex cursor-pointer items-center">
+              <input type="checkbox" x-model="formData.anti_invites" class="sr-only" />
+              <span class="toggle-bg h-6 w-11 rounded-full border border-gray-200 bg-gray-200 dark:border-gray-600 dark:bg-gray-700"></span>
+            </label>
+          </div>
+
+          <div class="mb-3 flex items-center justify-between">
+            <div class="flex flex-grow flex-col">
+              <div class="mb-1 text-sm font-semibold text-gray-900 dark:text-white"><%= tr("automod:LINKS_TITLE") %></div>
+              <div class="text-sm font-normal text-gray-500 dark:text-gray-400">
+                <%= tr("automod:LINKS_DESC") %>
+              </div>
+            </div>
+            <label class="relative flex cursor-pointer items-center">
+              <input type="checkbox" x-model="formData.anti_links" class="sr-only" />
+              <span class="toggle-bg h-6 w-11 rounded-full border border-gray-200 bg-gray-200 dark:border-gray-600 dark:bg-gray-700"></span>
+            </label>
+          </div>
+
+          <div class="mb-3 flex items-center justify-between">
+            <div class="flex flex-grow flex-col">
+              <div class="mb-1 text-sm font-semibold text-gray-900 dark:text-white"><%= tr("automod:SPAM_TITLE") %></div>
+              <div class="text-sm font-normal text-gray-500 dark:text-gray-400">
+                <%= tr("automod:SPAM_DESC") %>
+              </div>
+            </div>
+            <label class="relative flex cursor-pointer items-center">
+              <input type="checkbox" x-model="formData.anti_spam" class="sr-only" />
+              <span class="toggle-bg h-6 w-11 rounded-full border border-gray-200 bg-gray-200 dark:border-gray-600 dark:bg-gray-700"></span>
+            </label>
+          </div>
+
+          <div class="mb-3 flex items-center justify-between">
+            <div class="flex flex-grow flex-col">
+              <div class="mb-1 text-sm font-semibold text-gray-900 dark:text-white"><%= tr("automod:GHOST_TITLE") %></div>
+              <div class="text-sm font-normal text-gray-500 dark:text-gray-400">
+                <%= tr("automod:GHOST_DESC") %>
+              </div>
+            </div>
+            <label class="relative flex cursor-pointer items-center">
+              <input type="checkbox" x-model="formData.anti_ghostping" class="sr-only" />
+              <span class="toggle-bg h-6 w-11 rounded-full border border-gray-200 bg-gray-200 dark:border-gray-600 dark:bg-gray-700"></span>
+            </label>
+          </div>
+
+          <div class="mb-3 flex items-center justify-between">
+            <div class="flex flex-grow flex-col">
+              <div class="mb-1 text-sm font-semibold text-gray-900 dark:text-white"><%= tr("automod:MASSMENTION_TITLE") %></div>
+              <div class="text-sm font-normal text-gray-500 dark:text-gray-400">
+                <%= tr("automod:MASSMENTION_DESC") %>
+              </div>
+            </div>
+            <label class="relative flex cursor-pointer items-center">
+              <input type="checkbox" x-model="formData.anti_massmention" class="sr-only" />
+              <span class="toggle-bg h-6 w-11 rounded-full border border-gray-200 bg-gray-200 dark:border-gray-600 dark:bg-gray-700"></span>
+            </label>
+          </div>
+          <div class="mb-3">
+            <div class="mb-2">
+              <div class="text-sm font-semibold text-gray-900 dark:text-white"><%= tr("automod:MAXLINES_TITLE") %></div>
+              <div class="text-sm font-normal text-gray-500 dark:text-gray-400">
+                <%= tr("automod:MAXLINES_DESC") %>
+              </div>
+            </div>
+            <input
+              type="number"
+              min="0"
+              max="20"
+              name="max_lines"
+              class="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-gray-900 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-primary-500 dark:focus:ring-primary-500 sm:text-sm"
+              value="<%= settings.max_lines %>"
+              />
+          </div>
+        </div>
+        <!-- END: Card Body -->
+
+        <!-- START: Card Footer -->
+        <div class="mt-4 flex items-center justify-between border-t border-gray-200 pt-3 dark:border-gray-700 sm:pt-6">
+          <div></div>
+          <div class="flex-shrink-0">
+            <button
+              type="submit"
+              :disabled="isSubmitting"
+              :class="{'opacity-50': isSubmitting}"
+              class="inline-flex items-center rounded-lg bg-primary-700 px-3 py-2 text-center text-sm font-medium text-white hover:bg-primary-800 focus:outline-none focus:ring-4 focus:ring-primary-300 dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">
+              <span x-show="!isSubmitting"><%= tr('COMMON.BTN_SAVE') %></span>
+              <span x-show="isSubmitting"><%= tr('COMMON.BTN_SAVING') %></span>
+            </button>
+          </div>
+        </div>
+        <!-- END: Card Footer -->
+      </form>
+    </div>
+  </div>
+</section>
