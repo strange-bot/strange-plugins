@@ -1,0 +1,17 @@
+{
+    "TITLE": "Statistiques",
+    "DESCRIPTION": "Gérer les statistiques de votre serveur",
+
+    "SETTINGS_TITLE": "Paramètres",
+    "LVL_MSG_TITLE": "Message de niveau supérieur",
+    "LVL_MSG_DESC": "Message à envoyer lorsqu'un utilisateur passe au niveau supérieur",
+    "LVL_CH_TITLE": "Niveau Canal",
+    "LVL_CH_DESC": "Canal pour les messages de montée de niveau (Vide à envoyer dans le même canal)",
+    "COOLDOWN_TITLE": "Cooldown",
+    "COOLDOWN_DESC": "Délai (en secondes) entre les messages pour suivre les statistiques",
+    "CONFIG": "Paramètres par défaut du serveur",
+    "API_URL": "URL API étrange",
+    "API_URL_DESC": "Changer l'URL de l'API Strange",
+    "API_KEY": "Clé API étrange",
+    "API_KEY_DESC": "Ajoutez votre clé API étrange ici"
+}

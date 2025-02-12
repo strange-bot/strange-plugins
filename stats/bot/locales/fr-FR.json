@@ -1,0 +1,49 @@
+{
+    "TITLE": "Statistiques",
+    "DESCRIPTION": "Gérer les statistiques de votre serveur",
+
+    "COMMON": {
+        "DISABLED": "Le suivi des statistiques est désactivé sur ce serveur"
+    },
+
+    "RANK": {
+        "DESCRIPTION": "affiche le classement des membres sur ce serveur",
+        "USER_DESC": "utilisateur pour afficher le rang",
+        "NOT_ENOUGH_XP": "`{{user}}` n'est pas encore classé !",
+        "API_ERROR": "Échec de la génération de la carte de rang"
+    },
+
+    "STATS": {
+        "DESCRIPTION": "affiche les statistiques des membres sur ce serveur",
+        "USER_DESC": "l'utilisateur pour lequel obtenir des statistiques",
+        "NAME": "Tag Utilisateur",
+        "ID": "ID Utilisateur",
+        "CREATED_AT": "⌚ Membre Depuis",
+        "MESSAGE_STATS_TITLE": "💬 Messages envoyés",
+        "MESSAGE_STATS": "❯ Messages Envoyés : {{count}}\n❯ Commandes Préfixées : {{prefix}}\n❯ Commandes Slash : {{slash}}\n ❯ XP Gagné : {{xp}}\n❯ Niveau Actuel : {{level}}",
+        "VOICE_STATS_TITLE": "🔊 Statistiques Voix",
+        "VOICE_STATS": "❯ Total des Connexions : {{connections}}\n❯ Temps Passé : {{time}} minutes",
+        "FOOTER": "Statistiques Générées"
+    },
+
+    "TRACKING": {
+        "DESCRIPTION": "activer ou désactiver le suivi des statistiques sur le serveur",
+        "STATUS_DESC": "activer ou désactiver",
+        "INVALID_STATUS": "Statut invalide. La valeur doit être `on/off`",
+        "ENABLED": "Configuration sauvegardée ! Le suivi des statistiques est maintenant activé",
+        "DISABLED": "Configuration sauvegardée ! Le suivi des statistiques est maintenant désactivé"
+    },
+
+    "XP": {
+        "DESCRIPTION": "configurer le système de niveaux",
+        "SUB_MESSAGE": "configurer un message personnalisé de passage de niveau",
+        "SUB_MESSAGE_MESSAGE": "message à afficher lorsqu'un utilisateur passe un niveau",
+        "SUB_CHANNEL": "configurer un canal personnalisé pour les messages de passage de niveau",
+        "SUB_CHANNEL_CHANNEL": "canal pour afficher les messages de passage de niveau",
+        "NO_MATCH_CHANNEL": "Aucun canal trouvé correspondant à ce nom",
+        "INVALID_MESSAGE": "Message invalide. Veuillez fournir un message",
+        "MESSAGE_SAVED": "Configuration sauvegardée. Message de passage de niveau mis à jour !",
+        "INVALID_CHANNEL": "Canal invalide. Veuillez fournir un canal",
+        "CHANNEL_SAVED": "Configuration sauvegardée. Canal de passage de niveau mis à jour !"
+    }
+}

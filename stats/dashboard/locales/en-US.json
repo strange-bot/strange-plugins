@@ -1,0 +1,17 @@
+{
+    "TITLE": "Statistics",
+    "DESCRIPTION": "Manage statistics in your server",
+
+    "SETTINGS_TITLE": "Settings",
+    "LVL_MSG_TITLE": "Level Up Message",
+    "LVL_MSG_DESC": "Message to send when a user levels up",
+    "LVL_CH_TITLE": "Level Channel",
+    "LVL_CH_DESC": "Channel for level up messages (Empty to send in the same channel)",
+    "COOLDOWN_TITLE": "Cooldown",
+    "COOLDOWN_DESC": "Time(in seconds) between messages to track statistics",
+    "CONFIG": "Server Defaults",
+    "API_URL": "Strange API URL",
+    "API_URL_DESC": "Change the URL of the Strange API",
+    "API_KEY": "Strange API Key",
+    "API_KEY_DESC": "Add your Strange API Key here"
+}
