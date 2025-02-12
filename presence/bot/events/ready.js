@@ -1,10 +1,10 @@
 const { ActivityType } = require("discord.js");
+const plugin = require("../index");
 
 /**
  * @param {import("discord.js").Client} client
- * @param {import("strange-sdk").BotPlugin} plugin
  */
-module.exports = async (client, plugin) => {
+module.exports = async (client) => {
     const config = await plugin.getConfig();
 
     function updatePresence(client) {

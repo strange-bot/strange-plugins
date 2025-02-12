@@ -1,10 +1,10 @@
 const { handlePrefixCommand } = require("../handler");
+const plugin = require("../index");
 
 /**
  * @param {import('discord.js').Message} message
- * @param {import('strange-sdk').BotPlugin} plugin
  */
-module.exports = async (message, plugin) => {
+module.exports = async (message) => {
     message.isCommand = false;
     if (!message.guild || message.author.bot) return;
     const guild = message.guild;
