@@ -169,7 +169,7 @@ module.exports = async (message) => {
     if (shouldDelete && message.deletable) {
         message
             .delete()
-            .then(() => channel.safeSend(guild.getT("automod:HANDLER.AUTO_DELETED"), 5))
+            .then(() => channel.send(guild.getT("automod:HANDLER.AUTO_DELETED"), 5))
             .catch(() => {});
     }
 
@@ -203,7 +203,7 @@ module.exports = async (message) => {
                 logEmbed.setColor(settings.embed_colors.log);
             }
 
-            logChannel.safeSend({ embeds: [logEmbed] });
+            logChannel.send({ embeds: [logEmbed] });
         }
 
         // DM strike details

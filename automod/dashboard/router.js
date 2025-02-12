@@ -54,37 +54,30 @@ router.put("/", async (req, res) => {
             settings.max_lines = Number(body.max_lines);
         }
 
-        body.debug = body.debug === "on" ? true : false;
         if (body.debug != settings.debug) {
             settings.debug = body.debug;
         }
 
-        body.anti_attachments = body.anti_attachments === "on" ? true : false;
         if (body.anti_attachments != settings.anti_attachments) {
             settings.anti_attachments = body.anti_attachments;
         }
 
-        body.anti_invites = body.anti_invites === "on" ? true : false;
         if (body.anti_invites != settings.anti_invites) {
             settings.anti_invites = body.anti_invites;
         }
 
-        body.anti_links = body.anti_links === "on" ? true : false;
         if (body.anti_links != settings.anti_links) {
             settings.anti_links = body.anti_links;
         }
 
-        body.anti_spam = body.anti_spam === "on" ? true : false;
         if (body.anti_spam != settings.anti_spam) {
             settings.anti_spam = body.anti_spam;
         }
 
-        body.anti_ghostping = body.anti_ghostping === "on" ? true : false;
         if (body.anti_ghostping != settings.anti_ghostping) {
             settings.anti_ghostping = body.anti_ghostping;
         }
 
-        body.anti_massmention = body.anti_massmention === "on" ? true : false;
         if (body.anti_massmention != settings.anti_massmention) {
             settings.anti_massmention = body.anti_massmention;
         }

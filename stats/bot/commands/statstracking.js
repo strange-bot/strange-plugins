@@ -39,7 +39,7 @@ module.exports = {
     async messageRun({ message, args }) {
         const input = args[0].toLowerCase();
         if (!["on", "off"].includes(input))
-            return message.safeReply("Invalid status. Value must be `on/off`");
+            return message.reply("Invalid status. Value must be `on/off`");
         const response = await setStatus(input, message);
         return message.reply(response);
     },

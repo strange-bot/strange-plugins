@@ -2,8 +2,6 @@
     "TITLE": "Moderation",
     "DESCRIPTION": "Manage your server's moderation settings.",
 
-    "CHANNEL_SELECT": "Select a channel",
-
     "SETTINGS_TITLE": "Settings",
     "CH_TITLE": "Log Channel",
     "CH_DESC": "The channel where all moderation actions will be sent.",

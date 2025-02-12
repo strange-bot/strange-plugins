@@ -33,7 +33,7 @@ module.exports = {
 
     async messageRun({ message, args }) {
         const target = await message.guild.resolveMember(args[0], true);
-        if (!target) return message.replyT("common:NO_MATCH_USER", { query: args[0] });
+        if (!target) return message.replyT("NO_MATCH_USER", { query: args[0] });
         const reason = message.content.split(args[0])[1].trim();
         const response = await warn(message.member, target, reason);
         await message.reply(response);

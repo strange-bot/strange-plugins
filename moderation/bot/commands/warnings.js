@@ -61,20 +61,20 @@ module.exports = {
 
         if (sub === "list") {
             const target = (await message.guild.resolveMember(args[1], true)) || message.member;
-            if (!target) return message.replyT("common:NO_MATCH_USER", { query: args[0] });
+            if (!target) return message.replyT("NO_MATCH_USER", { query: args[0] });
             response = await listWarnings(target, message);
         }
 
         //
         else if (sub === "clear") {
             const target = await message.guild.resolveMember(args[1], true);
-            if (!target) return message.replyT("common:NO_MATCH_USER", { query: args[0] });
+            if (!target) return message.replyT("NO_MATCH_USER", { query: args[0] });
             response = await clearWarnings(target, message);
         }
 
         // else
         else {
-            response = message.guild.getT("common:INVALID_SUBCOMMAND", { sub });
+            response = message.guild.getT("INVALID_SUBCOMMAND", { sub });
         }
 
         await message.reply(response);

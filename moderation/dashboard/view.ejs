@@ -5,9 +5,9 @@
       maxwarn_count: '<%= settings.max_warn.limit %>',
       maxwarn_action: '<%= settings.max_warn.action %>'
     },
-    isSubmitting: false,
+    saving: false,
     async submitForm() {
-      this.isSubmitting = true;
+      this.saving = true;
       try {
         const response = await fetch(window.location.href, {
           method: 'PUT',
@@ -16,14 +16,12 @@
           },
           body: JSON.stringify(this.formData)
         });
-        
         if (!response.ok) throw new Error('Failed to update settings');
-        
-        Alpine.store('toast').show('Settings updated successfully', 'success');
+        Alpine.store('toast').show('<%=tr(`SETTINGS_SAVE`)%>', 'success');
       } catch (error) {
-        Alpine.store('toast').show(error.message, 'error');
+        Alpine.store('toast').show('<%=tr(`SETTINGS_SAVE_ERROR`)%>', 'error');
       } finally {
-        this.isSubmitting = false;
+        this.saving = false;
       }
     }
   }" @submit.prevent="submitForm">
@@ -40,7 +38,7 @@
             </div>
           </div>
           <select x-model="formData.log_channel" name="log_channel" id="log_channel" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500">
-            <option value=""><%= tr("moderation:CHANNEL_SELECT") %></option>
+            <option value=""><%= tr("CHANNEL_SELECT") %></option>
             <% channels.map((ch) => { %>
               <option value="<%= ch.id %>" <%= settings.modlog_channel === ch.id ? 'selected' : '' %>><%= ch.name %></option>
             <% }) %>
@@ -100,9 +98,12 @@
       <div class="flex-shrink-0">
         <button
           type="submit"
-          :disabled="isSubmitting"
-          x-html="isSubmitting ? `<%= tr('COMMON.BTN_SAVING') %>` : `<%= tr('COMMON.BTN_SAVE') %>`"
-          class="inline-flex items-center rounded-lg bg-primary-700 px-3 py-2 text-center text-sm font-medium text-white hover:bg-primary-800 focus:outline-none focus:ring-4 focus:ring-primary-300 dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">
+          :disabled="saving"
+          :class="{'opacity-50': saving}"
+          class="inline-flex items-center rounded-lg bg-primary-700 px-3 py-2 text-center text-sm font-medium text-white hover:bg-primary-800 focus:outline-none focus:ring-4 focus:ring-primary-300 dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
+        >
+          <span x-show="!saving"><%= tr('BTN_SAVE') %></span>
+          <span x-show="saving"><%= tr('BTN_SAVING') %></span>
         </button>
       </div>
     </div>

@@ -80,7 +80,7 @@ async function getMatchingBans(guild, match) {
         }
     }
 
-    if (matched.length === 0) return guild.getT("common:NO_MATCH_USER", { query: match });
+    if (matched.length === 0) return guild.getT("NO_MATCH_USER", { query: match });
 
     const options = [];
     for (const user of matched) {
@@ -134,6 +134,6 @@ async function waitForBan(issuer, reason, sent) {
 
     // collect user and unban
     collector.on("end", async (collected) => {
-        if (collected.size === 0) return sent.edit(guild.getT("common:COLLECT_TIMEOUT"));
+        if (collected.size === 0) return sent.edit(guild.getT("COLLECT_TIMEOUT"));
     });
 }

@@ -131,7 +131,7 @@ module.exports = {
 
         // invalid subcommand
         else {
-            response = message.guild.getT("common:INVALID_SUBCOMMAND", { sub });
+            response = message.guild.getT("INVALID_SUBCOMMAND", { sub });
         }
 
         if (response) await message.reply(response);

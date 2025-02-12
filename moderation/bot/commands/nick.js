@@ -66,7 +66,7 @@ module.exports = {
 
         if (sub === "set") {
             const target = await message.guild.resolveMember(args[1]);
-            if (!target) return message.replyT("common:NO_MATCH_USER", { query: args[0] });
+            if (!target) return message.replyT("NO_MATCH_USER", { query: args[0] });
             const name = args.slice(2).join(" ");
             if (!name) return message.replyT("moderation:NICK.MISSING_NICK");
 
@@ -77,13 +77,13 @@ module.exports = {
         //
         else if (sub === "reset") {
             const target = await message.guild.resolveMember(args[1]);
-            if (!target) return message.replyT("common:NO_MATCH_USER", { query: args[0] });
+            if (!target) return message.replyT("NO_MATCH_USER", { query: args[0] });
 
             const response = await nickname(message, target);
             return message.reply(response);
         }
 
-        return message.replyT("common:INVALID_SUBCOMMAND", { sub });
+        return message.replyT("INVALID_SUBCOMMAND", { sub });
     },
 
     async interactionRun({ interaction }) {

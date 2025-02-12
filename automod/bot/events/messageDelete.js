@@ -50,6 +50,6 @@ module.exports = async (message) => {
                 }),
             });
 
-        logChannel.safeSend({ embeds: [embed] });
+        logChannel.send({ embeds: [embed] });
     }
 };

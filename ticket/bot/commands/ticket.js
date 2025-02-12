@@ -160,8 +160,7 @@ module.exports = {
             if (args.length < 2)
                 return message.reply("Please provide a channel where ticket logs must be sent");
             const target = message.guild.findMatchingChannels(args[1]);
-            if (target.length === 0)
-                return message.replyT("common:NO_MATCH_CHANNEL", { query: args[1] });
+            if (target.length === 0) return message.replyT("NO_MATCH_CHANNEL", { query: args[1] });
             response = await setupLogChannel(guild, target[0], settings);
         }
 

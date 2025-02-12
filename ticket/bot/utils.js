@@ -153,7 +153,7 @@ async function closeTicket(channel, closedBy, reason) {
                         },
                     ]);
 
-                logChannel.safeSend({ embeds: [embed], components });
+                logChannel.send({ embeds: [embed], components });
             }
         }
 

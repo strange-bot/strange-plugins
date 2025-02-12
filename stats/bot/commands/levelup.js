@@ -74,15 +74,14 @@ module.exports = {
             if (input === "off") channel = "off";
             else {
                 const match = message.guild.findMatchingChannels(input);
-                if (match.length === 0)
-                    return message.replyT("common:NO_MATCH_CHANNEL", { query: input });
+                if (match.length === 0) return message.replyT("NO_MATCH_CHANNEL", { query: input });
                 channel = match[0];
             }
             response = await setChannel(message.guild, channel, settings);
         }
 
         // invalid
-        else response = message.guild.getT("common:INVALID_SUBCOMMAND", { sub });
+        else response = message.guild.getT("INVALID_SUBCOMMAND", { sub });
         await message.reply(response);
     },
 
@@ -103,7 +102,7 @@ module.exports = {
                 interaction.options.getChannel("channel"),
                 settings,
             );
-        } else response = interaction.guild.getT("common:INVALID_SUBCOMMAND", { sub });
+        } else response = interaction.guild.getT("INVALID_SUBCOMMAND", { sub });
 
         await interaction.followUp(response);
     },

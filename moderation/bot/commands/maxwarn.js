@@ -89,7 +89,7 @@ module.exports = {
 
         //
         else {
-            response = message.guild.getT("common:INVALID_SUBCOMMAND", { sub: input });
+            response = message.guild.getT("INVALID_SUBCOMMAND", { sub: input });
         }
 
         await message.reply(response);

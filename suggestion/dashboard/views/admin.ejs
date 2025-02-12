@@ -15,22 +15,22 @@
         approved_embed: '<%= config.APPROVED_EMBED %>',
         rejected_embed: '<%= config.DENIED_EMBED %>'
       },
-      isSubmitting: false,
+      saving: false,
       async submitForm(e) {
         e.preventDefault();
-        this.isSubmitting = true;
+        this.saving = true;
         try {
-          const response = await fetch(window.location.pathname, {
+          const response = await fetch(window.location.href, {
             method: 'PUT',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(this.formData)
           });
           if (!response.ok) throw new Error('Failed to save');
-          Alpine.store('toast').show('Settings updated successfully', 'success');
+          Alpine.store('toast').show('<%=tr(`CONFIG_SAVE`)%>', 'success');
         } catch (err) {
-          Alpine.store('toast').show('Failed to update config', 'error');
+          Alpine.store('toast').show('<%=tr(`CONFIG_SAVE_ERROR`)%>', 'error');
         } finally {
-          this.isSubmitting = false;
+          this.saving = false;
         }
       }
     }" @submit.prevent="submitForm">
@@ -154,9 +154,12 @@
         <div class="flex-shrink-0">
           <button
             type="submit"
-            :disabled="isSubmitting"
-            x-text="isSubmitting ? '<%= tr('COMMON.BTN_SAVING') %>' : '<%= tr('COMMON.BTN_SAVE') %>'"
-            class="inline-flex items-center rounded-lg bg-primary-700 px-3 py-2 text-center text-sm font-medium text-white hover:bg-primary-800 focus:outline-none focus:ring-4 focus:ring-primary-300 dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">
+            :disabled="saving"
+            :class="{'opacity-50': saving}"
+            class="inline-flex items-center rounded-lg bg-primary-700 px-3 py-2 text-center text-sm font-medium text-white hover:bg-primary-800 focus:outline-none focus:ring-4 focus:ring-primary-300 dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
+          >
+            <span x-show="!saving"><%= tr('BTN_SAVE') %></span>
+            <span x-show="saving"><%= tr('BTN_SAVING') %></span>
           </button>
         </div>
       </div>
