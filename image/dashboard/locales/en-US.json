@@ -1,0 +1,12 @@
+{
+    "TITLE": "Image",
+    "DESCRIPTION": "Image commands",
+
+    "CONFIG": "Configuration",
+    "EMBED": "Embed Color",
+    "EMBED_DESC": "Change the color of the embeds",
+    "API_URL": "Strange API URL",
+    "API_URL_DESC": "Change the URL of the Strange API",
+    "API_KEY": "Strange API Key",
+    "API_KEY_DESC": "Add your Strange API Key here"
+}

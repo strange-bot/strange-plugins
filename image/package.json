@@ -1,0 +1,11 @@
+{
+    "name": "image",
+    "version": "1.0.0",
+    "main": "index.js",
+    "author": "Sai Teja Madha",
+    "license": "ISC",
+    "peerDependencies": {
+        "discord.js": "^14.0.0",
+        "strange-sdk": "workspace:*"
+    }
+}
