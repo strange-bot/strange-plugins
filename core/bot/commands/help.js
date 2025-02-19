@@ -10,7 +10,7 @@ const {
 } = require("discord.js");
 const { getCommandUsage, getSlashUsage } = require("../handler");
 const { EmbedUtils } = require("strange-sdk/utils");
-const plugin = require("../index");
+const db = require("../../db.service");
 
 const CMDS_PER_PAGE = 5;
 const IDLE_TIMEOUT = 30;
@@ -67,7 +67,7 @@ module.exports = {
 
         // check if command help (!help cmdName)
         const cmd = message.client.prefixCommands.get(trigger);
-        const settings = await plugin.getSettings(message.guild);
+        const settings = await db.getSettings(message.guild);
         if (cmd && !settings.disabled_prefix.includes(trigger)) {
             const embed = getCommandUsage(message.guild, cmd, prefix, trigger);
             return message.reply({ embeds: [embed] });
@@ -104,7 +104,7 @@ module.exports = {
         // check if command help (!help cmdName)
         if (cmdName) {
             const cmd = interaction.client.slashCommands.get(cmdName);
-            const settings = await plugin.getSettings(interaction.guild);
+            const settings = await db.getSettings(interaction.guild);
             if (cmd && !settings.disabled_slash.includes(cmd.name)) {
                 const embed = getSlashUsage(interaction.guild, cmd);
                 return interaction.followUp({ embeds: [embed] });
@@ -115,14 +115,15 @@ module.exports = {
 };
 
 /**
- * @param {CommandInteraction} interaction
+ * @param {Message | CommandInteraction} arg0
  */
 async function getHelpMenu({ client, guild }) {
+    const enabled_plugins = await guild.getEnabledPlugins();
+
     // Menu Row
     const options = [];
     for (const plugin of client.pluginManager.plugins.filter((p) => !p.ownerOnly)) {
-        const settings = await plugin.getSettings(guild);
-        if (!settings?.enabled) continue;
+        if (!enabled_plugins.includes(plugin.name)) continue;
         options.push({
             label: plugin.name,
             value: plugin.name,
@@ -254,10 +255,9 @@ const waiter = (msg, userId, prefix) => {
  * @param {string} prefix
  */
 const pluginWaiter = async (arg0, pluginName, prefix) => {
-    let arrEmbeds =
-        arg0 instanceof Message
-            ? getPrefixPluginCommandEmbed(arg0.guild, pluginName, prefix)
-            : getSlashPluginCommandsEmbed(arg0.guild, pluginName);
+    let arrEmbeds = prefix
+        ? getPrefixPluginCommandEmbed(arg0.guild, pluginName, prefix)
+        : getSlashPluginCommandsEmbed(arg0.guild, pluginName);
 
     let currentPage = 0;
     let buttonsRow = [];
@@ -282,9 +282,8 @@ const pluginWaiter = async (arg0, pluginName, prefix) => {
         components: arrEmbeds.length > 1 ? [buttonsRow] : [],
     };
 
-    const sentMsg = arg0 instanceof Message ? await arg0.reply(reply) : await arg0.followUp(reply);
-
-    const authorId = arg0 instanceof Message ? arg0.author.id : arg0.user.id;
+    const sentMsg = prefix ? await arg0.reply(reply) : await arg0.followUp(reply);
+    const authorId = prefix ? arg0.author.id : arg0.user.id;
     if (arrEmbeds.length > 1) {
         const collector = arg0.channel.createMessageComponentCollector({
             filter: (reactor) => reactor.user.id === authorId && sentMsg.id === reactor.message.id,

@@ -10,7 +10,7 @@ router.get("/", async (req, res) => {
 });
 
 router.put("/", async (req, res) => {
-    const { guild, settings, plugin } = res.locals;
+    const { settings } = res.locals;
     const body = req.body;
 
     // Basic settings
@@ -18,9 +18,8 @@ router.put("/", async (req, res) => {
         if (!body.log_channel) {
             settings.log_channel = null;
         } else {
-            const logs_ch = guild.channels.cache.get(body.log_channel);
-            if (logs_ch != settings.log_channel) {
-                settings.log_channel = logs_ch.id;
+            if (body.log_channel != settings.log_channel) {
+                settings.log_channel = body.log_channel;
             }
         }
 
@@ -42,9 +41,6 @@ router.put("/", async (req, res) => {
 
         if (!body.wh_channels) body.wh_channels = [];
         if (typeof body.wh_channels === "string") body.wh_channels = [body.wh_channels];
-        body.wh_channels = body.wh_channels
-            .map((c) => guild.channels.cache.get(c)?.id)
-            .filter((c) => c);
         settings.wh_channels = body.wh_channels;
     }
 
@@ -83,7 +79,7 @@ router.put("/", async (req, res) => {
         }
     }
 
-    await plugin.updateSettings(guild.id, settings);
+    await settings.save();
     res.sendStatus(200);
 });
 

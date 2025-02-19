@@ -1,15 +1,14 @@
 const path = require("node:path");
 const router = require("express").Router();
-const languages = require("strange-i18n/languages-meta.json");
 
-router.get("/", (_req, res) => {
+router.get("/", (req, res) => {
     res.render(path.join(__dirname, "views/settings.ejs"), {
-        languages: languages.map((lang) => lang.name),
+        languages: req.app.i18n.availableLanguages,
     });
 });
 
 router.put("/", async (req, res) => {
-    const { guild, settings, plugin } = res.locals;
+    const { settings } = res.locals;
     const body = req.body;
 
     try {
@@ -18,7 +17,7 @@ router.put("/", async (req, res) => {
         }
 
         if (body.locale) {
-            if (!languages.find((lang) => lang.name === body.locale)) {
+            if (!req.app.i18n.availableLanguages.find((lang) => lang === body.locale)) {
                 return res.status(400).json({ error: "Invalid language" });
             }
             if (settings.locale !== body.locale) {
@@ -26,7 +25,7 @@ router.put("/", async (req, res) => {
             }
         }
 
-        await plugin.updateSettings(guild.id, settings);
+        settings.save();
         res.sendStatus(200);
     } catch (error) {
         res.sendStatus(500);

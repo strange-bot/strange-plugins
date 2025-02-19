@@ -1,8 +1,7 @@
 const { BotPlugin } = require("strange-sdk");
 
-const plugin = new BotPlugin({
+module.exports = new BotPlugin({
     dependencies: [],
     baseDir: __dirname,
+    dbService: require("../db.service"),
 });
-
-module.exports = plugin;

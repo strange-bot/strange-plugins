@@ -6,7 +6,7 @@ router.get("/", (_req, res) => {
 });
 
 router.put("/", async (req, res) => {
-    const { guild, plugin, settings } = res.locals;
+    const { settings } = res.locals;
     const body = req.body;
 
     if (
@@ -23,7 +23,7 @@ router.put("/", async (req, res) => {
     settings.min_beg_amount = Number(body.min_beg_amount);
     settings.max_beg_amount = Number(body.max_beg_amount);
 
-    await plugin.updateSettings(guild.id, settings);
+    await settings.save();
     res.sendStatus(200);
 });
 

@@ -5,6 +5,7 @@ const plugin = require("../index");
  * @param {import('discord.js').Message} message
  */
 module.exports = async (message) => {
+    message.recieved_at = Date.now();
     message.isCommand = false;
     if (!message.guild || message.author.bot) return;
     const guild = message.guild;
@@ -23,8 +24,7 @@ module.exports = async (message) => {
         const cmd = guild.client.prefixCommands.get(invoke);
         if (cmd) {
             // check if the plugin is disabled
-            const pluginSettings = await guild.getSettings(cmd.plugin.name);
-            if (pluginSettings.enabled === false) return;
+            if (settings.disabled_plugins.includes(cmd.plugin.name)) return;
 
             // check if the command is disabled
             if (settings.disabled_prefix.includes(cmd.name)) return;

@@ -1,6 +1,6 @@
 const { ApplicationCommandOptionType } = require("discord.js");
 const { Logger } = require("strange-sdk/utils");
-const plugin = require("../index");
+const db = require("../../db.service");
 
 let langChoices = [];
 try {
@@ -62,9 +62,9 @@ async function setNewLang(guild, newLang) {
             langChoices: langChoices.map((lang) => lang.value).join(", "),
         });
 
-    const settings = await plugin.getSettings(guild);
+    const settings = await db.getSettings(guild);
     settings.locale = newLang;
-    await guild.updateSettings("core", settings);
+    await settings.save();
 
     return guild.getT("core:LANG.SUCCESS", { lang: newLang });
 }

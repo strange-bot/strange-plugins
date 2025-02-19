@@ -321,7 +321,7 @@ async function getStatus(settings, guild) {
 
 async function setStrikes(settings, strikes, guild) {
     settings.strikes = strikes;
-    await plugin.updateSettings(guild, settings);
+    await settings.save();
     return guild.getT("automod:AUTOMOD.STRIKES_SET", { amount: strikes });
 }
 
@@ -345,14 +345,14 @@ async function setAction(settings, guild, action) {
     }
 
     settings.action = action;
-    await plugin.updateSettings(guild, settings);
+    await settings.save();
     return guild.getT("automod:AUTOMOD.ACTION_SET", { action });
 }
 
 async function setDebug(settings, input, guild) {
     const status = input.toLowerCase() === "on" ? true : false;
     settings.debug = status;
-    await plugin.updateSettings(guild, settings);
+    await settings.save();
     return status
         ? guild.getT("automod:AUTOMOD.DEBUG_ENABLED")
         : guild.getT("automod:AUTOMOD.DEBUG_DISABLED");
@@ -368,7 +368,7 @@ async function setChannel(targetChannel, settings, guild) {
     }
 
     settings.log_channel = targetChannel?.id;
-    await plugin.updateSettings(guild, settings);
+    await settings.save();
     return targetChannel
         ? guild.getT("automod:AUTOMOD.LOG_CHANNEL_SET", { channel: targetChannel.toString() })
         : guild.getT("automod:AUTOMOD.LOG_CHANNEL_REMOVED");
@@ -392,7 +392,7 @@ async function whiteListAdd(settings, channelId, guild) {
     if (settings.wh_channels.includes(channelId))
         return guild.getT("automod:AUTOMOD.WHITELIST_ALREADY");
     settings.wh_channels.push(channelId);
-    await plugin.updateSettings(guild, settings);
+    await settings.save();
     return guild.getT("automod:AUTOMOD.WHITELIST_ADDED");
 }
 
@@ -400,6 +400,6 @@ async function whiteListRemove(settings, channelId, guild) {
     if (!settings.wh_channels.includes(channelId))
         return guild.getT("automod:AUTOMOD.WHITELIST_NOT");
     settings.wh_channels.splice(settings.wh_channels.indexOf(channelId), 1);
-    await plugin.updateSettings(guild, settings);
+    await settings.save();
     return guild.getT("automod:AUTOMOD.WHITELIST_REMOVED");
 }

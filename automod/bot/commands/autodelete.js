@@ -196,7 +196,7 @@ module.exports = {
 async function antiAttachments(settings, input, guild) {
     const status = input.toUpperCase() === "ON" ? true : false;
     settings.anti_attachments = status;
-    await plugin.updateSettings(guild, settings);
+    await settings.save();
     return status
         ? guild.getT("automod:DELETE.ANTI_ATTACHMENTS_ON")
         : guild.getT("automod:DELETE.ANTI_ATTACHMENTS_OFF");
@@ -205,7 +205,7 @@ async function antiAttachments(settings, input, guild) {
 async function antiInvites(settings, input, guild) {
     const status = input.toUpperCase() === "ON" ? true : false;
     settings.anti_invites = status;
-    await plugin.updateSettings(guild, settings);
+    await settings.save();
     return status
         ? guild.getT("automod:DELETE.ANTI_INVITES_ON")
         : guild.getT("automod:DELETE.ANTI_INVITES_OFF");
@@ -214,7 +214,7 @@ async function antiInvites(settings, input, guild) {
 async function antilinks(settings, input, guild) {
     const status = input.toUpperCase() === "ON" ? true : false;
     settings.anti_links = status;
-    await plugin.updateSettings(guild, settings);
+    await settings.save();
     return status
         ? guild.getT("automod:DELETE.ANTI_LINKS_ON")
         : guild.getT("automod:DELETE.ANTI_LINKS_OFF");
@@ -225,7 +225,7 @@ async function maxLines(settings, input, guild) {
     if (isNaN(lines)) return guild.getT("automod:DELETE.ANTI_MAXLINES_NAN");
 
     settings.max_lines = lines;
-    await plugin.updateSettings(guild, settings);
+    await settings.save();
     return input === 0
         ? guild.getT("automod:DELETE.ANTI_MAXLINES_DISABLED")
         : guild.getT("automod:DELETE.ANTI_MAXLINES_SET", { amount: lines });

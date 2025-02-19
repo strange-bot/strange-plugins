@@ -1,5 +1,5 @@
 const { EmbedBuilder } = require("discord.js");
-const plugin = require("../index");
+const db = require("../../db.service");
 
 /**
  * This function saves stats for a new message
@@ -9,7 +9,7 @@ module.exports = async (message) => {
     if (message.partial) return;
     if (message.author.bot || !message.guild) return;
 
-    const settings = await plugin.getSettings(message.guild);
+    const settings = await db.getSettings(message.guild);
 
     if (!settings.anti_ghostping || !settings.log_channel) return;
     const { guild } = message;

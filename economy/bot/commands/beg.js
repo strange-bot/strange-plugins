@@ -1,5 +1,5 @@
 const { EmbedUtils } = require("strange-sdk/utils");
-const { getUser } = require("../schemas/Economy");
+const db = require("../../db.service");
 
 /**
  * @type {import('strange-sdk').CommandType}
@@ -61,7 +61,7 @@ async function beg(guild, user) {
     let amount = Math.floor(
         Math.random() * `${settings.max_beg_amount}` + `${settings.min_beg_amount}`,
     );
-    const userDb = await getUser(user);
+    const userDb = await db.getUser(user);
     userDb.coins += amount;
     await userDb.save();
 

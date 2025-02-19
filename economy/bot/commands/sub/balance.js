@@ -1,8 +1,8 @@
 const { EmbedUtils } = require("strange-sdk/utils");
-const { getUser } = require("../../schemas/Economy");
+const db = require("../../../db.service");
 
 module.exports = async (guild, user) => {
-    const [settings, economy] = await Promise.all([guild.getSettings("economy"), getUser(user)]);
+    const [settings, economy] = await Promise.all([guild.getSettings("economy"), db.getUser(user)]);
 
     const embed = EmbedUtils.embed()
         .setAuthor({ name: user.username })

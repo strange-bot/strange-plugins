@@ -7,7 +7,7 @@ router.get("/", (_req, res) => {
 
 router.put("/", async (req, res) => {
     const body = req.body;
-    const { plugin, config } = res.locals;
+    const { config } = res.locals;
 
     if (
         (body.currency && typeof body.currency !== "string") ||
@@ -25,7 +25,7 @@ router.put("/", async (req, res) => {
     config["MAX_BEG_AMOUNT"] = body.max_beg_amount;
     config["BEG_INTERVAL"] = body.beg_interval;
 
-    await plugin.setConfig(config);
+    await config.save();
     res.sendStatus(200);
 });
 

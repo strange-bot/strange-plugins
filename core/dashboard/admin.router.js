@@ -1,17 +1,16 @@
 const path = require("path");
 const router = require("express").Router();
-const languages = require("strange-i18n/languages-meta.json");
 
-router.get("/", (_req, res) => {
+router.get("/", (req, res) => {
     res.render(path.join(__dirname, "views", "admin.ejs"), {
         config: res.locals.config,
-        languages: languages.map((lang) => lang.name),
+        languages: req.app.i18n.availableLanguages,
     });
 });
 
 router.put("/", async (req, res) => {
     const body = req.body;
-    const { plugin, config } = res.locals;
+    const { config } = res.locals;
 
     // Server Config
     if (Object.prototype.hasOwnProperty.call(body, "server_config")) {
@@ -33,7 +32,7 @@ router.put("/", async (req, res) => {
         body.context_menus = body.context_menus === "on";
         config.INTERACTIONS.CONTEXT = body.context_menus;
 
-        await plugin.setConfig(config);
+        await config.save();
     }
 
     // Dashboard Config
@@ -48,7 +47,7 @@ router.put("/", async (req, res) => {
         config.DASHBOARD.LOGO_NAME = body.logo;
         config.DASHBOARD.LOGO_URL = body.logo_url;
 
-        await plugin.setConfig(config);
+        await config.save();
     }
 
     res.sendStatus(200);

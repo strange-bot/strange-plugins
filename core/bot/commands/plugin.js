@@ -5,7 +5,6 @@ const {
     ChatInputCommandInteraction,
     ComponentType,
 } = require("discord.js");
-const DatabaseClient = require("strange-db-client");
 const { EmbedUtils } = require("strange-sdk/utils");
 
 /**
@@ -149,15 +148,14 @@ async function pluginInfo({ client, guild }, plugin) {
         .find((p) => p.name === plugin);
     if (!p) return guild.getT("core:PLUGIN.NOT_FOUND", { plugin });
 
-    const settings = p.getSettings(guild);
-
+    const enabledPlugins = await guild.getEnabledPlugins();
     const embed = EmbedUtils.embed()
         .setAuthor({ name: guild.getT("core:PLUGIN.INFO_EMBED_TITLE", { plugin }) })
         .setDescription(
             guild.getT("core:PLUGIN.INFO_EMBED_DESC", {
                 name: p.name,
                 version: p.version,
-                status: settings.enabled
+                status: enabledPlugins.includes(p.name)
                     ? guild.getT("core:PLUGIN.ENABLED")
                     : guild.getT("core:PLUGIN.DISABLED"),
                 prefixCmds: [...p.commands].filter((c) => c.command.enabled).length,
@@ -224,19 +222,13 @@ async function pluginStatus(arg0) {
         components: [],
     });
 
-    const allSettings = await DatabaseClient.getInstance().getSettings(guild.id);
-    const pluginUpdates = Object.entries(allSettings.plugins).map(([key, value]) => ({
-        key,
-        value: {
-            ...value,
-            enabled: key === "core" ? true : waiter.values.includes(key),
-        },
-    }));
+    const disabled = guild.client.pluginManager.plugins
+        .map((p) => p.name)
+        .filter((p) => !waiter.values.includes(p) && p !== "core");
 
-    // Update settings for each plugin sequentially
-    for (const plugin of pluginUpdates) {
-        await guild.updateSettings(plugin.key, plugin.value);
-    }
+    const coreSettings = await guild.getSettings("core");
+    coreSettings.disabledPlugins = disabled;
+    await coreSettings.save();
 
     await sentMsg.edit({
         content: guild.getT("core:PLUGIN.STATUS_SELECT_SUCCESS"),

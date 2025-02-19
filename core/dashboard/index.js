@@ -1,10 +1,9 @@
 const { DashboardPlugin } = require("strange-sdk");
 
-const plugin = new DashboardPlugin({
+module.exports = new DashboardPlugin({
     baseDir: __dirname,
     icon: "fa-solid fa-star",
     dashboardRouter: require("./settings.router"),
     adminRouter: require("./admin.router"),
+    dbService: require("../db.service"),
 });
-
-module.exports = plugin;

@@ -1,12 +1,12 @@
 const { EmbedUtils } = require("strange-sdk/utils");
-const { getUser } = require("../../schemas/Economy");
+const db = require("../../../db.service");
 
 module.exports = async (guild, self, target, coins) => {
     if (isNaN(coins) || coins <= 0) return guild.getT("economy:BANK.INVALID_TRANSFER_AMOUNT");
     if (target.bot) return guild.getT("economy:BANK.TRANSFER_BOTS");
     if (target.id === self.id) return guild.getT("economy:BANK.TRANSFER_SELF");
 
-    const [settings, userDb] = await Promise.all([guild.getSettings("economy"), getUser(self)]);
+    const [settings, userDb] = await Promise.all([guild.getSettings("economy"), db.getUser(self)]);
 
     if (userDb.bank < coins) {
         return `${guild.getT("economy:BANK.TRANSFER_INSUFFICIENT", {
@@ -15,7 +15,7 @@ module.exports = async (guild, self, target, coins) => {
         })}.${userDb.coins > 0 && "\n" + guild.getT("economy:BANK.TRANSFER_DEPOSIT")} `;
     }
 
-    const targetDb = await getUser(target);
+    const targetDb = await db.getUser(target);
 
     userDb.bank -= coins;
     targetDb.bank += coins;

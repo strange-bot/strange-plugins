@@ -1,6 +1,6 @@
 const { ApplicationCommandOptionType } = require("discord.js");
 const { EmbedUtils, MiscUtils } = require("strange-sdk/utils");
-const { getUser } = require("../schemas/Economy");
+const db = require("../../db.service");
 
 /**
  * @type {import('strange-sdk').CommandType}
@@ -79,7 +79,7 @@ async function gamble(guild, user, betAmount) {
     if (betAmount < 10) return guild.getT("economy:GAMBLE.INVALID_AMOUNT_MIN", { min: 10 });
 
     const settings = await guild.getSettings("economy");
-    const userDb = await getUser(user);
+    const userDb = await db.getUser(user);
     if (userDb.coins < betAmount)
         return guild.getT("economy:GAMBLE.INSUFFICIENT_COINS", {
             coins: userDb.coins || 0,

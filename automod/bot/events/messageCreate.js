@@ -1,8 +1,6 @@
 const { MiscUtils, Logger, EmbedUtils } = require("strange-sdk/utils");
-const { getMember } = require("../schemas/Strikes");
-const { addAutoModLogToDb } = require("../schemas/AutomodLogs");
 const { antispamCache, MESSAGE_SPAM_THRESHOLD, shouldModerate } = require("../utils");
-const plugin = require("../index");
+const db = require("../../db.service");
 
 let addModAction;
 try {
@@ -21,7 +19,7 @@ module.exports = async (message) => {
     if (message.system || message.webhookId) return;
     if (message.author.bot && message.author.id === message.guild.members.me.id) return;
 
-    const settings = await plugin.getSettings(message.guild);
+    const settings = await db.getSettings(message.guild);
 
     if (settings.wh_channels.includes(message.channelId)) return;
     if (!settings.debug && !shouldModerate(message)) return;
@@ -175,12 +173,12 @@ module.exports = async (message) => {
 
     if (strikesTotal > 0) {
         // add strikes to member
-        const memberDb = await getMember(guild.id, author.id);
-        memberDb.strikes += strikesTotal;
+        let dbStrikes = await db.getStrikes(guild.id, author.id);
+        dbStrikes += strikesTotal;
 
         // log to db
         const reason = fields.map((field) => field.name + ": " + field.value).join("\n");
-        addAutoModLogToDb(member, content, reason, strikesTotal).catch(() => {});
+        db.addAutoModLogToDb(member, content, reason, strikesTotal).catch(() => {});
 
         // send automod log
         if (logChannel) {
@@ -215,7 +213,7 @@ module.exports = async (message) => {
                 guild.getT("automod:HANDLER.AUTO_DM_DESC", {
                     guild: guild.name,
                     strikes: strikesTotal,
-                    total: memberDb.strikes,
+                    total: dbStrikes,
                     max: settings.strikes,
                 }),
             );
@@ -227,9 +225,9 @@ module.exports = async (message) => {
         author.send({ embeds: [strikeEmbed] }).catch(() => {});
 
         // check if max strikes are received
-        if (memberDb.strikes >= settings.strikes) {
+        if (dbStrikes >= settings.strikes) {
             // Reset Strikes
-            memberDb.strikes = 0;
+            dbStrikes = 0;
 
             // Add Moderation Action
             await addModAction(
@@ -240,6 +238,6 @@ module.exports = async (message) => {
             ).catch(() => {});
         }
 
-        await memberDb.save();
+        await db.updateStrikes(guild.id, author.id, dbStrikes);
     }
 };

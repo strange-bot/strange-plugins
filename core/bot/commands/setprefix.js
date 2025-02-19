@@ -1,5 +1,5 @@
 const { ApplicationCommandOptionType } = require("discord.js");
-const plugin = require("../index");
+const db = require("../../db.service");
 
 /**
  * @type {import('strange-sdk').CommandType}
@@ -47,10 +47,10 @@ module.exports = {
  */
 async function setNewPrefix(guild, newPrefix) {
     if (newPrefix.length > 2) return guild.getT("core:PREFIX.TOO_LONG");
-    const settings = await plugin.getSettings(guild);
 
+    const settings = await db.getSettings(guild);
     settings.prefix = newPrefix;
-    await guild.updateSettings("core", settings);
+    await settings.save();
 
     return guild.getT("core:PREFIX.SUCCESS", { prefix: newPrefix });
 }

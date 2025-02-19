@@ -175,7 +175,7 @@ module.exports = {
 async function antiGhostPing(settings, input, guild) {
     const status = input.toUpperCase() === "ON" ? true : false;
     settings.anti_ghostping = status;
-    await plugin.updateSettings(guild, settings);
+    await settings.save();
     return status
         ? guild.getT("automod:ANTI.GHOSTPING_ENABLED")
         : guild.getT("automod:ANTI.GHOSTPING_DISABLED");
@@ -184,7 +184,7 @@ async function antiGhostPing(settings, input, guild) {
 async function antiSpam(settings, input, guild) {
     const status = input.toUpperCase() === "ON" ? true : false;
     settings.anti_spam = status;
-    await plugin.updateSettings(guild, settings);
+    await settings.save();
     return status
         ? guild.getT("automod:ANTI.SPAM_ENABLED")
         : guild.getT("automod:ANTI.SPAM_DISABLED");
@@ -197,7 +197,7 @@ async function antiMassMention(settings, input, threshold, guild) {
     } else {
         settings.anti_massmention = threshold;
     }
-    await plugin.updateSettings(guild, settings);
+    await settings.save();
     return status
         ? guild.getT("automod:ANTI.MASS_MENTION_ENABLED", { threshold })
         : guild.getT("automod:ANTI.MASS_MENTION_DISABLED");
