@@ -21,6 +21,16 @@ router.put("/", async (req, res) => {
                 return res.status(400).json({ error: "Invalid language" });
             }
             if (settings.locale !== body.locale) {
+                const ipcResp = await req.broadcast("setGuildLocale", {
+                    guildId: res.locals.guild.id,
+                    locale: body.locale,
+                });
+
+                const status = ipcResp.find((d) => d.success)?.data;
+                if (status !== "OK") {
+                    return res.status(500).json({ error: "Failed to set locale" });
+                }
+
                 settings.locale = body.locale;
             }
         }

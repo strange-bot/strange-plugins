@@ -33,11 +33,11 @@
 
     "PING": {
         "DESCRIPTION": "shows the current ping from the bot to the discord servers",
-        "TITLE": "🏓Pong",
-        "RESPONSE": "🏓 Pong : `{{ping}}ms`",
-        "MESSAGE_LATENCY": "📨 Latence des messages",
-        "RESPONSE_TIME": "⚡ Temps de réponse",
-        "API_LATENCY": "🌐 Latence API"
+        "TITLE": "🏓 Pong",
+        "RESPONSE": "🏓 Pong : `{{ping}}ms`",
+        "MESSAGE_LATENCY": "📨 Message Latency",
+        "RESPONSE_TIME": "⚡ Response Time",
+        "API_LATENCY": "🌐 API Latency"
     },
 
     "PLUGIN": {

@@ -5,8 +5,8 @@ const db = require("../../db.service");
  * @param {import('discord.js').VoiceState} newState
  */
 module.exports = async (oldState, newState) => {
-    const settings = await newState.guild.getSettings("stats");
-    if (!settings.enabled) return;
+    const coreSettings = await newState.guild.getSettings("core");
+    if (coreSettings.disabled_plugins.includes("stats")) return;
 
     const oldChannel = oldState.channel;
     const newChannel = newState.channel;

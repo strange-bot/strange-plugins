@@ -51,11 +51,16 @@ module.exports = {
 };
 
 async function setStatus(input, { guild }) {
-    const settings = await guild.getSettings("stats");
+    const settings = await guild.getSettings("core");
     const status = input.toLowerCase() === "on" ? true : false;
+    if (status) {
+        settings.disabled_plugin = settings.disabled_plugins.filter((plugin) => plugin !== "stats");
+    } else {
+        if (!settings.disabled_plugins.includes("stats")) {
+            settings.disabled_plugins.push("stats");
+        }
+    }
 
-    settings.enabled = status;
     await settings.save();
-
     return status ? guild.getT("stats:TRACKING.ENABLED") : guild.getT("stats:TRACKING.DISABLED");
 }

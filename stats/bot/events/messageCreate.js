@@ -27,9 +27,12 @@ const parse = (content, member, level) => {
  */
 module.exports = async (message) => {
     if (message.author.bot || message.system || message.webhookId) return;
-    const settings = await message.guild.getSettings("stats");
+    const [coreSettings, settings] = await Promise.all([
+        message.guild.getSettings("core"),
+        message.guild.getSettings("stats"),
+    ]);
 
-    if (!settings.enabled) return;
+    if (coreSettings.disabled_plugins.includes("stats")) return;
 
     // Log to DB
     const data = {

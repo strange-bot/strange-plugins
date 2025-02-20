@@ -8,10 +8,7 @@ class SuggestionService extends DBService {
     defineSchemas(config) {
         return {
             settings: new Schema({
-                enabled: {
-                    type: Boolean,
-                    default: true,
-                },
+                _id: String,
                 upvote_emoji: {
                     type: String,
                     default: config["UPVOTE_EMOJI"],

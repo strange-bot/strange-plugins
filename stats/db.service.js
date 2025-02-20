@@ -49,9 +49,9 @@ class StatsService extends DBService {
                 },
                 xp: { type: Number, default: 0 },
                 level: { type: Number, default: 1 },
-            }).post("save", async function () {
-                const key = `${this.guild_id}-${this.member_id}`;
-                this.cache(key, this);
+            }).post("save", async (doc) => {
+                const key = `${doc.guild_id}-${doc.member_id}`;
+                this.cache(key, doc);
             }),
 
             "message-logs": new Schema({
@@ -95,7 +95,7 @@ class StatsService extends DBService {
         const Model = this.getModel("member-stats");
         const key = `${guildId}-${memberId}`;
 
-        const cached = this.getCache(key);
+        const cached = await this.getCache(key);
         if (cached) {
             return cached === "null"
                 ? new Model({ guild_id: guildId, member_id: memberId })

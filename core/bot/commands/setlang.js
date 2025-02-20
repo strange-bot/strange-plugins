@@ -64,6 +64,7 @@ async function setNewLang(guild, newLang) {
 
     const settings = await db.getSettings(guild);
     settings.locale = newLang;
+    guild.locale = newLang;
     await settings.save();
 
     return guild.getT("core:LANG.SUCCESS", { lang: newLang });
