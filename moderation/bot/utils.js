@@ -1,7 +1,7 @@
 const { Collection, EmbedBuilder, GuildMember } = require("discord.js");
 const { MiscUtils, Logger } = require("strange-sdk/utils");
+const db = require("../db.service");
 const plugin = require("./index");
-const Model = plugin.getModel("mod-logs");
 
 const DEFAULT_TIMEOUT_HOURS = 24; //hours
 
@@ -129,7 +129,7 @@ const logModeration = async (issuer, target, reason, type, data = {}) => {
 
     embed.setFields(fields);
 
-    await new Model({
+    await db.getModel("logs").create({
         guild_id: issuer.guild.id,
         member_id: target.id,
         reason,
@@ -138,7 +138,7 @@ const logModeration = async (issuer, target, reason, type, data = {}) => {
             tag: issuer.user.tag,
         },
         type: type?.toUpperCase(),
-    }).save();
+    });
     if (logChannel) logChannel.send({ embeds: [embed] });
 };
 
@@ -269,12 +269,15 @@ module.exports = class ModUtils {
         const settings = await plugin.getSettings(issuer.guild.id);
 
         try {
-            const warnings = await Model.find({
-                guild_id: issuer.guild.id,
-                member_id: target.id,
-                type: "WARN",
-                deleted: false,
-            }).lean();
+            const warnings = await db
+                .getModel("logs")
+                .find({
+                    guild_id: issuer.guild.id,
+                    member_id: target.id,
+                    type: "WARN",
+                    deleted: false,
+                })
+                .lean();
             logModeration(issuer, target, reason, "Warn");
             let warningCount = warnings?.length || 0;
             warningCount += 1;

@@ -63,7 +63,7 @@ async function setChannel({ guild }, targetChannel) {
     }
 
     settings.modlog_channel = targetChannel?.id;
-    await plugin.updateSettings(guild, settings);
+    await settings.save();
 
     return targetChannel
         ? guild.getT("moderation:MODLOG.SUCCESS", { channel: targetChannel.toString() })

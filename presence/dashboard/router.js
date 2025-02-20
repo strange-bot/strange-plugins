@@ -25,7 +25,7 @@ router.put("/", async (req, res) => {
         config.TYPE = type;
         config.MESSAGE = message;
 
-        await res.locals.plugin.setConfig(config);
+        await config.save();
         res.json({ success: true });
     } catch (error) {
         res.sendStatus(500);

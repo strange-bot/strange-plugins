@@ -11,12 +11,11 @@ router.get("/", async (req, res) => {
 });
 
 router.put("/", async (req, res) => {
-    const { guild, settings, plugin } = res.locals;
+    const { settings } = res.locals;
     const body = req.body;
 
-    const xp_ch = body.xp_channel ? guild.channels.cache.get(body.xp_channel)?.id : null;
-    if (xp_ch != settings.xp.channel) {
-        settings.xp.channel = xp_ch;
+    if (body.xp_channel != settings.xp.channel) {
+        settings.xp.channel = body.xp_channel;
     }
 
     if (body.cooldown && !isNaN(body.cooldown) && body.cooldown != settings.xp.cooldown) {
@@ -27,7 +26,7 @@ router.put("/", async (req, res) => {
         settings.xp.message = body.xp_message;
     }
 
-    await plugin.updateSettings(guild.id, settings);
+    await settings.save();
     res.sendStatus(200);
 });
 

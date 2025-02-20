@@ -47,25 +47,29 @@ class EconomyService extends DBService {
     async getUser(user) {
         if (!user) throw new Error("User is required.");
         if (!user.id) throw new Error("User Id is required.");
-
         const Model = this.getModel("economy");
 
         const cached = await this.getCache(user.id);
         if (cached) {
-            return Model.hydrate(cached);
+            return cached === "null"
+                ? new Model({
+                      _id: user.id,
+                      username: user.username,
+                      discriminator: user.discriminator,
+                  })
+                : Model.hydrate(JSON.parse(cached));
         }
 
         let userDb = await Model.findById(user.id);
-        if (!userDb) {
-            userDb = new Model({
+        await this.cache(user.id, userDb);
+        return (
+            userDb ||
+            new Model({
                 _id: user.id,
                 username: user.username,
                 discriminator: user.discriminator,
-            });
-        }
-
-        await this.cache(user.id, userDb);
-        return userDb;
+            })
+        );
     }
 }
 

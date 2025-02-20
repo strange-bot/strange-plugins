@@ -1,6 +1,6 @@
 const { ActionRowBuilder, ButtonBuilder, ButtonStyle, EmbedBuilder } = require("discord.js");
-const { findSuggestion, deleteSuggestionDb } = require("./schemas/Suggestions");
 const { stripIndents } = require("common-tags");
+const db = require("../db.service");
 
 /**
  * @param {import('discord.js').Message} message
@@ -54,7 +54,7 @@ async function approveSuggestion(member, messageId, reason) {
     }
 
     // validate if document exists
-    const doc = await findSuggestion(guild.id, messageId);
+    const doc = await db.findSuggestion(guild.id, messageId);
     if (!doc || !doc.channel_id) return guild.getT("suggestion:HANDLER.NOT_FOUND");
     if (doc.status === "APPROVED") return guild.getT("suggestion:HANDLER.ALREADY_APPROVED");
 
@@ -181,7 +181,7 @@ async function rejectSuggestion(member, messageId, reason) {
     }
 
     // validate if document exists
-    const doc = await findSuggestion(guild.id, messageId);
+    const doc = await db.findSuggestion(guild.id, messageId);
     if (!doc || !doc.channel_id) return guild.getT("suggestion:HANDLER.NOT_FOUND");
     if (doc.is_rejected) return guild.getT("suggestion:HANDLER.ALREADY_REJECTED");
 
@@ -306,7 +306,7 @@ async function deleteSuggestion(member, channel, messageId, reason) {
 
     try {
         await channel.messages.delete(messageId);
-        await deleteSuggestionDb(guild.id, messageId, member.id, reason);
+        await db.deleteSuggestionDb(guild.id, messageId, member.id, reason);
         return guild.getT("suggestion:HANDLER.DELETED");
     } catch (ex) {
         guild.client.logger.error("deleteSuggestion", ex);

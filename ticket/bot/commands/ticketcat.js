@@ -200,7 +200,7 @@ async function addCategory({ guild }, settings, category, description) {
     }
 
     settings.categories.push({ name: category, description });
-    await guild.updateSettings("ticket", settings);
+    await settings.save();
 
     return guild.getT("ticket:CATEGORY.ADD_SUCCESS", { category });
 }
@@ -214,7 +214,7 @@ async function removeCategory({ guild }, settings, category) {
     }
 
     settings.categories = categories.filter((c) => c.name !== category);
-    await guild.updateSettings("ticket", settings);
+    await settings.save();
 
     return guild.getT("ticket:CATEGORY.REMOVE_SUCCESS", { category });
 }
@@ -388,7 +388,7 @@ async function configCategory(arg0, settings, category) {
                 cat.member_roles.splice(cat.member_roles.indexOf(roleRemove), 1);
             }
 
-            await guild.updateSettings("ticket", settings);
+            await settings.save();
             await modal.followUp(guild.getT("ticket:CATEGORY.CONFIG_MEM_ROLE_SUCCESS"));
         }
 
@@ -415,7 +415,7 @@ async function configCategory(arg0, settings, category) {
                 cat.staff_roles.splice(cat.staff_roles.indexOf(roleRemove), 1);
             }
 
-            await guild.updateSettings("ticket", settings);
+            await settings.save();
             await modal.followUp(guild.getT("ticket:CATEGORY.CONFIG_STAFF_ROLE_SUCCESS"));
         }
 
@@ -430,7 +430,7 @@ async function configCategory(arg0, settings, category) {
                 description,
                 footer,
             };
-            await guild.updateSettings("ticket", settings);
+            await settings.save();
             await modal.followUp(guild.getT("ticket:CATEGORY.CONFIG_MSG_SUCCESS"));
         }
     });

@@ -3,6 +3,7 @@ const { ChannelType } = require("discord.js");
 
 module.exports = new BotPlugin({
     baseDir: __dirname,
+    dbService: require("../db.service"),
     ipcHandler: {
         getChannelsOf: async (payload, client) => {
             const guild = client.guilds.cache.get(payload);

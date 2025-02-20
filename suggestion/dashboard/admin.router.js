@@ -7,7 +7,7 @@ router.get("/", (_req, res) => {
 
 router.put("/", async (req, res) => {
     const body = req.body;
-    const { plugin, config } = res.locals;
+    const { config } = res.locals;
 
     // Update config values if changed
     if (body.upvote_emoji && body.upvote_emoji !== config.UPVOTE_EMOJI) {
@@ -30,7 +30,7 @@ router.put("/", async (req, res) => {
         config.DENIED_EMBED = body.rejected_embed;
     }
 
-    await plugin.setConfig(config);
+    await config.save();
     res.sendStatus(200);
 });
 

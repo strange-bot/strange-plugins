@@ -14,8 +14,7 @@ const {
     ButtonBuilder,
     ButtonStyle,
 } = require("discord.js");
-const { addTicketLog } = require("../schemas/TicketLogs");
-const plugin = require("../index");
+const db = require("../../db.service");
 
 const OPEN_PERMS = ["ManageChannels"];
 
@@ -24,7 +23,7 @@ const OPEN_PERMS = ["ManageChannels"];
  */
 module.exports = async (interaction) => {
     if (!interaction.inGuild() || !interaction.isButton()) return;
-    const settings = await plugin.getSettings(interaction.guild);
+    const settings = await db.getSettings(interaction.guild);
     if (!settings.enabled) return;
 
     //  Ticket Open Button
@@ -311,7 +310,7 @@ module.exports = async (interaction) => {
                 user.send({ embeds: [dmEmbed], components: [chBtnRow] }).catch(() => {});
             }
 
-            await addTicketLog({
+            await db.addTicketLog({
                 ticket_id: ticketId,
                 guild_id: guild.id,
                 channel_id: tktChannel.id,

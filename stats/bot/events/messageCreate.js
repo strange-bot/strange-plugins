@@ -1,6 +1,5 @@
-const { getMemberStats } = require("../schemas/MemberStats");
 const { MiscUtils } = require("strange-sdk/utils");
-const MessageLogs = require("../schemas/MessageLogs");
+const db = require("../../db.service");
 
 const cooldownCache = new Map();
 const xpToAdd = () => MiscUtils.getRandomInt(19) + 1;
@@ -44,9 +43,9 @@ module.exports = async (message) => {
     };
 
     if (message.isCommand) data.cmd_name = message.commandName;
-    MessageLogs.create(data);
+    db.getModel("message-logs").create(data);
 
-    const statsDb = await getMemberStats(message.guildId, message.member.id);
+    const statsDb = await db.getMemberStats(message.guildId, message.member.id);
     if (message.isCommand) statsDb.commands.prefix++;
     statsDb.messages++;
 

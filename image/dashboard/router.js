@@ -6,7 +6,7 @@ router.get("/", (_req, res) => {
 });
 
 router.post("/", async (req, res) => {
-    const { plugin, config } = res.locals;
+    const { config } = res.locals;
     const body = req.body;
 
     // Config
@@ -22,7 +22,7 @@ router.post("/", async (req, res) => {
     config["STRANGE_API_URL"] = body.api_url;
     config["STRANGE_API_KEY"] = body.api_key;
 
-    await plugin.setConfig(config);
+    await config.save();
     res.sendStatus(200);
 });
 

@@ -5,8 +5,8 @@ const {
     ApplicationCommandOptionType,
     ButtonStyle,
 } = require("discord.js");
-const { addSuggestion } = require("../schemas/Suggestions");
 const { stripIndent } = require("common-tags");
+const db = require("../../db.service");
 
 /**
  * @type {import('strange-sdk').CommandType}
@@ -101,7 +101,7 @@ async function suggest({ guild, member }, suggestion) {
         await sentMsg.react(settings.upvote_emoji);
         await sentMsg.react(settings.downvote_emoji);
 
-        await addSuggestion(sentMsg, member.id, suggestion);
+        await db.addSuggestion(sentMsg, member.id, suggestion);
 
         return true;
     } catch (ex) {

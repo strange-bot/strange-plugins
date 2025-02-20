@@ -1,11 +1,11 @@
 const { GiveawaysManager } = require("discord-giveaways");
+const db = require("../db.service");
 
 class MongooseGiveaways extends GiveawaysManager {
     /**
      * @param {import("discord.js").Client} client
-     * @param {import("strange-sdk").BotPlugin} plugin
      */
-    constructor(client, plugin) {
+    constructor(client) {
         super(
             client,
             {
@@ -15,7 +15,7 @@ class MongooseGiveaways extends GiveawaysManager {
             },
             false, // do not initialize manager yet
         );
-        this.Model = plugin.getModel("giveaways");
+        this.Model = db.getModel("giveaways");
     }
 
     async getAllGiveaways() {
@@ -38,4 +38,4 @@ class MongooseGiveaways extends GiveawaysManager {
     }
 }
 
-module.exports = (client, plugin) => new MongooseGiveaways(client, plugin);
+module.exports = (client) => new MongooseGiveaways(client);

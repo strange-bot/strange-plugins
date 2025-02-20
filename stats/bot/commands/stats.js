@@ -1,6 +1,6 @@
 const { ApplicationCommandOptionType } = require("discord.js");
-const { getMemberStats } = require("../schemas/MemberStats");
 const { EmbedUtils } = require("strange-sdk/utils");
+const db = require("../../db.service");
 
 /**
  * @type {import('strange-sdk').CommandType}
@@ -46,7 +46,7 @@ async function stats(member) {
     const settings = await guild.getSettings("stats");
 
     if (!settings.enabled) return guild.getT("stats:COMMON.DISABLED");
-    const memberStats = await getMemberStats(member.guild.id, member.id);
+    const memberStats = await db.getMemberStats(member.guild.id, member.id);
 
     const embed = EmbedUtils.embed()
         .setThumbnail(member.user.displayAvatarURL())

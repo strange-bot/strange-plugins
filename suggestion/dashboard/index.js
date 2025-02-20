@@ -5,4 +5,5 @@ module.exports = new DashboardPlugin({
     baseDir: __dirname,
     dashboardRouter: require("./settings.router"),
     adminRouter: require("./admin.router"),
+    dbService: require("../db.service"),
 });

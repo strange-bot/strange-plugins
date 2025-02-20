@@ -110,8 +110,10 @@ module.exports = {
 
 async function setMessage(guild, message, settings) {
     if (!message) return guild.getT("stats:XP.INVALID_MESSAGE");
+
     settings.xp.message = message;
-    await guild.updateSettings("stats", settings);
+    await settings.save();
+
     return guild.getT("stats:XP.MESSAGE_SAVED");
 }
 
@@ -120,7 +122,7 @@ async function setChannel(guild, channel, settings) {
 
     if (channel === "off") settings.xp.channel = null;
     else settings.xp.channel = channel.id;
+    await settings.save();
 
-    await guild.updateSettings("stats", settings);
     return guild.getT("stats:XP.CHANNEL_SAVED");
 }

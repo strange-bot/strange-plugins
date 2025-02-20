@@ -12,7 +12,7 @@
         "twemoji-parser": "^14.0.0"
     },
     "peerDependencies": {
-        "discord.js": "^14.0.0",
+        "discord.js": "^14.18.0",
         "strange-sdk": "workspace:*"
     }
 }

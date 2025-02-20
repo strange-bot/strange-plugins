@@ -55,7 +55,7 @@ async function setStatus(input, { guild }) {
     const status = input.toLowerCase() === "on" ? true : false;
 
     settings.enabled = status;
-    await guild.updateSettings("stats", settings);
+    await settings.save();
 
     return status ? guild.getT("stats:TRACKING.ENABLED") : guild.getT("stats:TRACKING.DISABLED");
 }

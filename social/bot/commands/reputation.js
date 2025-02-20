@@ -1,6 +1,6 @@
 const { ApplicationCommandOptionType } = require("discord.js");
 const { MiscUtils, EmbedUtils } = require("strange-sdk/utils");
-const { getSocial } = require("../schemas/Social");
+const db = require("../../db.service");
 
 /**
  * @type {import('strange-sdk').CommandType}
@@ -106,7 +106,7 @@ module.exports = {
 };
 
 async function viewReputation({ guild }, target) {
-    const userData = await getSocial(target);
+    const userData = await db.getSocial(target);
     if (!userData) return guild.getT("social:REP.NO_REP", { user: target.username });
 
     const embed = EmbedUtils.embed()
@@ -134,7 +134,7 @@ async function giveReputation({ guild }, user, target) {
     if (target.bot) return guild.getT("social:REP.BOT_REP");
     if (target.id === user.id) return guild.getT("social:REP.SELF_REP");
 
-    const userData = await getSocial(user);
+    const userData = await db.getSocial(user);
     if (userData && userData.reputation.timestamp) {
         const lastRep = new Date(userData.reputation.timestamp);
         const diff = MiscUtils.diffHours(new Date(), lastRep);
@@ -146,7 +146,7 @@ async function giveReputation({ guild }, user, target) {
         }
     }
 
-    const targetData = await getSocial(target);
+    const targetData = await db.getSocial(target);
 
     userData.reputation.given += 1;
     userData.reputation.timestamp = new Date();

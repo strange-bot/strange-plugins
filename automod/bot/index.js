@@ -8,6 +8,7 @@ module.exports = new BotPlugin({
         cleanupCache();
     },
 
+    dbService: require("../db.service"),
     ipcHandler: {
         getChannelsOf: async (payload, client) => {
             const guild = client.guilds.cache.get(payload);

@@ -321,7 +321,7 @@ module.exports = {
 async function setChannel(guild, settings, channel) {
     if (!channel) {
         settings.channel_id = null;
-        await guild.updateSettings("suggestion", settings);
+        await settings.save();
         return guild.getT("suggestion:SUGGESTION.CHANNEL_DISABLED");
     }
 
@@ -333,14 +333,14 @@ async function setChannel(guild, settings, channel) {
     }
 
     settings.channel_id = channel.id;
-    await guild.updateSettings("suggestion", settings);
+    await settings.save();
     return guild.getT("suggestion:SUGGESTION.CHANNEL_SET", { channel: channel.name });
 }
 
 async function setApprovedChannel(guild, settings, channel) {
     if (!channel) {
         settings.approved_channel = null;
-        await guild.updateSettings("suggestion", settings);
+        await settings.save();
         return guild.getT("suggestion:SUGGESTION.APPROVED_DISABLED");
     }
 
@@ -352,14 +352,14 @@ async function setApprovedChannel(guild, settings, channel) {
     }
 
     settings.approved_channel = channel.id;
-    await guild.updateSettings("suggestion", settings);
+    await settings.save();
     return guild.getT("suggestion:SUGGESTION.APPROVED_SET", { channel: channel.name });
 }
 
 async function setRejectedChannel(guild, settings, channel) {
     if (!channel) {
         settings.rejected_channel = null;
-        await guild.updateSettings("suggestion", settings);
+        await settings.save();
         return guild.getT("suggestion:SUGGESTION.REJECTED_DISABLED");
     }
 
@@ -371,7 +371,7 @@ async function setRejectedChannel(guild, settings, channel) {
     }
 
     settings.rejected_channel = channel.id;
-    await guild.updateSettings("suggestion", settings);
+    await settings.save();
     return guild.getT("suggestion:SUGGESTION.REJECTED_SET", { channel: channel.name });
 }
 
@@ -380,7 +380,7 @@ async function addStaffRole(guild, settings, role) {
         return guild.getT("suggestion:SUGGESTION.STAFF_ROLE_EXISTS", { role: role.name });
     }
     settings.staff_roles.push(role.id);
-    await guild.updateSettings("suggestion", settings);
+    await settings.save();
     return guild.getT("suggestion:SUGGESTION.STAFF_ROLE_ADDED", { role: role.name });
 }
 
@@ -389,6 +389,6 @@ async function removeStaffRole(guild, settings, role) {
         return guild.getT("suggestion:SUGGESTION.STAFF_ROLE_NOT_EXISTS", { role: role.name });
     }
     settings.staff_roles.splice(settings.staff_roles.indexOf(role.id), 1);
-    await guild.updateSettings("suggestion", settings);
+    await settings.save();
     return guild.getT("suggestion:SUGGESTION.STAFF_ROLE_REMOVED", { role: role.name });
 }

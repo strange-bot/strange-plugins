@@ -6,7 +6,7 @@ router.get("/", (_req, res) => {
 });
 
 router.put("/", async (req, res) => {
-    const { config, plugin } = res.locals;
+    const { config } = res.locals;
     const body = req.body;
 
     if (body.reaction && body.reaction !== config["DEFAULT_EMOJI"]) {
@@ -21,7 +21,7 @@ router.put("/", async (req, res) => {
         config["END_EMBED_COLOR"] = body.end_embed_color;
     }
 
-    await plugin.setConfig(config);
+    await config.save();
     res.sendStatus(200);
 });
 

@@ -8,8 +8,7 @@
         "short-unique-id": "^5.0.3"
     },
     "peerDependencies": {
-        "discord.js": "^14.0.0",
-        "mongoose": "^7.6.11",
+        "discord.js": "^14.18.0",
         "strange-sdk": "workspace:*"
     }
 }

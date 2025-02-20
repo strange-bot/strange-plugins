@@ -386,7 +386,7 @@ async function setupLogChannel(guild, target, settings) {
     }
 
     settings.log_channel = target.id;
-    await guild.updateSettings("ticket", settings);
+    await settings.save();
 
     return guild.getT("ticket:TICKET.LOG_CHANNEL_SUCCESS", {
         channel: target.toString(),
@@ -397,7 +397,7 @@ async function setupLimit(guild, limit, settings) {
     if (Number.parseInt(limit, 10) < 5) return guild.getT("ticket:TICKET.LIMIT_TOO_LOW");
 
     settings.limit = limit;
-    await guild.updateSettings("ticket", settings);
+    await settings.save();
 
     return guild.getT("ticket:TICKET.LIMIT_SUCCESS", {
         limit,

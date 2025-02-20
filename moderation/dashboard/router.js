@@ -8,10 +8,8 @@ router.get("/", async (req, res) => {
 });
 
 router.put("/", async (req, res) => {
-    const guild = res.locals.guild;
     const body = req.body;
     const settings = res.locals.settings;
-    const plugin = res.locals.plugin;
 
     if (!body.log_channel) {
         settings.modlog_channel = null;
@@ -33,8 +31,7 @@ router.put("/", async (req, res) => {
         settings.max_warn.action = body.maxwarn_action;
     }
 
-    await plugin.updateSettings(guild.id, settings);
-
+    await settings.save();
     res.sendStatus(200);
 });
 

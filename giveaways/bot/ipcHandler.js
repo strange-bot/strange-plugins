@@ -7,6 +7,9 @@ const pause = require("./commands/sub/pause");
 const resume = require("./commands/sub/resume");
 const end = require("./commands/sub/end");
 
+/**
+ * @type {import('strange-sdk').IPCHandler}
+ */
 module.exports = {
     getGiveawaysOf: async (payload, client) => {
         return client.giveawaysManager.giveaways

@@ -21,7 +21,7 @@ router.get("/", async (req, res) => {
 });
 
 router.post("/", async (req, res) => {
-    const { guild, settings, plugin } = res.locals;
+    const { guild, settings } = res.locals;
     const body = req.body;
 
     // settings
@@ -38,7 +38,7 @@ router.post("/", async (req, res) => {
             settings.end_embed_color = body.end_embed_color;
         }
 
-        await plugin.updateSettings(guild.id, settings);
+        await settings.save();
         return res.sendStatus(200);
     }
 

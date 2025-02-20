@@ -1,6 +1,6 @@
 const { AttachmentBuilder, ApplicationCommandOptionType } = require("discord.js");
-const { getMemberStats, getXpLb } = require("../schemas/MemberStats");
 const { HttpUtils } = require("strange-sdk/utils");
+const db = require("../../db.service");
 const plugin = require("../index");
 
 /**
@@ -47,10 +47,10 @@ async function getRank({ guild }, member) {
 
     if (!settings.enabled) return guild.getT("stats:COMMON.DISABLED");
 
-    const memberStats = await getMemberStats(guild.id, user.id);
+    const memberStats = await db.getMemberStats(guild.id, user.id);
     if (!memberStats.xp) return guild.getT("stats:RANK.NOT_ENOUGH_XP", { user: user.username });
 
-    const lb = await getXpLb(guild.id, 100);
+    const lb = await db.getXpLb(guild.id, 100);
     let pos = -1;
     lb.forEach((doc, i) => {
         if (doc.member_id == user.id) {

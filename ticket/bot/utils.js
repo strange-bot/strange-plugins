@@ -6,9 +6,9 @@ const {
     ChannelType,
 } = require("discord.js");
 const { Logger } = require("strange-sdk/utils");
-const { closeTicketLog } = require("./schemas/TicketLogs");
 const ShortUniqueId = require("short-unique-id");
 const uid = new ShortUniqueId({ length: 8 });
+const db = require("../db.service");
 
 const CLOSE_PERMS = ["ManageChannels", "ReadMessageHistory"];
 
@@ -98,7 +98,7 @@ async function closeTicket(channel, closedBy, reason) {
 
         const ticketDetails = await parseTicketDetails(channel);
 
-        const ticketLog = await closeTicketLog(
+        const ticketLog = await db.closeTicketLog(
             guild.id,
             channel.id,
             ticketDetails.ticketId,

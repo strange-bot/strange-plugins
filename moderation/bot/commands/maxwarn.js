@@ -111,19 +111,13 @@ module.exports = {
     },
 };
 
-/**
- *
- */
 async function setLimit(guild, limit) {
     const settings = await plugin.getSettings(guild);
     settings.max_warn.limit = limit;
-    await plugin.updateSettings(guild, settings);
+    await settings.save();
     return guild.getT("moderation:MAXWARN.LIMIT_SET", { limit });
 }
 
-/**
- *
- */
 async function setAction(guild, action) {
     if (action === "TIMEOUT") {
         if (!guild.members.me.permissions.has("ModerateMembers")) {
@@ -144,6 +138,6 @@ async function setAction(guild, action) {
     }
     const settings = await plugin.getSettings(guild);
     settings.max_warn.action = action;
-    await plugin.updateSettings(guild, settings);
+    await settings.save();
     return guild.getT("moderation:MAXWARN.ACTION_SET", { action });
 }

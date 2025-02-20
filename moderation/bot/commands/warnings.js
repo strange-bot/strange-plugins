@@ -1,6 +1,5 @@
 const { EmbedBuilder, ApplicationCommandOptionType } = require("discord.js");
-const plugin = require("../index");
-const Model = plugin.getModel("mod-logs");
+const db = require("../../db.service");
 
 /**
  * @type {import('strange-sdk').CommandType}
@@ -106,20 +105,22 @@ module.exports = {
     },
 };
 
-/**
- *
- */
 async function listWarnings(target, { guild, guildId }) {
     if (!target) return guild.getT("moderation:WARNINGS.NO_USER");
 
-    const warnings = await Model.find({
-        guild_id: guildId,
-        member_id: target.id,
-        type: "WARN",
-        deleted: false,
-    }).lean();
-    if (!warnings.length)
+    const warnings = await db
+        .getModel("logs")
+        .find({
+            guild_id: guildId,
+            member_id: target.id,
+            type: "WARN",
+            deleted: false,
+        })
+        .lean();
+
+    if (!warnings.length) {
         return guild.getT("moderation:WARNINGS.NO_WARNINGS", { target: target.user.username });
+    }
 
     const acc = warnings
         .map((warning, i) => `${i + 1}. ${warning.reason} [By ${warning.admin.username}]`)
@@ -136,14 +137,11 @@ async function listWarnings(target, { guild, guildId }) {
     return { embeds: [embed] };
 }
 
-/**
- *
- */
 async function clearWarnings(target, { guild, guildId }) {
     if (!target) return guild.getT("moderation:WARNINGS.NO_USER");
     if (target.user.bot) return guild.getT("moderation:WARNINGS.NO_BOTS");
 
-    await Model.updateMany(
+    await db.getModel("logs").updateMany(
         {
             guild_id: guildId,
             member_id: target.id,

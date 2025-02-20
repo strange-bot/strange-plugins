@@ -20,7 +20,7 @@ router.get("/", async (req, res) => {
 });
 
 router.post("/", async (req, res) => {
-    const { guild, settings, plugin } = res.locals;
+    const { guild, settings } = res.locals;
     const body = req.body;
 
     // settings
@@ -45,11 +45,11 @@ router.post("/", async (req, res) => {
             settings.limit = body.limit;
         }
 
-        await plugin.updateSettings(guild.id, settings);
+        await settings.save();
         return res.sendStatus(200);
     }
 
-    const rolesResp = await req.broadcast("getRolesOf", res.locals.guild.id);
+    const rolesResp = await req.broadcast("getRolesOf", guild.id);
     const roles = rolesResp.find((d) => d.success)?.data;
 
     // create category
@@ -76,7 +76,7 @@ router.post("/", async (req, res) => {
         };
 
         settings.categories.push(category);
-        await plugin.updateSettings(guild.id, settings);
+        await settings.save();
     }
 
     // update category
@@ -100,7 +100,7 @@ router.post("/", async (req, res) => {
             footer: body.embed_footer,
         };
 
-        await plugin.updateSettings(guild.id, settings);
+        await settings.save();
     }
 
     // delete category
@@ -111,7 +111,7 @@ router.post("/", async (req, res) => {
         }
 
         settings.categories = settings.categories.filter((c) => c.name !== body.name);
-        await plugin.updateSettings(guild.id, settings);
+        await settings.save();
     }
 
     res.redirect("/dashboard/" + guild.id + "/ticket");

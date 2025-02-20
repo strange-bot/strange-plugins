@@ -5,7 +5,7 @@
     "author": "Sai Teja Madha",
     "license": "ISC",
     "peerDependencies": {
-        "discord.js": "^14.0.0",
+        "discord.js": "^14.18.0",
         "express": "^4.21.2",
         "strange-sdk": "workspace:*",
         "strange-i18n": "workspace:*"
