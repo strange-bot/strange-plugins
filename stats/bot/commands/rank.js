@@ -43,14 +43,7 @@ module.exports = {
 
 async function getRank({ guild }, member) {
     const { user } = member;
-    const { coreSettings, config } = await Promise.all([
-        await guild.getSettings("core"),
-        plugin.getConfig(),
-    ]);
-
-    if (coreSettings.disabled_plugins.includes("stats")) {
-        return guild.getT("stats:COMMON.DISABLED");
-    }
+    const config = await plugin.getConfig();
 
     const memberStats = await db.getMemberStats(guild.id, user.id);
     if (!memberStats.xp) return guild.getT("stats:RANK.NOT_ENOUGH_XP", { user: user.username });

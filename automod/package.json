@@ -5,8 +5,7 @@
     "author": "Sai Teja Madha",
     "license": "ISC",
     "dependencies": {
-        "common-tags": "^1.8.2",
-        "fixedsize-map": "^1.1.0"
+        "common-tags": "^1.8.2"
     },
     "peerDependencies": {
         "discord.js": "^14.18.0",

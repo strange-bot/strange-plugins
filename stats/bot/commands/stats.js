@@ -43,10 +43,6 @@ module.exports = {
  */
 async function stats(member) {
     const guild = member.guild;
-    const coreSettings = await guild.getSettings("core");
-    if (coreSettings.disabled_plugins.includes("stats")) {
-        return guild.getT("stats:COMMON.DISABLED");
-    }
 
     const memberStats = await db.getMemberStats(member.guild.id, member.id);
     const embed = EmbedUtils.embed()

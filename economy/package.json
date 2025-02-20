@@ -4,9 +4,7 @@
     "main": "index.js",
     "author": "Sai Teja Madha",
     "license": "ISC",
-    "dependencies": {
-        "fixedsize-map": "^1.1.0"
-    },
+    "dependencies": {},
     "peerDependencies": {
         "discord.js": "^14.18.0",
         "strange-db-client": "workspace:*",

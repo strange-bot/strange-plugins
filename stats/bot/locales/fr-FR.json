@@ -2,10 +2,6 @@
     "TITLE": "Statistiques",
     "DESCRIPTION": "Gérer les statistiques de votre serveur",
 
-    "COMMON": {
-        "DISABLED": "Le suivi des statistiques est désactivé sur ce serveur"
-    },
-
     "RANK": {
         "DESCRIPTION": "affiche le classement des membres sur ce serveur",
         "USER_DESC": "utilisateur pour afficher le rang",

@@ -6,9 +6,6 @@ const db = require("../../db.service");
 module.exports = async (interaction) => {
     if (!interaction.guild) return;
 
-    const coreSettings = await interaction.guild.getSettings("core");
-    if (coreSettings.disabled_plugins.includes("stats")) return;
-
     const statsDb = await db.getMemberStats(interaction.guildId, interaction.member.id);
 
     if (interaction.isChatInputCommand()) statsDb.commands.slash += 1;

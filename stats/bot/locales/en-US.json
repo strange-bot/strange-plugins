@@ -2,10 +2,6 @@
     "TITLE": "Statistics",
     "DESCRIPTION": "Manage statistics in your server",
 
-    "COMMON": {
-        "DISABLED": "Stats Tracking is disabled on this server"
-    },
-
     "RANK": {
         "DESCRIPTION": "displays members rank in this server",
         "USER_DESC": "user to display rank",
