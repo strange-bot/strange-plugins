@@ -1,0 +1,29 @@
+{
+    "TITLE": "Greetings",
+    "DESCRIPTION": "Manage greeting messages for your server",
+
+    "WELCOME_TITLE": "Welcome Configuration",
+    "WELCOME_PLACEHOLDER": "Welcome to the server {member:name} 🎉",
+
+    "FAREWELL_TITLE": "Farewell Configuration",
+    "FAREWELL_PLACEHOLDER": "Goodbye {member:name} 👋",
+
+    "CHANNEL_TITLE": "Channel",
+    "CHANNEL_DESC": "The channel where the message will be sent",
+    "CONTENT_TITLE": "Content",
+    "CONTENT_DESC": "The message that will be sent",
+    "EMBED_OPTIONS": "Embed Options",
+    "EMBED_DESC_TITLE": "Embed Description",
+    "EMBED_DESC_DESC": "The description of the embed",
+    "EMBED_FOOTER_TITLE": "Embed Footer",
+    "EMBED_FOOTER_DESC": "The footer of the embed",
+    "EMBED_THUMB_TITLE": "Embed Thumbnail",
+    "EMBED_THUMB_DESC": "Include author image as thumbnail?",
+    "EMBED_COLOR_TITLE": "Embed Color",
+    "EMBED_COLOR_DESC": "The color of the embed",
+    "EMBED_IMAGE_TITLE": "Embed Image",
+    "EMBED_IMAGE_DESC": "The image of the embed",
+
+    "AUTOROLE_TITLE": "Role to assign",
+    "AUTOROLE_DESC": "The role that will be assigned to users when they join the server"
+}

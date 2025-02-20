@@ -1,0 +1,29 @@
+{
+    "TITLE": "Salutations",
+    "DESCRIPTION": "Gérer les messages d'accueil pour votre serveur",
+
+    "WELCOME_TITLE": "Configuration de bienvenue",
+    "WELCOME_PLACEHOLDER": "Bienvenue sur le serveur {member:name} 🎉",
+
+    "FAREWELL_TITLE": "Configuration d'adieu",
+    "FAREWELL_PLACEHOLDER": "Au revoir {member:name} 👋",
+
+    "CHANNEL_TITLE": "Chaîne",
+    "CHANNEL_DESC": "Le canal où le message sera envoyé",
+    "CONTENT_TITLE": "Contenu",
+    "CONTENT_DESC": "Le message qui sera envoyé",
+    "EMBED_OPTIONS": "Options d'intégration",
+    "EMBED_DESC_TITLE": "Description intégrée",
+    "EMBED_DESC_DESC": "La description de l'embed",
+    "EMBED_FOOTER_TITLE": "Intégrer le pied de page",
+    "EMBED_FOOTER_DESC": "Le pied de page de l'intégration",
+    "EMBED_THUMB_TITLE": "Intégrer la vignette",
+    "EMBED_THUMB_DESC": "Inclure l'image de l'auteur comme miniature ?",
+    "EMBED_COLOR_TITLE": "Intégrer la couleur",
+    "EMBED_COLOR_DESC": "La couleur de l'intégration",
+    "EMBED_IMAGE_TITLE": "Intégrer l'image",
+    "EMBED_IMAGE_DESC": "L'image de l'intégration",
+
+    "AUTOROLE_TITLE": "Rôle à attribuer",
+    "AUTOROLE_DESC": "Le rôle qui sera attribué aux utilisateurs lorsqu'ils rejoindront le serveur"
+}

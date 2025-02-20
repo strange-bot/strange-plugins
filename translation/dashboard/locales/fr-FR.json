@@ -1,0 +1,8 @@
+{
+    "TITLE": "Traduction",
+    "DESCRIPTION": "Gérer les paramètres de traduction",
+
+    "SETTINGS": "Paramètres",
+    "FLAG_TR": "Traduction du drapeau",
+    "FLAG_TR_DESC": "Activer ou désactiver la traduction à l'aide du drapeau emoji"
+}
