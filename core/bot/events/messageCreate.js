@@ -5,7 +5,7 @@ const plugin = require("../index");
  * @param {import('discord.js').Message} message
  */
 module.exports = async (message) => {
-    message.recieved_at = Date.now();
+    message.received_at = Date.now();
     message.isCommand = false;
     if (!message.guild || message.author.bot) return;
     const guild = message.guild;

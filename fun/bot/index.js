@@ -5,7 +5,8 @@ module.exports = new BotPlugin({
     icon: "fa-solid fa-face-grin-tears",
     dependencies: [],
     baseDir: __dirname,
-    init: (client) => {
+
+    onInit: (client) => {
         client.discordTogether = new DiscordTogether(client);
     },
 });

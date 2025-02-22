@@ -4,7 +4,7 @@ module.exports = new BotPlugin({
     dependencies: [],
     baseDir: __dirname,
 
-    init: (client) => {
+    onInit: (client) => {
         client.giveawaysManager = require("./giveaway")(client);
     },
 

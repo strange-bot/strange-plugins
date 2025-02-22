@@ -59,7 +59,7 @@ async function setFlagTranslation({ guild }, input) {
     const status = input.toLowerCase() === "on" ? true : false;
 
     settings.flag_translation = status;
-    await guild.updateSettings();
+    await settings.save();
 
     return status
         ? guild.getT("translation:FLAGTR_ENABLED")
