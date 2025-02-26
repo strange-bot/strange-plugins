@@ -4,8 +4,8 @@ const db = require("../../db.service");
 
 let langChoices = [];
 try {
-    const meta = require("strange-i18n/languages-meta.json");
-    langChoices = meta.map((lang) => ({ name: lang.name, value: lang.name }));
+    const { languagesMeta } = require("strange-core");
+    langChoices = languagesMeta.map((lang) => ({ name: lang.name, value: lang.name }));
 } catch (error) {
     Logger.debug("Missing languages-meta.json", error);
 }
