@@ -20,7 +20,7 @@ module.exports = async (guild) => {
 
     // Register interactions
     guild.client.wait(5000).then(async () => {
-        await guild.client.registerInteractions(guild.id);
+        await guild.client.commandManager.registerInteractions(guild.id);
         guild.client.logger.success(`Registered interactions in ${guild.name}`);
     });
 };

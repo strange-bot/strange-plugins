@@ -16,7 +16,7 @@ module.exports = async (client) => {
     // Register Interactions
     client.wait(5000).then(() => {
         client.guilds.cache.forEach(async (guild) => {
-            await client.registerInteractions(guild.id);
+            await client.commandManager.registerInteractions(guild.id);
         });
 
         client.logger.success("Successfully registered interactions");

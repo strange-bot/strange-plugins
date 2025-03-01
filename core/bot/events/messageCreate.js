@@ -21,7 +21,7 @@ module.exports = async (message) => {
 
     if (message.content && message.content.startsWith(settings.prefix)) {
         const invoke = message.content.replace(`${settings.prefix}`, "").split(/\s+/)[0];
-        const cmd = guild.client.prefixCommands.get(invoke);
+        const cmd = guild.client.commandManager.findPrefixCommand(invoke);
         if (cmd) {
             // check if the plugin is disabled
             if (settings.disabled_plugins.includes(cmd.plugin.name)) return;

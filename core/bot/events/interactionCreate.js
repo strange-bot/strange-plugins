@@ -18,7 +18,7 @@ module.exports = async (interaction) => {
 
     // Slash Commands
     if (interaction.isChatInputCommand()) {
-        const cmd = interaction.client.slashCommands.get(interaction.commandName);
+        const cmd = interaction.client.commandManager.findSlashCommand(interaction.commandName);
         if (!cmd) {
             return interaction
                 .reply({
