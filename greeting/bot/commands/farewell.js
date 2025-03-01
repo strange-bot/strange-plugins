@@ -196,7 +196,7 @@ module.exports = {
 
         //
         else response = message.guild.getT("common:INVALID_SUBCOMMAND", { sub: type });
-        return message.safeReply(response);
+        return message.reply(response);
     },
 
     async interactionRun(interaction) {

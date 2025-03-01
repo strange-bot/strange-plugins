@@ -16,5 +16,6 @@
         "SLASH": false,
         "CONTEXT": false
     },
-    "SUPPORT_SERVER": "https://discord.gg/abc123"
+    "SUPPORT_SERVER": "https://discord.gg/abc123",
+    "ENABLED_PLUGINS": []
 }

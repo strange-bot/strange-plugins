@@ -42,7 +42,7 @@ module.exports = {
             return message.reply("Invalid status. Value must be `on/off`");
 
         const response = await setFlagTranslation(message, status);
-        await message.safeReply(response);
+        await message.reply(response);
     },
 
     async interactionRun(interaction) {

@@ -69,14 +69,14 @@ module.exports = {
             embed.setDescription(
                 "Invalid translation code. Visit [here](https://cloud.google.com/translate/docs/languages) to see list of supported translation codes",
             );
-            return message.safeReply({ embeds: [embed] });
+            return message.reply({ embeds: [embed] });
         }
 
         const input = args.join(" ");
-        if (!input) message.safeReply("Provide some valid translation text");
+        if (!input) message.reply("Provide some valid translation text");
 
         const response = await getTranslation(message, message.author, input, outputCode);
-        await message.safeReply(response);
+        await message.reply(response);
     },
 
     async interactionRun(interaction) {

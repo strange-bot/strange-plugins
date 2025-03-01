@@ -60,7 +60,7 @@ module.exports = {
             }
         }
 
-        await message.safeReply(response);
+        await message.reply(response);
     },
 
     async interactionRun(interaction) {

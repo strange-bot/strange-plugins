@@ -58,7 +58,7 @@ module.exports = async (interaction) => {
 
     // Context Menu
     else if (interaction.isContextMenuCommand()) {
-        const context = interaction.client.contextMenus.get(interaction.commandName);
+        const context = interaction.client.commandManager.findContextMenu(interaction.commandName);
         if (context) await handleContext(interaction, context);
         else
             return interaction
