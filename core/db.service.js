@@ -17,7 +17,10 @@ class CoreService extends DBService {
                     type: String,
                     default: config["LOCALE"]["DEFAULT"],
                 },
-                disabled_plugins: [String],
+                enabled_plugins: {
+                    type: [String],
+                    default: ["core"],
+                },
                 disabled_prefix: [String],
                 disabled_slash: [String],
             }),

@@ -1,6 +1,5 @@
 const { ActionRowBuilder, ButtonBuilder, ButtonStyle } = require("discord.js");
 const { MiscUtils, EmbedUtils } = require("strange-sdk/utils");
-const os = require("os");
 const { stripIndent } = require("common-tags");
 
 /**
@@ -39,9 +38,6 @@ module.exports = async ({ client, guild }) => {
     }
 
     // CPU
-    const platform = process.platform.replace(/win32/g, "Windows");
-    const architecture = os.arch();
-    const cores = os.cpus().length;
     const cpuUsage = `${((process.cpuUsage().system + process.cpuUsage().user) / 1000000).toFixed(2)}%`;
 
     // RAM calculations

@@ -222,17 +222,11 @@ async function pluginStatus(arg0) {
         components: [],
     });
 
-    const disabled = [];
     for (const p of client.pluginManager.plugins) {
         if (!waiter.values.includes(p.name) && p.name !== "core") {
-            await p.onGuildDisable(guild);
-            disabled.push(p.name);
+            await client.pluginManager.disableInGuild(p.name, guild.id);
         }
     }
-
-    const coreSettings = await guild.getSettings("core");
-    coreSettings.disabled_plugins = disabled;
-    await coreSettings.save();
 
     await sentMsg.edit({
         content: guild.getT("core:PLUGIN.STATUS_SELECT_SUCCESS"),
