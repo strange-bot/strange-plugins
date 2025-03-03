@@ -1,7 +1,7 @@
 {
     "name": "anime",
     "description": "Anime commands for Strange",
-    "version": "1.0.0",
+    "version": "0.1.0-beta",
     "main": "index.js",
     "author": "Sai Teja Madha",
     "license": "ISC",

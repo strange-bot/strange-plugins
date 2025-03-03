@@ -1,7 +1,7 @@
 {
     "name": "core",
     "description": "The core of the bot",
-    "version": "1.0.0",
+    "version": "0.1.0-beta",
     "author": "Sai Teja Madha",
     "license": "ISC",
     "peerDependencies": {
