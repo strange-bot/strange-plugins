@@ -1,10 +1,8 @@
 const path = require("node:path");
 const router = require("express").Router();
 
-router.get("/", (req, res) => {
-    res.render(path.join(__dirname, "views/settings.ejs"), {
-        languages: req.app.i18n.availableLanguages,
-    });
+router.get("/", (_req, res) => {
+    res.render(path.join(__dirname, "views/settings.ejs"));
 });
 
 router.put("/", async (req, res) => {
