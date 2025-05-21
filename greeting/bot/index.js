@@ -2,7 +2,7 @@ const { BotPlugin } = require("strange-sdk");
 const { ChannelType } = require("discord.js");
 
 module.exports = new BotPlugin({
-    dependencies: ["invites"],
+    dependencies: [],
     baseDir: __dirname,
     dbService: require("../db.service"),
     ipcHandler: {
