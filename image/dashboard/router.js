@@ -5,7 +5,7 @@ router.get("/", (_req, res) => {
     res.render(path.join(__dirname, "view.ejs"));
 });
 
-router.post("/", async (req, res) => {
+router.put("/", async (req, res) => {
     const { config } = res.locals;
     const body = req.body;
 
