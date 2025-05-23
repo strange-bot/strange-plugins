@@ -8,5 +8,7 @@
     "TYPE": "Type",
     "TYPE_DESC": "Définissez le type de statut du bot",
     "MESSAGE": "Message",
-    "MESSAGE_DESC": "Définir le message d'état du bot"
+    "MESSAGE_DESC": "Définir le message d'état du bot",
+
+    "UPDATE_NOTE": "Remarque : La présence est mise à jour environ toutes les 10 minutes pour éviter le rate limiting."
 }

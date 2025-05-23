@@ -7,7 +7,8 @@
     </div>
     <!-- END: Card Header -->
 
-    <form x-data="{ 
+    <form
+      x-data="{ 
       formData: {
         status: '<%= config.STATUS %>',
         type: '<%= config.TYPE %>',
@@ -38,7 +39,8 @@
           this.saving = false;
         });
       }
-    }" @submit.prevent="submitForm">
+    }"
+      @submit.prevent="submitForm">
       <!-- START: Card Body -->
       <div class="mb-3">
         <div class="grid gap-4 md:grid-cols-2 xl:grid-cols-2">
@@ -48,25 +50,17 @@
               <label for="status" class="text-sm font-semibold text-gray-900 dark:text-white"
                 ><%= tr("presence:STATUS") %></label
               >
-              <div class="text-sm font-normal text-gray-500 dark:text-gray-400">
-                <%= tr("presence:STATUS_DESC") %>
-              </div>
+              <div class="text-sm font-normal text-gray-500 dark:text-gray-400"><%= tr("presence:STATUS_DESC") %></div>
             </div>
             <select
               x-model="formData.status"
               name="status"
               id="status"
               class="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-primary-500 focus:ring-primary-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-primary-500 dark:focus:ring-primary-500">
-              <option selected="selected"><%= config.STATUS.toUpperCase() %></option>
-              <% if(config.STATUS !== "online") { %>
-              <option value="online">ONLINE</option>
-              <% } %> <% if(config.STATUS !== "idle") { %>
-              <option value="idle">IDLE</option>
-              <% } %> <% if(config.STATUS !== "dnd") { %>
-              <option value="dnd">DND</option>
-              <% } %> <% if(config.STATUS !== "invisible") { %>
-              <option value="invisible">INVISIBLE</option>
-              <% } %>
+              <option value="online">Online</option>
+              <option value="idle">Idle</option>
+              <option value="dnd">Do Not Disturb</option>
+              <option value="invisible">Invisible</option>
             </select>
           </div>
 
@@ -76,25 +70,17 @@
               <label for="type" class="text-sm font-semibold text-gray-900 dark:text-white"
                 ><%= tr("presence:TYPE") %></label
               >
-              <div class="text-sm font-normal text-gray-500 dark:text-gray-400">
-                <%= tr("presence:TYPE_DESC") %>
-              </div>
+              <div class="text-sm font-normal text-gray-500 dark:text-gray-400"><%= tr("presence:TYPE_DESC") %></div>
             </div>
             <select
               x-model="formData.type"
               name="type"
               id="type"
               class="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-primary-500 focus:ring-primary-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-primary-500 dark:focus:ring-primary-500">
-              <option selected="selected"><%= config.TYPE %></option>
-              <% if(config.TYPE !== "PLAYING") { %>
-              <option>PLAYING</option>
-              <% } %> <% if(config.TYPE !== "LISTENING") { %>
-              <option>LISTENING</option>
-              <% } %> <% if(config.TYPE !== "WATCHING") { %>
-              <option>WATCHING</option>
-              <% } %> <% if(config.TYPE !== "COMPETING") { %>
-              <option>COMPETING</option>
-              <% } %>
+              <option value="PLAYING">Playing</option>
+              <option value="LISTENING">Listening</option>
+              <option value="WATCHING">Watching</option>
+              <option value="COMPETING">Competing</option>
             </select>
           </div>
         </div>
@@ -108,9 +94,7 @@
               <label for="message" class="text-sm font-semibold text-gray-900 dark:text-white"
                 ><%= tr("presence:MESSAGE") %></label
               >
-              <div class="text-sm font-normal text-gray-500 dark:text-gray-400">
-                <%= tr("presence:MESSAGE_DESC") %>
-              </div>
+              <div class="text-sm font-normal text-gray-500 dark:text-gray-400"><%= tr("presence:MESSAGE_DESC") %></div>
             </div>
             <input
               x-model="formData.message"
@@ -133,8 +117,7 @@
             type="submit"
             :disabled="saving"
             :class="{'opacity-50': saving}"
-            class="inline-flex items-center rounded-lg bg-primary-700 px-3 py-2 text-center text-sm font-medium text-white hover:bg-primary-800 focus:outline-none focus:ring-4 focus:ring-primary-300 dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
-          >
+            class="inline-flex items-center rounded-lg bg-primary-700 px-3 py-2 text-center text-sm font-medium text-white hover:bg-primary-800 focus:outline-none focus:ring-4 focus:ring-primary-300 dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">
             <span x-show="!saving"><%= tr('BTN_SAVE') %></span>
             <span x-show="saving"><%= tr('BTN_SAVING') %></span>
           </button>
@@ -142,5 +125,10 @@
       </div>
       <!-- END: Card Footer -->
     </form>
+
+    <div class="mt-2 mb-4 text-sm text-gray-500 dark:text-gray-400">
+      <i class="fas fa-info-circle mr-1"></i>
+      <%= tr("presence:UPDATE_NOTE") %>
+    </div>
   </div>
 </section>
