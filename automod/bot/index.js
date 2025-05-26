@@ -5,7 +5,7 @@ const { ChannelType } = require("discord.js");
 module.exports = new BotPlugin({
     baseDir: __dirname,
 
-    onInit: (_client) => {
+    onEnable: (_client) => {
         cleanupCache();
     },
 

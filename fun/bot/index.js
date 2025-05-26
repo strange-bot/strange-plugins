@@ -6,7 +6,7 @@ module.exports = new BotPlugin({
     dependencies: [],
     baseDir: __dirname,
 
-    onInit: (client) => {
+    onEnable: (client) => {
         client.discordTogether = new DiscordTogether(client);
     },
 });

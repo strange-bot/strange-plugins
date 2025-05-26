@@ -20,5 +20,8 @@
     "LOGO": "Logo",
     "LOGO_DESC": "Logo pour le tableau de bord",
     "LOGO_URL": "Logo URL",
-    "LOGO_URL_DESC": "URL vers l'image du logo"
+    "LOGO_URL_DESC": "URL vers l'image du logo",
+
+    "ENABLED": "Activé",
+    "DISABLED": "Désactivé"
 }

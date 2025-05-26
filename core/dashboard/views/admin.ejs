@@ -42,18 +42,16 @@
     <!-- END: Card Header -->
 
     <form @submit.prevent="submitServerConfig">
-
       <!-- START: Card Body -->
       <div class="mb-3">
         <div class="grid gap-4 md:grid-cols-3 xl:grid-cols-3">
-
           <!-- START: Column 1 -->
           <div>
             <div class="mb-2">
-              <label for="prefix" class="text-sm font-semibold text-gray-900 dark:text-white"><%= tr("core:PREFIX_TITLE") %></label>
-              <div class="text-sm font-normal text-gray-500 dark:text-gray-400">
-                <%= tr("core:PREFIX_DESC") %>
-              </div>
+              <label for="prefix" class="text-sm font-semibold text-gray-900 dark:text-white"
+                ><%= tr("core:PREFIX_TITLE") %></label
+              >
+              <div class="text-sm font-normal text-gray-500 dark:text-gray-400"><%= tr("core:PREFIX_DESC") %></div>
             </div>
             <input
               type="text"
@@ -62,25 +60,24 @@
               maxlength="2"
               id="prefix"
               class="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-gray-900 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-primary-500 dark:focus:ring-primary-500 sm:text-sm"
-              required
-            />
+              required />
           </div>
           <!-- END: Column 1 -->
 
           <!-- START: Column 2 -->
           <div>
             <div class="mb-2">
-              <label for="locale" class="text-sm font-semibold text-gray-900 dark:text-white"><%= tr("core:LOCALE_TITLE") %></label>
-              <div class="text-sm font-normal text-gray-500 dark:text-gray-400">
-                <%= tr("core:LOCALE_DESC") %>
-              </div>
+              <label for="locale" class="text-sm font-semibold text-gray-900 dark:text-white"
+                ><%= tr("core:LOCALE_TITLE") %></label
+              >
+              <div class="text-sm font-normal text-gray-500 dark:text-gray-400"><%= tr("core:LOCALE_DESC") %></div>
             </div>
             <select
               x-model="formData.locale"
               id="locale"
               class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500">
               <% languages.forEach((lang) => { %>
-                <option value="<%= lang %>"><%= lang %></option>
+              <option value="<%= lang %>"><%= lang %></option>
               <% }) %>
             </select>
           </div>
@@ -89,34 +86,33 @@
           <!-- START: Column 3 -->
           <div>
             <div class="mb-2">
-              <label for="support_server" class="text-sm font-semibold text-gray-900 dark:text-white"><%= tr("core:SUPPORT") %></label>
-              <div class="text-sm font-normal text-gray-500 dark:text-gray-400">
-                <%= tr("core:SUPPORT_DESC") %>
-              </div>
+              <label for="support_server" class="text-sm font-semibold text-gray-900 dark:text-white"
+                ><%= tr("core:SUPPORT") %></label
+              >
+              <div class="text-sm font-normal text-gray-500 dark:text-gray-400"><%= tr("core:SUPPORT_DESC") %></div>
             </div>
             <input
               type="url"
               x-model="formData.support_server"
               id="support_server"
               class="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-gray-900 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-primary-500 dark:focus:ring-primary-500 sm:text-sm"
-              required
-            />
+              required />
           </div>
 
           <!-- START: Column 4 -->
           <div>
             <div class="mb-2">
-              <label for="slash_commands" class="text-sm font-semibold text-gray-900 dark:text-white"><%= tr("core:SLASH") %></label>
-              <div class="text-sm font-normal text-gray-500 dark:text-gray-400">
-                <%= tr("core:SLASH_DESC") %>
-              </div>
+              <label for="slash_commands" class="text-sm font-semibold text-gray-900 dark:text-white"
+                ><%= tr("core:SLASH") %></label
+              >
+              <div class="text-sm font-normal text-gray-500 dark:text-gray-400"><%= tr("core:SLASH_DESC") %></div>
             </div>
             <select
               x-model="formData.slash_commands"
               id="slash_commands"
               class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500">
-                <option value="on"><%=tr("ENABLED") %></option>
-                <option value="off"><%=tr("DISABLED") %></option>
+              <option value="on"><%=tr("ENABLED") %></option>
+              <option value="off"><%=tr("DISABLED") %></option>
             </select>
           </div>
           <!-- END: Column 4 -->
@@ -124,21 +120,20 @@
           <!-- START: Column 5 -->
           <div>
             <div class="mb-2">
-              <label for="context_menus" class="text-sm font-semibold text-gray-900 dark:text-white"><%= tr("core:CONTEXT") %></label>
-              <div class="text-sm font-normal text-gray-500 dark:text-gray-400">
-                <%= tr("core:CONTEXT_DESC") %>
-              </div>
+              <label for="context_menus" class="text-sm font-semibold text-gray-900 dark:text-white"
+                ><%= tr("core:CONTEXT") %></label
+              >
+              <div class="text-sm font-normal text-gray-500 dark:text-gray-400"><%= tr("core:CONTEXT_DESC") %></div>
             </div>
             <select
               x-model="formData.context_menus"
               id="context_menus"
               class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500">
-                <option value="on"><%=tr("ENABLED") %></option>
-                <option value="off"><%=tr("DISABLED") %></option>
+              <option value="on"><%=tr("ENABLED") %></option>
+              <option value="off"><%=tr("DISABLED") %></option>
             </select>
           </div>
           <!-- END: Column 5 -->
-
         </div>
       </div>
       <!-- END: Card Body -->
@@ -150,8 +145,7 @@
           <button
             type="submit"
             :disabled="saving"
-            class="inline-flex items-center rounded-lg bg-primary-700 px-3 py-2 text-center text-sm font-medium text-white hover:bg-primary-800 focus:outline-none focus:ring-4 focus:ring-primary-300 dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800 disabled:opacity-50"
-          >
+            class="inline-flex items-center rounded-lg bg-primary-700 px-3 py-2 text-center text-sm font-medium text-white hover:bg-primary-800 focus:outline-none focus:ring-4 focus:ring-primary-300 dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800 disabled:opacity-50">
             <span x-show="!saving"><%= tr('BTN_SAVE') %></span>
             <span x-show="saving"><%= tr('BTN_SAVING') %></span>
           </button>
@@ -207,14 +201,13 @@
       <!-- START: Card Body -->
       <div class="mb-3">
         <div class="grid gap-4 md:grid-cols-2 xl:grid-cols-2">
-
           <!-- START: Column 1 -->
           <div>
             <div class="mb-2">
-              <label for="logo" class="text-sm font-semibold text-gray-900 dark:text-white"><%= tr("core:LOGO") %></label>
-              <div class="text-sm font-normal text-gray-500 dark:text-gray-400">
-                <%= tr("core:LOGO_DESC") %>
-              </div>
+              <label for="logo" class="text-sm font-semibold text-gray-900 dark:text-white"
+                ><%= tr("core:LOGO") %></label
+              >
+              <div class="text-sm font-normal text-gray-500 dark:text-gray-400"><%= tr("core:LOGO_DESC") %></div>
             </div>
             <input
               type="text"
@@ -222,29 +215,26 @@
               x-model="formData.logo"
               id="logo"
               class="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-gray-900 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-primary-500 dark:focus:ring-primary-500 sm:text-sm"
-              required
-            />
+              required />
           </div>
           <!-- END: Column 1 -->
 
           <!-- START: Column 2 -->
           <div>
             <div class="mb-2">
-              <label for="logo_url" class="text-sm font-semibold text-gray-900 dark:text-white"><%= tr("core:LOGO_URL") %></label>
-              <div class="text-sm font-normal text-gray-500 dark:text-gray-400">
-                <%= tr("core:LOGO_URL_DESC") %>
-              </div>
+              <label for="logo_url" class="text-sm font-semibold text-gray-900 dark:text-white"
+                ><%= tr("core:LOGO_URL") %></label
+              >
+              <div class="text-sm font-normal text-gray-500 dark:text-gray-400"><%= tr("core:LOGO_URL_DESC") %></div>
             </div>
             <input
               type="text"
               x-model="formData.logo_url"
               id="logo_url"
               class="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-gray-900 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-primary-500 dark:focus:ring-primary-500 sm:text-sm"
-              required
-            />
+              required />
           </div>
           <!-- END: Column 2 -->
-
         </div>
       </div>
       <!-- END: Card Body -->
@@ -256,8 +246,7 @@
           <button
             type="submit"
             :disabled="saving"
-            class="inline-flex items-center rounded-lg bg-primary-700 px-3 py-2 text-center text-sm font-medium text-white hover:bg-primary-800 focus:outline-none focus:ring-4 focus:ring-primary-300 dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800 disabled:opacity-50"
-          >
+            class="inline-flex items-center rounded-lg bg-primary-700 px-3 py-2 text-center text-sm font-medium text-white hover:bg-primary-800 focus:outline-none focus:ring-4 focus:ring-primary-300 dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800 disabled:opacity-50">
             <span x-show="!saving"><%= tr('BTN_SAVE') %></span>
             <span x-show="saving"><%= tr('BTN_SAVING') %></span>
           </button>
@@ -267,4 +256,3 @@
     </form>
   </div>
 </section>
-
