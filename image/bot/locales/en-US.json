@@ -17,5 +17,9 @@
 
     "FILTER_FAIL": "Failed to apply image filter",
     "GEN_FAIL": "Failed to generate image",
-    "OVERLAY_FAIL": "Failed to apply overlay"
+    "OVERLAY_FAIL": "Failed to apply overlay",
+    
+    "INVALID_FILTER": "Invalid filter provided. Please use a valid filter name.",
+    "INVALID_GENERATOR": "Invalid generator provided. Please use a valid generator name.",
+    "INVALID_OVERLAY": "Invalid overlay provided. Please use a valid overlay name."
 }

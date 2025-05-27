@@ -48,6 +48,7 @@ module.exports = {
     botPermissions: ["EmbedLinks", "AttachFiles"],
     command: {
         enabled: true,
+        usage: "<name> [user] [link]",
         aliases: availableFilters,
     },
     slashCommand: {
@@ -76,12 +77,26 @@ module.exports = {
     },
 
     async messageRun({ message, args, invoke }) {
+        // Determine filter name - either use invoke (for aliases) or get it from args (for !filter command)
+        const filterName = availableFilters.includes(invoke.toLowerCase()) 
+            ? invoke.toLowerCase() 
+            : args[0]?.toLowerCase();
+            
+        if (!filterName || !availableFilters.includes(filterName)) {
+            return message.replyT("image:INVALID_FILTER");
+        }
+        
+        // Remove filter name from args if using !filter command
+        if (invoke.toLowerCase() === "filter") {
+            args.shift();
+        }
+        
         const image = await getImageFromMessage(message, args);
         const config = await plugin.getConfig();
         const { STRANGE_API_URL, STRANGE_API_KEY, EMBED_COLOR } = config;
 
-        // use invoke as an endpoint
-        const url = getFilter(invoke.toLowerCase(), image, STRANGE_API_URL);
+        // Use determined filter name
+        const url = getFilter(filterName, image, STRANGE_API_URL);
         const response = await HttpUtils.getBuffer(url, {
             headers: {
                 Authorization: `Bearer ${STRANGE_API_KEY}`,
