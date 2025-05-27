@@ -43,7 +43,7 @@
             x-model="formData.reaction"
             id="reaction"
             maxlength="2"
-            class="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-gray-900 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-primary-500 dark:focus:ring-primary-500 sm:text-sm"
+            class="focus:border-primary-500 focus:ring-primary-500 dark:focus:border-primary-500 dark:focus:ring-primary-500 block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-gray-900 shadow-sm sm:text-sm dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400"
             required />
         </div>
         <!-- END: Column 1 -->
@@ -62,7 +62,7 @@
             type="color"
             x-model="formData.start_embed_color"
             id="start_embed_color"
-            class="block h-10 w-full rounded-lg border border-gray-300 p-0.5 text-gray-900 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-primary-500 dark:focus:ring-primary-500 sm:text-sm"
+            class="focus:border-primary-500 focus:ring-primary-500 dark:focus:border-primary-500 dark:focus:ring-primary-500 block h-10 w-full rounded-lg border border-gray-300 p-0.5 text-gray-900 shadow-sm sm:text-sm dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400"
             required />
         </div>
         <!-- END: Column 2 -->
@@ -81,7 +81,7 @@
             type="color"
             x-model="formData.end_embed_color"
             id="end_embed_color"
-            class="block h-10 w-full rounded-lg border border-gray-300 p-0.5 text-gray-900 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-primary-500 dark:focus:ring-primary-500 sm:text-sm"
+            class="focus:border-primary-500 focus:ring-primary-500 dark:focus:border-primary-500 dark:focus:ring-primary-500 block h-10 w-full rounded-lg border border-gray-300 p-0.5 text-gray-900 shadow-sm sm:text-sm dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400"
             required />
         </div>
         <!-- END: Column 3 -->
@@ -90,14 +90,14 @@
     <!-- END: Card Body -->
 
     <!-- START: Card Footer -->
-    <div class="mt-4 flex items-center justify-between border-t border-gray-200 pt-3 dark:border-gray-700 sm:pt-6">
+    <div class="mt-4 flex items-center justify-between border-t border-gray-200 pt-3 sm:pt-6 dark:border-gray-700">
       <div></div>
       <div class="flex-shrink-0">
         <button
           type="submit"
           :disabled="saving"
           :class="{'opacity-50': saving}"
-          class="inline-flex items-center rounded-lg bg-primary-700 px-3 py-2 text-center text-sm font-medium text-white hover:bg-primary-800 focus:outline-none focus:ring-4 focus:ring-primary-300 dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">
+          class="bg-primary-700 hover:bg-primary-800 focus:ring-primary-300 dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800 inline-flex items-center rounded-lg px-3 py-2 text-center text-sm font-medium text-white focus:outline-none focus:ring-4">
           <span x-show="!saving"><%= tr('BTN_SAVE') %></span>
           <span x-show="saving"><%= tr('BTN_SAVING') %></span>
         </button>
@@ -120,7 +120,7 @@
         <a
           data-modal-target="create-giveaway"
           data-modal-toggle="create-giveaway"
-          class="cursor-pointer inline-flex items-center rounded-lg p-2 text-xs font-medium uppercase text-primary-700 hover:bg-gray-100 dark:text-primary-500 dark:hover:bg-gray-700 sm:text-sm">
+          class="text-primary-700 dark:text-primary-500 inline-flex cursor-pointer items-center rounded-lg p-2 text-xs font-medium uppercase hover:bg-gray-100 sm:text-sm dark:hover:bg-gray-700">
           <%= tr("giveaways:CREATE_NEW_BTN") %>
           <i class="fa-solid fa-angle-right ml-1"></i>
         </a>
@@ -170,8 +170,7 @@
               </tr>
             </thead>
             <tbody class="bg-white dark:bg-gray-800">
-              <% giveaways.forEach((giveaway, i) => { %>
-              <% if (i % 2 === 0) { %>
+              <% giveaways.forEach((giveaway, i) => { %> <% if (i % 2 === 0) { %>
               <tr class="bg-gray-50 dark:bg-gray-700">
                 <% } else { %>
               </tr>
@@ -198,7 +197,7 @@
                     data-modal-target="<%= giveaway.pauseOptions.isPaused ? 'resume-modal-' + giveaway.messageId : 'pause-modal-' + giveaway.messageId %>"
                     data-modal-toggle="<%= giveaway.pauseOptions.isPaused ? 'resume-modal-' + giveaway.messageId : 'pause-modal-' + giveaway.messageId %>">
                     <span
-                      class="cursor-pointer mr-2 rounded-md border border-green-100 bg-green-100 px-2.5 py-0.5 text-xs font-medium text-green-800 dark:border-green-500 dark:bg-gray-700 dark:text-green-400">
+                      class="mr-2 cursor-pointer rounded-md border border-green-100 bg-green-100 px-2.5 py-0.5 text-xs font-medium text-green-800 dark:border-green-500 dark:bg-gray-700 dark:text-green-400">
                       <%= giveaway.pauseOptions.isPaused ? tr("giveaways:RESUME_BTN") : tr("giveaways:PAUSE_BTN") %>
                     </span>
                   </a>
@@ -235,7 +234,7 @@
       <!-- Modal content -->
       <div class="relative rounded-lg bg-white shadow dark:bg-gray-700">
         <!-- Modal header -->
-        <div class="flex items-center justify-between rounded-t border-b p-4 dark:border-gray-600 md:p-5">
+        <div class="flex items-center justify-between rounded-t border-b p-4 md:p-5 dark:border-gray-600">
           <h4 class="text-xl font-semibold text-gray-900 dark:text-white"><%= tr("giveaways:CREATE_TITLE") %></h4>
           <button
             type="button"
@@ -261,7 +260,7 @@
               <select
                 name="channel"
                 id="channel"
-                class="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-primary-500 focus:ring-primary-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-primary-500 dark:focus:ring-primary-500">
+                class="focus:border-primary-500 focus:ring-primary-500 dark:focus:border-primary-500 dark:focus:ring-primary-500 block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400">
                 <option selected disabled><%= tr("giveaways:CREATE_CHANNEL_PLACEHOLDER") %></option>
                 <% channels.map((r) => { %>
                 <option value="<%= r.id %>"><%= r.name %></option>
@@ -283,7 +282,7 @@
               type="text"
               name="prize"
               id="prize"
-              class="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-gray-900 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-primary-500 dark:focus:ring-primary-500 sm:text-sm"
+              class="focus:border-primary-500 focus:ring-primary-500 dark:focus:border-primary-500 dark:focus:ring-primary-500 block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-gray-900 shadow-sm sm:text-sm dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400"
               required />
           </div>
 
@@ -303,7 +302,7 @@
                   name="duration"
                   id="duration"
                   placeholder="1d/1h/1m/1s"
-                  class="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-gray-900 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-primary-500 dark:focus:ring-primary-500 sm:text-sm"
+                  class="focus:border-primary-500 focus:ring-primary-500 dark:focus:border-primary-500 dark:focus:ring-primary-500 block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-gray-900 shadow-sm sm:text-sm dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400"
                   required />
               </div>
               <div>
@@ -319,7 +318,7 @@
                   type="text"
                   name="winners"
                   id="winners"
-                  class="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-gray-900 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-primary-500 dark:focus:ring-primary-500 sm:text-sm"
+                  class="focus:border-primary-500 focus:ring-primary-500 dark:focus:border-primary-500 dark:focus:ring-primary-500 block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-gray-900 shadow-sm sm:text-sm dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400"
                   value="1"
                   required />
               </div>
@@ -341,7 +340,7 @@
                   type="text"
                   name="host"
                   id="host"
-                  class="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-gray-900 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-primary-500 dark:focus:ring-primary-500 sm:text-sm" />
+                  class="focus:border-primary-500 focus:ring-primary-500 dark:focus:border-primary-500 dark:focus:ring-primary-500 block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-gray-900 shadow-sm sm:text-sm dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400" />
               </div>
               <div>
                 <div class="mb-2">
@@ -355,7 +354,7 @@
                 <select
                   name="member_roles"
                   id="member_roles"
-                  class="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-primary-500 focus:ring-primary-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-primary-500 dark:focus:ring-primary-500">
+                  class="focus:border-primary-500 focus:ring-primary-500 dark:focus:border-primary-500 dark:focus:ring-primary-500 block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400">
                   <option selected disabled><%= tr("giveaways:CREATE_MEM_ROLE_PLACEHOLDER") %></option>
                   <% roles.map((r) => { %>
                   <option value="<%= r.id %>"><%= r.name %></option>
@@ -367,11 +366,11 @@
         </div>
 
         <!-- Modal footer -->
-        <div class="mt-2 flex items-center rounded-b border-t border-gray-200 p-4 dark:border-gray-600 md:p-5">
+        <div class="mt-2 flex items-center rounded-b border-t border-gray-200 p-4 md:p-5 dark:border-gray-600">
           <button
             name="create_giveaway"
             type="submit"
-            class="rounded-lg bg-primary-700 px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-primary-800 focus:outline-none focus:ring-4 focus:ring-primary-300 dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">
+            class="bg-primary-700 hover:bg-primary-800 focus:ring-primary-300 dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800 rounded-lg px-5 py-2.5 text-center text-sm font-medium text-white focus:outline-none focus:ring-4">
             <%= tr("giveaways:CREATE_BTN") %>
           </button>
         </div>
@@ -398,7 +397,7 @@
       </button>
       <div class="p-4 text-center md:p-5">
         <i class="fa-regular fa-circle-exclamation"></i>
-        <i class="fa-regular fa-circle-exclamation mb-3 w-12 h-12 dark:text-gray-200"></i>
+        <i class="fa-regular fa-circle-exclamation mb-3 h-12 w-12 dark:text-gray-200"></i>
         <h3 class="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400">
           <%= tr('giveaways:PAUSE_CONFIRMATION') %>
         </h3>
@@ -408,13 +407,13 @@
             data-modal-hide="pause-modal-<%= giveaway.messageId %>"
             name="pause_giveaway"
             type="submit"
-            class="inline-flex items-center rounded-lg bg-primary-600 px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-primary-800 focus:outline-none focus:ring-4 focus:ring-primary-300 dark:focus:ring-primary-800">
+            class="bg-primary-600 hover:bg-primary-800 focus:ring-primary-300 dark:focus:ring-primary-800 inline-flex items-center rounded-lg px-5 py-2.5 text-center text-sm font-medium text-white focus:outline-none focus:ring-4">
             <%= tr('giveaways:PAUSE_CONFIRM_YES') %>
           </button>
           <button
             data-modal-hide="pause-modal-<%= giveaway.messageId %>"
             type="button"
-            class="ms-3 rounded-lg border border-gray-200 bg-white px-5 py-2.5 text-sm font-medium text-gray-900 hover:bg-gray-100 hover:text-primary-700 focus:z-10 focus:outline-none focus:ring-4 focus:ring-gray-100 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white dark:focus:ring-gray-700">
+            class="hover:text-primary-700 ms-3 rounded-lg border border-gray-200 bg-white px-5 py-2.5 text-sm font-medium text-gray-900 hover:bg-gray-100 focus:z-10 focus:outline-none focus:ring-4 focus:ring-gray-100 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white dark:focus:ring-gray-700">
             <%= tr('giveaways:PAUSE_CONFIRM_NO') %>
           </button>
         </form>
@@ -441,7 +440,7 @@
         <span class="sr-only">Close modal</span>
       </button>
       <div class="p-4 text-center md:p-5">
-        <i class="fa-regular fa-circle-exclamation mb-3 w-12 h-12 dark:text-gray-200"></i>
+        <i class="fa-regular fa-circle-exclamation mb-3 h-12 w-12 dark:text-gray-200"></i>
         <h3 class="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400">
           <%= tr('giveaways:RESUME_CONFIRMATION') %>
         </h3>
@@ -451,13 +450,13 @@
             data-modal-hide="resume-modal-<%= giveaway.messageId %>"
             name="resume_giveaway"
             type="submit"
-            class="inline-flex items-center rounded-lg bg-primary-600 px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-primary-800 focus:outline-none focus:ring-4 focus:ring-primary-300 dark:focus:ring-primary-800">
+            class="bg-primary-600 hover:bg-primary-800 focus:ring-primary-300 dark:focus:ring-primary-800 inline-flex items-center rounded-lg px-5 py-2.5 text-center text-sm font-medium text-white focus:outline-none focus:ring-4">
             <%= tr('giveaways:RESUME_CONFIRM_YES') %>
           </button>
           <button
             data-modal-hide="resume-modal-<%= giveaway.messageId %>"
             type="button"
-            class="ms-3 rounded-lg border border-gray-200 bg-white px-5 py-2.5 text-sm font-medium text-gray-900 hover:bg-gray-100 hover:text-primary-700 focus:z-10 focus:outline-none focus:ring-4 focus:ring-gray-100 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white dark:focus:ring-gray-700">
+            class="hover:text-primary-700 ms-3 rounded-lg border border-gray-200 bg-white px-5 py-2.5 text-sm font-medium text-gray-900 hover:bg-gray-100 focus:z-10 focus:outline-none focus:ring-4 focus:ring-gray-100 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white dark:focus:ring-gray-700">
             <%= tr('giveaways:RESUME_CONFIRM_NO') %>
           </button>
         </form>
@@ -484,7 +483,7 @@
         <span class="sr-only">Close modal</span>
       </button>
       <div class="p-4 text-center md:p-5">
-        <i class="fa-regular fa-circle-exclamation mb-3 w-12 h-12 dark:text-gray-200"></i>
+        <i class="fa-regular fa-circle-exclamation mb-3 h-12 w-12 dark:text-gray-200"></i>
         <h3 class="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400">
           <%= tr('giveaways:PAUSE_CONFIRMATION') %>
         </h3>
@@ -494,13 +493,13 @@
             data-modal-hide="end-modal-<%= giveaway.messageId %>"
             name="end_giveaway"
             type="submit"
-            class="inline-flex items-center rounded-lg bg-primary-600 px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-primary-800 focus:outline-none focus:ring-4 focus:ring-primary-300 dark:focus:ring-primary-800">
+            class="bg-primary-600 hover:bg-primary-800 focus:ring-primary-300 dark:focus:ring-primary-800 inline-flex items-center rounded-lg px-5 py-2.5 text-center text-sm font-medium text-white focus:outline-none focus:ring-4">
             <%= tr('giveaways:PAUSE_CONFIRM_YES') %>
           </button>
           <button
             data-modal-hide="end-modal-<%= giveaway.messageId %>"
             type="button"
-            class="ms-3 rounded-lg border border-gray-200 bg-white px-5 py-2.5 text-sm font-medium text-gray-900 hover:bg-gray-100 hover:text-primary-700 focus:z-10 focus:outline-none focus:ring-4 focus:ring-gray-100 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white dark:focus:ring-gray-700">
+            class="hover:text-primary-700 ms-3 rounded-lg border border-gray-200 bg-white px-5 py-2.5 text-sm font-medium text-gray-900 hover:bg-gray-100 focus:z-10 focus:outline-none focus:ring-4 focus:ring-gray-100 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white dark:focus:ring-gray-700">
             <%= tr('giveaways:PAUSE_CONFIRM_NO') %>
           </button>
         </form>

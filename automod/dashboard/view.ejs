@@ -1,5 +1,5 @@
 <section>
-  <div class="grid gap-4 grid-cols-1 md:grid-cols-2">
+  <div class="grid grid-cols-1 gap-4 md:grid-cols-2">
     <!-- START: Col 1 (Basic Settings)-->
     <div
       x-data="{
@@ -32,7 +32,7 @@
         this.saving = false;
       }
     }"
-      class="rounded-lg border border-gray-200 bg-white p-4 shadow-sm dark:border-gray-700 dark:bg-gray-800 sm:p-6">
+      class="rounded-lg border border-gray-200 bg-white p-4 shadow-sm sm:p-6 dark:border-gray-700 dark:bg-gray-800">
       <!-- START: Card Header -->
       <div class="mb-4 flex items-center justify-between border-b border-gray-200 pb-4 dark:border-gray-700">
         <h3 class="text-lg font-semibold text-gray-800 dark:text-white"><%= tr("automod:BASIC_TITLE") %></h3>
@@ -53,7 +53,7 @@
               x-model="formData.log_channel"
               name="log_channel"
               id="log_channel"
-              class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500">
+              class="focus:ring-primary-500 focus:border-primary-500 dark:focus:ring-primary-500 dark:focus:border-primary-500 block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400">
               <option value=""><%= tr("CHANNEL_SELECT") %></option>
               <% channels.map((ch) => { %>
               <option value="<%= ch.id %>"><%= ch.name %></option>
@@ -74,7 +74,7 @@
               max="20"
               x-model="formData.max_strikes"
               name="max_strikes"
-              class="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-gray-900 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-primary-500 dark:focus:ring-primary-500 sm:text-sm" />
+              class="focus:border-primary-500 focus:ring-primary-500 dark:focus:border-primary-500 dark:focus:ring-primary-500 block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-gray-900 shadow-sm sm:text-sm dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400" />
           </div>
 
           <div class="mb-3">
@@ -88,7 +88,7 @@
               x-model="formData.automod_action"
               name="automod_action"
               id="automod_action"
-              class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500">
+              class="focus:ring-primary-500 focus:border-primary-500 dark:focus:ring-primary-500 dark:focus:border-primary-500 block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400">
               <option>TIMEOUT</option>
               <option>KICK</option>
               <option>BAN</option>
@@ -110,7 +110,7 @@
                 x-model="formData.log_embed"
                 id="log_embed"
                 name="log_embed"
-                class="block w-full h-full min-h-10 rounded-lg border border-gray-300 p-0.5 text-gray-900 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-primary-500 dark:focus:ring-primary-500 sm:text-sm" />
+                class="focus:border-primary-500 focus:ring-primary-500 dark:focus:border-primary-500 dark:focus:ring-primary-500 block h-full min-h-10 w-full rounded-lg border border-gray-300 p-0.5 text-gray-900 shadow-sm sm:text-sm dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400" />
             </div>
           </div>
 
@@ -127,7 +127,7 @@
                 x-model="formData.dm_embed"
                 id="dm_embed"
                 name="dm_embed"
-                class="block w-full h-full min-h-10 rounded-lg border border-gray-300 p-0.5 text-gray-900 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-primary-500 dark:focus:ring-primary-500 sm:text-sm" />
+                class="focus:border-primary-500 focus:ring-primary-500 dark:focus:border-primary-500 dark:focus:ring-primary-500 block h-full min-h-10 w-full rounded-lg border border-gray-300 p-0.5 text-gray-900 shadow-sm sm:text-sm dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400" />
             </div>
           </div>
 
@@ -145,7 +145,7 @@
               x-model="formData.wh_channels"
               name="wh_channels"
               id="wh_channels"
-              class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500">
+              class="focus:ring-primary-500 focus:border-primary-500 dark:focus:ring-primary-500 dark:focus:border-primary-500 block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400">
               <option value=""><%= tr("CHANNEL_SELECT") %></option>
               <% channels.map((ch) => { %>
               <option value="<%= ch.id %>"><%= ch.name %></option>
@@ -156,14 +156,14 @@
         <!-- END: Card Body -->
 
         <!-- START: Card Footer -->
-        <div class="mt-4 flex items-center justify-between border-t border-gray-200 pt-3 dark:border-gray-700 sm:pt-6">
+        <div class="mt-4 flex items-center justify-between border-t border-gray-200 pt-3 sm:pt-6 dark:border-gray-700">
           <div></div>
           <div class="flex-shrink-0">
             <button
               type="submit"
               :disabled="saving"
               :class="{'opacity-50': saving}"
-              class="inline-flex items-center rounded-lg bg-primary-700 px-3 py-2 text-center text-sm font-medium text-white hover:bg-primary-800 focus:outline-none focus:ring-4 focus:ring-primary-300 dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">
+              class="bg-primary-700 hover:bg-primary-800 focus:ring-primary-300 dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800 inline-flex items-center rounded-lg px-3 py-2 text-center text-sm font-medium text-white focus:outline-none focus:ring-4">
               <span x-show="!saving"><%= tr('BTN_SAVE') %></span>
               <span x-show="saving"><%= tr('BTN_SAVING') %></span>
             </button>
@@ -208,7 +208,7 @@
         this.saving = false;
       }
     }"
-      class="rounded-lg border border-gray-200 bg-white p-4 shadow-sm dark:border-gray-700 dark:bg-gray-800 sm:p-6">
+      class="rounded-lg border border-gray-200 bg-white p-4 shadow-sm sm:p-6 dark:border-gray-700 dark:bg-gray-800">
       <!-- START: Card Header -->
       <div class="mb-4 flex items-center justify-between border-b border-gray-200 pb-4 dark:border-gray-700">
         <h3 class="text-lg font-semibold text-gray-800 dark:text-white"><%= tr("automod:TOGGLE_TITLE") %></h3>
@@ -328,20 +328,20 @@
               max="20"
               x-model="formData.max_lines"
               name="max_lines"
-              class="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-gray-900 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-primary-500 dark:focus:ring-primary-500 sm:text-sm" />
+              class="focus:border-primary-500 focus:ring-primary-500 dark:focus:border-primary-500 dark:focus:ring-primary-500 block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-gray-900 shadow-sm sm:text-sm dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400" />
           </div>
         </div>
         <!-- END: Card Body -->
 
         <!-- START: Card Footer -->
-        <div class="mt-4 flex items-center justify-between border-t border-gray-200 pt-3 dark:border-gray-700 sm:pt-6">
+        <div class="mt-4 flex items-center justify-between border-t border-gray-200 pt-3 sm:pt-6 dark:border-gray-700">
           <div></div>
           <div class="flex-shrink-0">
             <button
               type="submit"
               :disabled="saving"
               :class="{'opacity-50': saving}"
-              class="inline-flex items-center rounded-lg bg-primary-700 px-3 py-2 text-center text-sm font-medium text-white hover:bg-primary-800 focus:outline-none focus:ring-4 focus:ring-primary-300 dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">
+              class="bg-primary-700 hover:bg-primary-800 focus:ring-primary-300 dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800 inline-flex items-center rounded-lg px-3 py-2 text-center text-sm font-medium text-white focus:outline-none focus:ring-4">
               <span x-show="!saving"><%= tr('BTN_SAVE') %></span>
               <span x-show="saving"><%= tr('BTN_SAVING') %></span>
             </button>
