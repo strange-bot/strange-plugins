@@ -18,7 +18,7 @@
     "FILTER_FAIL": "Échec de l'application du filtre à l'image",
     "GEN_FAIL": "Échec de la génération de l'image",
     "OVERLAY_FAIL": "Échec de l'application de l'overlay à l'image",
-    
+
     "INVALID_FILTER": "Filtre invalide fourni. Veuillez utiliser un nom de filtre valide.",
     "INVALID_GENERATOR": "Générateur invalide fourni. Veuillez utiliser un nom de générateur valide.",
     "INVALID_OVERLAY": "Overlay invalide fourni. Veuillez utiliser un nom d'overlay valide."

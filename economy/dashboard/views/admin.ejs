@@ -7,7 +7,8 @@
     </div>
     <!-- END: Card Header -->
 
-    <form x-data="{
+    <form
+      x-data="{
         formData: {
           currency: '<%= config.CURRENCY %>',
           daily_coins: '<%= config.DAILY_COINS %>',
@@ -25,14 +26,15 @@
               body: JSON.stringify(this.formData)
             });
             if (!response.ok) throw new Error('Failed to update');
-            Alpine.store('toast').show('<%= tr("SAVED_SUCCESS") %>', 'success');
+            Alpine.store('toast').show('<%= tr(`SAVED_SUCCESS`) %>', 'success');
           } catch (error) {
             Alpine.store('toast').show(error.message, 'error');
           } finally {
             this.saving = false;
           }
         }
-      }" @submit.prevent="submitForm">
+      }"
+      @submit.prevent="submitForm">
       <!-- START: Card Body -->
       <div class="mb-3">
         <div class="grid gap-4 md:grid-cols-2 xl:grid-cols-2">
@@ -42,9 +44,7 @@
               <label for="currency" class="text-sm font-semibold text-gray-900 dark:text-white"
                 ><%= tr("economy:CURRENCY_TITLE") %></label
               >
-              <div class="text-sm font-normal text-gray-500 dark:text-gray-400">
-                <%= tr("economy:CURRENCY_DESC") %>
-              </div>
+              <div class="text-sm font-normal text-gray-500 dark:text-gray-400"><%= tr("economy:CURRENCY_DESC") %></div>
             </div>
             <input
               type="text"
@@ -64,9 +64,7 @@
               <label for="daily_coins" class="text-sm font-semibold text-gray-900 dark:text-white"
                 ><%= tr("economy:DAILY_TITLE") %></label
               >
-              <div class="text-sm font-normal text-gray-500 dark:text-gray-400">
-                <%= tr("economy:DAILY_DESC") %>
-              </div>
+              <div class="text-sm font-normal text-gray-500 dark:text-gray-400"><%= tr("economy:DAILY_DESC") %></div>
             </div>
             <input
               type="number"
@@ -84,9 +82,7 @@
               <label for="min_beg_amount" class="text-sm font-semibold text-gray-900 dark:text-white"
                 ><%= tr("economy:MIN_BEG_TITLE") %></label
               >
-              <div class="text-sm font-normal text-gray-500 dark:text-gray-400">
-                <%= tr("economy:MIN_BEG_DESC") %>
-              </div>
+              <div class="text-sm font-normal text-gray-500 dark:text-gray-400"><%= tr("economy:MIN_BEG_DESC") %></div>
             </div>
             <input
               type="number"
@@ -104,9 +100,7 @@
               <label for="max_beg_amount" class="text-sm font-semibold text-gray-900 dark:text-white"
                 ><%= tr("economy:MAX_BEG_TITLE") %></label
               >
-              <div class="text-sm font-normal text-gray-500 dark:text-gray-400">
-                <%= tr("economy:MAX_BEG_DESC") %>
-              </div>
+              <div class="text-sm font-normal text-gray-500 dark:text-gray-400"><%= tr("economy:MAX_BEG_DESC") %></div>
             </div>
             <input
               type="number"

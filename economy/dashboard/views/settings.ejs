@@ -29,8 +29,7 @@
         }
       }
     }"
-    @submit.prevent="submitForm"
-  >
+    @submit.prevent="submitForm">
     <!-- START: Card Body -->
     <div class="mb-3">
       <div class="grid gap-4 md:grid-cols-2 xl:grid-cols-2">
@@ -40,9 +39,7 @@
             <label for="currency" class="text-sm font-semibold text-gray-900 dark:text-white"
               ><%= tr("economy:CURRENCY_TITLE") %></label
             >
-            <div class="text-sm font-normal text-gray-500 dark:text-gray-400">
-              <%= tr("economy:CURRENCY_DESC") %>
-            </div>
+            <div class="text-sm font-normal text-gray-500 dark:text-gray-400"><%= tr("economy:CURRENCY_DESC") %></div>
           </div>
           <input
             type="text"
@@ -78,9 +75,7 @@
             <label for="min_beg_amount" class="text-sm font-semibold text-gray-900 dark:text-white"
               ><%= tr("economy:MIN_BEG_TITLE") %></label
             >
-            <div class="text-sm font-normal text-gray-500 dark:text-gray-400">
-              <%= tr("economy:MIN_BEG_DESC") %>
-            </div>
+            <div class="text-sm font-normal text-gray-500 dark:text-gray-400"><%= tr("economy:MIN_BEG_DESC") %></div>
           </div>
           <input
             type="number"
@@ -97,9 +92,7 @@
             <label for="max_beg_amount" class="text-sm font-semibold text-gray-900 dark:text-white"
               ><%= tr("economy:MAX_BEG_TITLE") %></label
             >
-            <div class="text-sm font-normal text-gray-500 dark:text-gray-400">
-              <%= tr("economy:MAX_BEG_DESC") %>
-            </div>
+            <div class="text-sm font-normal text-gray-500 dark:text-gray-400"><%= tr("economy:MAX_BEG_DESC") %></div>
           </div>
           <input
             type="number"
@@ -121,8 +114,7 @@
           type="submit"
           :disabled="saving"
           :class="{'opacity-50': saving}"
-          class="inline-flex items-center rounded-lg bg-primary-700 px-3 py-2 text-center text-sm font-medium text-white hover:bg-primary-800 focus:outline-none focus:ring-4 focus:ring-primary-300 dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
-        >
+          class="inline-flex items-center rounded-lg bg-primary-700 px-3 py-2 text-center text-sm font-medium text-white hover:bg-primary-800 focus:outline-none focus:ring-4 focus:ring-primary-300 dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">
           <span x-show="!saving"><%= tr('BTN_SAVE') %></span>
           <span x-show="saving"><%= tr('BTN_SAVING') %></span>
         </button>

@@ -28,26 +28,23 @@
         }
       }
     }"
-    @submit.prevent="submitForm"
-  >
+    @submit.prevent="submitForm">
     <!-- START: Card Body -->
     <div class="mb-3">
-
       <!-- START: Row 1 (XP Message) -->
       <div class="mb-3">
         <div class="mb-2">
-          <label for="xp_message" class="text-sm font-semibold text-gray-900 dark:text-white"><%= tr("stats:LVL_MSG_TITLE") %></label>
-          <div class="text-sm font-normal text-gray-500 dark:text-gray-400">
-            <%= tr("stats:LVL_MSG_DESC") %>
-          </div>
+          <label for="xp_message" class="text-sm font-semibold text-gray-900 dark:text-white"
+            ><%= tr("stats:LVL_MSG_TITLE") %></label
+          >
+          <div class="text-sm font-normal text-gray-500 dark:text-gray-400"><%= tr("stats:LVL_MSG_DESC") %></div>
         </div>
         <input
           type="text"
           x-model="formData.xp_message"
           id="xp_message"
           class="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-gray-900 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-primary-500 dark:focus:ring-primary-500 sm:text-sm"
-          required
-        />
+          required />
       </div>
       <!-- END: Row 1 -->
 
@@ -56,15 +53,18 @@
         <!-- START: Column 1 (Channel) -->
         <div>
           <div class="mb-2">
-            <label for="xp_channel" class="text-sm font-semibold text-gray-900 dark:text-white"><%= tr("stats:LVL_CH_TITLE") %></label>
-            <div class="text-sm font-normal text-gray-500 dark:text-gray-400">
-              <%= tr("stats:LVL_CH_DESC") %>
-            </div>
+            <label for="xp_channel" class="text-sm font-semibold text-gray-900 dark:text-white"
+              ><%= tr("stats:LVL_CH_TITLE") %></label
+            >
+            <div class="text-sm font-normal text-gray-500 dark:text-gray-400"><%= tr("stats:LVL_CH_DESC") %></div>
           </div>
-          <select x-model="formData.xp_channel" id="xp_channel" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500">
+          <select
+            x-model="formData.xp_channel"
+            id="xp_channel"
+            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500">
             <option value=""><%= tr("CHANNEL_SELECT") %></option>
             <% channels.map((ch) => { %>
-              <option value="<%= ch.id %>" <%= settings.xp.channel === ch.id ? 'selected' : '' %>><%= ch.name %></option>
+            <option value="<%= ch.id %>"><%= ch.name %></option>
             <% }) %>
           </select>
         </div>
@@ -73,10 +73,10 @@
         <!-- START: Column 2 (Cooldown) -->
         <div>
           <div class="mb-2">
-            <label for="cooldown" class="text-sm font-semibold text-gray-900 dark:text-white"><%= tr("stats:COOLDOWN_TITLE") %></label>
-            <div class="text-sm font-normal text-gray-500 dark:text-gray-400">
-              <%= tr("stats:COOLDOWN_DESC") %>
-            </div>
+            <label for="cooldown" class="text-sm font-semibold text-gray-900 dark:text-white"
+              ><%= tr("stats:COOLDOWN_TITLE") %></label
+            >
+            <div class="text-sm font-normal text-gray-500 dark:text-gray-400"><%= tr("stats:COOLDOWN_DESC") %></div>
           </div>
           <input
             type="number"
@@ -84,14 +84,11 @@
             x-model="formData.cooldown"
             id="cooldown"
             class="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-gray-900 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-primary-500 dark:focus:ring-primary-500 sm:text-sm"
-            required
-          />
+            required />
         </div>
         <!-- END: Column 2 -->
-
       </div>
       <!-- END: Row 2 -->
-      
     </div>
     <!-- END: Card Body -->
 
@@ -103,8 +100,7 @@
           type="submit"
           :disabled="saving"
           :class="{'opacity-50': saving}"
-          class="inline-flex items-center rounded-lg bg-primary-700 px-3 py-2 text-center text-sm font-medium text-white hover:bg-primary-800 focus:outline-none focus:ring-4 focus:ring-primary-300 dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
-        >
+          class="inline-flex items-center rounded-lg bg-primary-700 px-3 py-2 text-center text-sm font-medium text-white hover:bg-primary-800 focus:outline-none focus:ring-4 focus:ring-primary-300 dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">
           <span x-show="!saving"><%= tr('BTN_SAVE') %></span>
           <span x-show="saving"><%= tr('BTN_SAVING') %></span>
         </button>

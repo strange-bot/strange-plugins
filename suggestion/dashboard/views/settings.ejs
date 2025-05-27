@@ -1,5 +1,6 @@
 <section class="rounded-lg border border-gray-200 bg-white p-4 shadow-sm dark:border-gray-700 dark:bg-gray-800">
-  <form x-data="{
+  <form
+    x-data="{
     formData: {
       upvote_emoji: '<%= settings.upvote_emoji %>',
       downvote_emoji: '<%= settings.downvote_emoji %>',
@@ -31,7 +32,8 @@
         this.saving = false;
       }
     }
-  }" @submit.prevent="submitForm">
+  }"
+    @submit.prevent="submitForm">
     <!-- START: Card Body -->
 
     <!-- START: ROW 1 -->
@@ -93,14 +95,14 @@
               <%= tr("suggestion:DEFAULT_CH_DESC") %>
             </div>
           </div>
-          <select 
+          <select
             x-model="formData.default_ch"
-            name="default_ch" 
-            id="default_ch" 
+            name="default_ch"
+            id="default_ch"
             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500">
             <option selected disabled><%= tr("CHANNEL_SELECT") %></option>
             <% channels.map((ch) => { %>
-              <option value="<%= ch.id %>" <%= settings.channel_id === ch.id ? 'selected' : '' %>><%= ch.name %></option>
+            <option value="<%= ch.id %>"><%= ch.name %></option>
             <% }) %>
           </select>
         </div>
@@ -140,14 +142,14 @@
               <%= tr("suggestion:APPROVED_CH_DESC") %>
             </div>
           </div>
-          <select 
+          <select
             x-model="formData.approved_ch"
-            name="approved_ch" 
-            id="approved_ch" 
+            name="approved_ch"
+            id="approved_ch"
             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500">
             <option selected disabled><%= tr("CHANNEL_SELECT") %></option>
             <% channels.map((ch) => { %>
-              <option value="<%= ch.id %>" <%= settings.approved_channel === ch.id ? 'selected' : '' %>><%= ch.name %></option>
+            <option value="<%= ch.id %>"><%= ch.name %></option>
             <% }) %>
           </select>
         </div>
@@ -187,14 +189,14 @@
               <%= tr("suggestion:REJECTED_CH_DESC") %>
             </div>
           </div>
-          <select 
+          <select
             x-model="formData.rejected_ch"
-            name="rejected_ch" 
-            id="rejected_ch" 
+            name="rejected_ch"
+            id="rejected_ch"
             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500">
             <option selected disabled><%= tr("CHANNEL_SELECT") %></option>
             <% channels.map((ch) => { %>
-              <option value="<%= ch.id %>" <%= settings.rejected_channel === ch.id ? 'selected' : '' %>><%= ch.name %></option>
+            <option value="<%= ch.id %>"><%= ch.name %></option>
             <% }) %>
           </select>
         </div>
@@ -224,19 +226,19 @@
     <!-- START: ROW 5 -->
     <div class="mb-3">
       <div class="mb-2">
-        <label for="staff_roles" class="text-sm font-semibold text-gray-900 dark:text-white"><%= tr("suggestion:STAFF_TITLE") %></label>
-        <div class="text-sm font-normal text-gray-500 dark:text-gray-400">
-          <%= tr("suggestion:STAFF_DESC") %>
-        </div>
+        <label for="staff_roles" class="text-sm font-semibold text-gray-900 dark:text-white"
+          ><%= tr("suggestion:STAFF_TITLE") %></label
+        >
+        <div class="text-sm font-normal text-gray-500 dark:text-gray-400"><%= tr("suggestion:STAFF_DESC") %></div>
       </div>
-      <select 
-        x-model="formData.staff_roles" 
-        multiple 
-        name="staff_roles" 
-        id="staff_roles" 
+      <select
+        x-model="formData.staff_roles"
+        multiple
+        name="staff_roles"
+        id="staff_roles"
         class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500">
         <% roles.map((r) => { %>
-          <option value="<%= r.id %>" <%= settings.staff_roles.includes(r.id) ? 'selected' : '' %>><%= r.name %></option>
+        <option value="<%= r.id %>"><%= r.name %></option>
         <% }) %>
       </select>
     </div>
@@ -252,8 +254,7 @@
           type="submit"
           :disabled="saving"
           :class="{'opacity-50': saving}"
-          class="inline-flex items-center rounded-lg bg-primary-700 px-3 py-2 text-center text-sm font-medium text-white hover:bg-primary-800 focus:outline-none focus:ring-4 focus:ring-primary-300 dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
-        >
+          class="inline-flex items-center rounded-lg bg-primary-700 px-3 py-2 text-center text-sm font-medium text-white hover:bg-primary-800 focus:outline-none focus:ring-4 focus:ring-primary-300 dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">
           <span x-show="!saving"><%= tr('BTN_SAVE') %></span>
           <span x-show="saving"><%= tr('BTN_SAVING') %></span>
         </button>

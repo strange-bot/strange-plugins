@@ -53,19 +53,19 @@ module.exports = {
 
     async messageRun({ message, args, invoke }) {
         // Determine overlay name - either use invoke (for aliases) or get it from args
-        const overlayName = availableOverlays.includes(invoke.toLowerCase()) 
-            ? invoke.toLowerCase() 
+        const overlayName = availableOverlays.includes(invoke.toLowerCase())
+            ? invoke.toLowerCase()
             : args[0]?.toLowerCase();
-            
+
         if (!overlayName || !availableOverlays.includes(overlayName)) {
             return message.replyT("image:INVALID_OVERLAY");
         }
-        
+
         // Remove overlay name from args if using !overlay command
         if (invoke.toLowerCase() === "overlay") {
             args.shift();
         }
-        
+
         const image = await getImageFromMessage(message, args);
         const config = await plugin.getConfig();
         const { STRANGE_API_URL, STRANGE_API_KEY, EMBED_COLOR } = config;

@@ -1,5 +1,6 @@
 <section class="rounded-lg border border-gray-200 bg-white p-4 shadow-sm dark:border-gray-700 dark:bg-gray-800">
-  <form x-data="{
+  <form
+    x-data="{
     formData: {
       reaction: '<%= settings.reaction %>',
       start_embed_color: '<%= settings.start_embed_color %>',
@@ -24,7 +25,8 @@
       }
       this.saving = false;
     }
-  }" @submit.prevent="submitForm">
+  }"
+    @submit.prevent="submitForm">
     <!-- START: Card Body -->
     <div class="mb-3">
       <div class="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
@@ -34,9 +36,7 @@
             <label for="reaction" class="text-sm font-semibold text-gray-900 dark:text-white"
               ><%= tr("giveaways:REACTION_TITLE") %></label
             >
-            <div class="text-sm font-normal text-gray-500 dark:text-gray-400">
-              <%= tr("giveaways:REACTION_DESC") %>
-            </div>
+            <div class="text-sm font-normal text-gray-500 dark:text-gray-400"><%= tr("giveaways:REACTION_DESC") %></div>
           </div>
           <input
             type="text"
@@ -97,8 +97,7 @@
           type="submit"
           :disabled="saving"
           :class="{'opacity-50': saving}"
-          class="inline-flex items-center rounded-lg bg-primary-700 px-3 py-2 text-center text-sm font-medium text-white hover:bg-primary-800 focus:outline-none focus:ring-4 focus:ring-primary-300 dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
-        >
+          class="inline-flex items-center rounded-lg bg-primary-700 px-3 py-2 text-center text-sm font-medium text-white hover:bg-primary-800 focus:outline-none focus:ring-4 focus:ring-primary-300 dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">
           <span x-show="!saving"><%= tr('BTN_SAVE') %></span>
           <span x-show="saving"><%= tr('BTN_SAVING') %></span>
         </button>
@@ -107,7 +106,6 @@
     <!-- END: Card Footer -->
   </form>
 </section>
-
 
 <%- contentFor(tr("giveaways:LIST_TITLE")) %>
 <!-- START: List Giveaways -->
@@ -172,7 +170,8 @@
               </tr>
             </thead>
             <tbody class="bg-white dark:bg-gray-800">
-              <% giveaways.forEach((giveaway, i) => { %> <% if (i % 2 === 0) { %>
+              <% giveaways.forEach((giveaway, i) => { %>
+              <% if (i % 2 === 0) { %>
               <tr class="bg-gray-50 dark:bg-gray-700">
                 <% } else { %>
               </tr>
@@ -196,21 +195,16 @@
                 </td>
                 <td class="whitespace-nowrap p-4">
                   <a
-                    <% if (giveaway.pauseOptions.isPaused) { %>
-                    data-modal-target="resume-modal-<%= giveaway.messageId %>"
-                    data-modal-toggle="resume-modal-<%= giveaway.messageId %>"
-                    <% } else { %>
-                    data-modal-target="pause-modal-<%= giveaway.messageId %>"
-                    data-modal-toggle="pause-modal-<%= giveaway.messageId %>">
-                    <% } %>
-                    <span class="cursor-pointer mr-2 rounded-md border border-green-100 bg-green-100 px-2.5 py-0.5 text-xs font-medium text-green-800 dark:border-green-500 dark:bg-gray-700 dark:text-green-400">
+                    data-modal-target="<%= giveaway.pauseOptions.isPaused ? 'resume-modal-' + giveaway.messageId : 'pause-modal-' + giveaway.messageId %>"
+                    data-modal-toggle="<%= giveaway.pauseOptions.isPaused ? 'resume-modal-' + giveaway.messageId : 'pause-modal-' + giveaway.messageId %>">
+                    <span
+                      class="cursor-pointer mr-2 rounded-md border border-green-100 bg-green-100 px-2.5 py-0.5 text-xs font-medium text-green-800 dark:border-green-500 dark:bg-gray-700 dark:text-green-400">
                       <%= giveaway.pauseOptions.isPaused ? tr("giveaways:RESUME_BTN") : tr("giveaways:PAUSE_BTN") %>
                     </span>
                   </a>
                   <a
                     data-modal-target="end-modal-<%= giveaway.messageId %>"
-                    data-modal-toggle="end-modal-<%= giveaway.messageId %>"
-                    >
+                    data-modal-toggle="end-modal-<%= giveaway.messageId %>">
                     <span
                       class="cursor-pointer rounded-md border border-red-100 bg-red-100 px-2.5 py-0.5 text-xs font-medium text-red-800 dark:border-red-500 dark:bg-gray-700 dark:text-red-400"
                       ><%=tr("giveaways:END_BTN")%></span
@@ -229,7 +223,6 @@
   <!-- END: Card Body -->
 </section>
 <!-- END: List Giveaways -->
-
 
 <!-- START: Create Giveaway Modal -->
 <div
@@ -388,135 +381,132 @@
 </div>
 <!-- END: Create Giveaway Modal -->
 
-
 <!-- START: Pause Giveaway Modal -->
 <% giveaways.filter((g) => !g.pauseOptions.isPaused).forEach(giveaway => { %>
-  <div
-    id="pause-modal-<%= giveaway.messageId %>"
-    tabindex="-1"
-    class="fixed left-0 right-0 top-0 z-50 hidden h-[calc(100%-1rem)] max-h-full w-full items-center justify-center overflow-y-auto overflow-x-hidden md:inset-0">
-    <div class="relative max-h-full w-full max-w-md p-4">
-      <div class="relative rounded-lg bg-white shadow dark:bg-gray-700">
-        <button
-          type="button"
-          class="absolute end-2.5 top-3 ms-auto inline-flex h-8 w-8 items-center justify-center rounded-lg bg-transparent text-sm text-gray-400 hover:bg-gray-200 hover:text-gray-900 dark:hover:bg-gray-600 dark:hover:text-white"
-          data-modal-hide="pause-modal-<%= giveaway.messageId %>">
-          <i class="fa-solid fa-xmark h-4 w-4"></i>
-          <span class="sr-only">Close modal</span>
-        </button>
-        <div class="p-4 text-center md:p-5">
-          <i class="fa-regular fa-circle-exclamation"></i>
-          <i class="fa-regular fa-circle-exclamation mb-3 w-12 h-12 dark:text-gray-200"></i>
-          <h3 class="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400">
-            <%= tr('giveaways:PAUSE_CONFIRMATION') %>
-          </h3>
-          <form method="post">
-            <input type="hidden" name="message_id" value="<%= giveaway.messageId %>" />
-            <button
-              data-modal-hide="pause-modal-<%= giveaway.messageId %>"
-              name="pause_giveaway"
-              type="submit"
-              class="inline-flex items-center rounded-lg bg-primary-600 px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-primary-800 focus:outline-none focus:ring-4 focus:ring-primary-300 dark:focus:ring-primary-800">
-              <%= tr('giveaways:PAUSE_CONFIRM_YES') %>
-            </button>
-            <button
-              data-modal-hide="pause-modal-<%= giveaway.messageId %>"
-              type="button"
-              class="ms-3 rounded-lg border border-gray-200 bg-white px-5 py-2.5 text-sm font-medium text-gray-900 hover:bg-gray-100 hover:text-primary-700 focus:z-10 focus:outline-none focus:ring-4 focus:ring-gray-100 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white dark:focus:ring-gray-700">
-              <%= tr('giveaways:PAUSE_CONFIRM_NO') %>
-            </button>
-          </form>
-        </div>
+<div
+  id="pause-modal-<%= giveaway.messageId %>"
+  tabindex="-1"
+  class="fixed left-0 right-0 top-0 z-50 hidden h-[calc(100%-1rem)] max-h-full w-full items-center justify-center overflow-y-auto overflow-x-hidden md:inset-0">
+  <div class="relative max-h-full w-full max-w-md p-4">
+    <div class="relative rounded-lg bg-white shadow dark:bg-gray-700">
+      <button
+        type="button"
+        class="absolute end-2.5 top-3 ms-auto inline-flex h-8 w-8 items-center justify-center rounded-lg bg-transparent text-sm text-gray-400 hover:bg-gray-200 hover:text-gray-900 dark:hover:bg-gray-600 dark:hover:text-white"
+        data-modal-hide="pause-modal-<%= giveaway.messageId %>">
+        <i class="fa-solid fa-xmark h-4 w-4"></i>
+        <span class="sr-only">Close modal</span>
+      </button>
+      <div class="p-4 text-center md:p-5">
+        <i class="fa-regular fa-circle-exclamation"></i>
+        <i class="fa-regular fa-circle-exclamation mb-3 w-12 h-12 dark:text-gray-200"></i>
+        <h3 class="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400">
+          <%= tr('giveaways:PAUSE_CONFIRMATION') %>
+        </h3>
+        <form method="post">
+          <input type="hidden" name="message_id" value="<%= giveaway.messageId %>" />
+          <button
+            data-modal-hide="pause-modal-<%= giveaway.messageId %>"
+            name="pause_giveaway"
+            type="submit"
+            class="inline-flex items-center rounded-lg bg-primary-600 px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-primary-800 focus:outline-none focus:ring-4 focus:ring-primary-300 dark:focus:ring-primary-800">
+            <%= tr('giveaways:PAUSE_CONFIRM_YES') %>
+          </button>
+          <button
+            data-modal-hide="pause-modal-<%= giveaway.messageId %>"
+            type="button"
+            class="ms-3 rounded-lg border border-gray-200 bg-white px-5 py-2.5 text-sm font-medium text-gray-900 hover:bg-gray-100 hover:text-primary-700 focus:z-10 focus:outline-none focus:ring-4 focus:ring-gray-100 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white dark:focus:ring-gray-700">
+            <%= tr('giveaways:PAUSE_CONFIRM_NO') %>
+          </button>
+        </form>
       </div>
     </div>
   </div>
-  <% }) %>
+</div>
+<% }) %>
 <!-- END: Pause Giveaway Modal -->
 
-  
 <!-- START: Resume Giveaway Modal -->
 <% giveaways.filter((g) => g.pauseOptions.isPaused).forEach(giveaway => { %>
-  <div
-    id="resume-modal-<%= giveaway.messageId %>"
-    tabindex="-1"
-    class="fixed left-0 right-0 top-0 z-50 hidden h-[calc(100%-1rem)] max-h-full w-full items-center justify-center overflow-y-auto overflow-x-hidden md:inset-0">
-    <div class="relative max-h-full w-full max-w-md p-4">
-      <div class="relative rounded-lg bg-white shadow dark:bg-gray-700">
-        <button
-          type="button"
-          class="absolute end-2.5 top-3 ms-auto inline-flex h-8 w-8 items-center justify-center rounded-lg bg-transparent text-sm text-gray-400 hover:bg-gray-200 hover:text-gray-900 dark:hover:bg-gray-600 dark:hover:text-white"
-          data-modal-hide="resume-modal-<%= giveaway.messageId %>">
-          <i class="fa-solid fa-xmark h-4 w-4"></i>
-          <span class="sr-only">Close modal</span>
-        </button>
-        <div class="p-4 text-center md:p-5">
-          <i class="fa-regular fa-circle-exclamation mb-3 w-12 h-12 dark:text-gray-200"></i>
-          <h3 class="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400">
-            <%= tr('giveaways:RESUME_CONFIRMATION') %>
-          </h3>
-          <form method="post">
-            <input type="hidden" name="message_id" value="<%= giveaway.messageId %>" />
-            <button
-              data-modal-hide="resume-modal-<%= giveaway.messageId %>"
-              name="resume_giveaway"
-              type="submit"
-              class="inline-flex items-center rounded-lg bg-primary-600 px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-primary-800 focus:outline-none focus:ring-4 focus:ring-primary-300 dark:focus:ring-primary-800">
-              <%= tr('giveaways:RESUME_CONFIRM_YES') %>
-            </button>
-            <button
-              data-modal-hide="resume-modal-<%= giveaway.messageId %>"
-              type="button"
-              class="ms-3 rounded-lg border border-gray-200 bg-white px-5 py-2.5 text-sm font-medium text-gray-900 hover:bg-gray-100 hover:text-primary-700 focus:z-10 focus:outline-none focus:ring-4 focus:ring-gray-100 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white dark:focus:ring-gray-700">
-              <%= tr('giveaways:RESUME_CONFIRM_NO') %>
-            </button>
-          </form>
-        </div>
+<div
+  id="resume-modal-<%= giveaway.messageId %>"
+  tabindex="-1"
+  class="fixed left-0 right-0 top-0 z-50 hidden h-[calc(100%-1rem)] max-h-full w-full items-center justify-center overflow-y-auto overflow-x-hidden md:inset-0">
+  <div class="relative max-h-full w-full max-w-md p-4">
+    <div class="relative rounded-lg bg-white shadow dark:bg-gray-700">
+      <button
+        type="button"
+        class="absolute end-2.5 top-3 ms-auto inline-flex h-8 w-8 items-center justify-center rounded-lg bg-transparent text-sm text-gray-400 hover:bg-gray-200 hover:text-gray-900 dark:hover:bg-gray-600 dark:hover:text-white"
+        data-modal-hide="resume-modal-<%= giveaway.messageId %>">
+        <i class="fa-solid fa-xmark h-4 w-4"></i>
+        <span class="sr-only">Close modal</span>
+      </button>
+      <div class="p-4 text-center md:p-5">
+        <i class="fa-regular fa-circle-exclamation mb-3 w-12 h-12 dark:text-gray-200"></i>
+        <h3 class="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400">
+          <%= tr('giveaways:RESUME_CONFIRMATION') %>
+        </h3>
+        <form method="post">
+          <input type="hidden" name="message_id" value="<%= giveaway.messageId %>" />
+          <button
+            data-modal-hide="resume-modal-<%= giveaway.messageId %>"
+            name="resume_giveaway"
+            type="submit"
+            class="inline-flex items-center rounded-lg bg-primary-600 px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-primary-800 focus:outline-none focus:ring-4 focus:ring-primary-300 dark:focus:ring-primary-800">
+            <%= tr('giveaways:RESUME_CONFIRM_YES') %>
+          </button>
+          <button
+            data-modal-hide="resume-modal-<%= giveaway.messageId %>"
+            type="button"
+            class="ms-3 rounded-lg border border-gray-200 bg-white px-5 py-2.5 text-sm font-medium text-gray-900 hover:bg-gray-100 hover:text-primary-700 focus:z-10 focus:outline-none focus:ring-4 focus:ring-gray-100 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white dark:focus:ring-gray-700">
+            <%= tr('giveaways:RESUME_CONFIRM_NO') %>
+          </button>
+        </form>
       </div>
     </div>
   </div>
+</div>
 <% }) %>
 <!-- END: Resume Giveaway Modal -->
-  
 
 <!-- START: End Giveaway Modal -->
 <% giveaways.forEach(giveaway => { %>
-  <div
-    id="end-modal-<%= giveaway.messageId %>"
-    tabindex="-1"
-    class="fixed left-0 right-0 top-0 z-50 hidden h-[calc(100%-1rem)] max-h-full w-full items-center justify-center overflow-y-auto overflow-x-hidden md:inset-0">
-    <div class="relative max-h-full w-full max-w-md p-4">
-      <div class="relative rounded-lg bg-white shadow dark:bg-gray-700">
-        <button
-          type="button"
-          class="absolute end-2.5 top-3 ms-auto inline-flex h-8 w-8 items-center justify-center rounded-lg bg-transparent text-sm text-gray-400 hover:bg-gray-200 hover:text-gray-900 dark:hover:bg-gray-600 dark:hover:text-white"
-          data-modal-hide="end-modal-<%= giveaway.messageId %>">
-          <i class="fa-solid fa-xmark h-4 w-4"></i>
-          <span class="sr-only">Close modal</span>
-        </button>
-        <div class="p-4 text-center md:p-5">
-          <i class="fa-regular fa-circle-exclamation mb-3 w-12 h-12 dark:text-gray-200"></i>
-          <h3 class="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400">
-            <%= tr('giveaways:PAUSE_CONFIRMATION') %>
-          </h3>
-          <form method="post">
-            <input type="hidden" name="message_id" value="<%= giveaway.messageId %>" />
-            <button
-              data-modal-hide="end-modal-<%= giveaway.messageId %>"
-              name="end_giveaway"
-              type="submit"
-              class="inline-flex items-center rounded-lg bg-primary-600 px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-primary-800 focus:outline-none focus:ring-4 focus:ring-primary-300 dark:focus:ring-primary-800">
-              <%= tr('giveaways:PAUSE_CONFIRM_YES') %>
-            </button>
-            <button
-              data-modal-hide="end-modal-<%= giveaway.messageId %>"
-              type="button"
-              class="ms-3 rounded-lg border border-gray-200 bg-white px-5 py-2.5 text-sm font-medium text-gray-900 hover:bg-gray-100 hover:text-primary-700 focus:z-10 focus:outline-none focus:ring-4 focus:ring-gray-100 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white dark:focus:ring-gray-700">
-              <%= tr('giveaways:PAUSE_CONFIRM_NO') %>
-            </button>
-          </form>
-        </div>
+<div
+  id="end-modal-<%= giveaway.messageId %>"
+  tabindex="-1"
+  class="fixed left-0 right-0 top-0 z-50 hidden h-[calc(100%-1rem)] max-h-full w-full items-center justify-center overflow-y-auto overflow-x-hidden md:inset-0">
+  <div class="relative max-h-full w-full max-w-md p-4">
+    <div class="relative rounded-lg bg-white shadow dark:bg-gray-700">
+      <button
+        type="button"
+        class="absolute end-2.5 top-3 ms-auto inline-flex h-8 w-8 items-center justify-center rounded-lg bg-transparent text-sm text-gray-400 hover:bg-gray-200 hover:text-gray-900 dark:hover:bg-gray-600 dark:hover:text-white"
+        data-modal-hide="end-modal-<%= giveaway.messageId %>">
+        <i class="fa-solid fa-xmark h-4 w-4"></i>
+        <span class="sr-only">Close modal</span>
+      </button>
+      <div class="p-4 text-center md:p-5">
+        <i class="fa-regular fa-circle-exclamation mb-3 w-12 h-12 dark:text-gray-200"></i>
+        <h3 class="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400">
+          <%= tr('giveaways:PAUSE_CONFIRMATION') %>
+        </h3>
+        <form method="post">
+          <input type="hidden" name="message_id" value="<%= giveaway.messageId %>" />
+          <button
+            data-modal-hide="end-modal-<%= giveaway.messageId %>"
+            name="end_giveaway"
+            type="submit"
+            class="inline-flex items-center rounded-lg bg-primary-600 px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-primary-800 focus:outline-none focus:ring-4 focus:ring-primary-300 dark:focus:ring-primary-800">
+            <%= tr('giveaways:PAUSE_CONFIRM_YES') %>
+          </button>
+          <button
+            data-modal-hide="end-modal-<%= giveaway.messageId %>"
+            type="button"
+            class="ms-3 rounded-lg border border-gray-200 bg-white px-5 py-2.5 text-sm font-medium text-gray-900 hover:bg-gray-100 hover:text-primary-700 focus:z-10 focus:outline-none focus:ring-4 focus:ring-gray-100 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white dark:focus:ring-gray-700">
+            <%= tr('giveaways:PAUSE_CONFIRM_NO') %>
+          </button>
+        </form>
       </div>
     </div>
   </div>
+</div>
 <% }) %>
 <!-- END: End Giveaway Modal -->

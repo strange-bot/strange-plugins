@@ -70,19 +70,19 @@ module.exports = {
 
     async messageRun({ message, args, invoke }) {
         // Determine generator name - either use invoke (for aliases) or get it from args
-        const generatorName = availableGenerators.includes(invoke.toLowerCase()) 
-            ? invoke.toLowerCase() 
+        const generatorName = availableGenerators.includes(invoke.toLowerCase())
+            ? invoke.toLowerCase()
             : args[0]?.toLowerCase();
-            
+
         if (!generatorName || !availableGenerators.includes(generatorName)) {
             return message.replyT("image:INVALID_GENERATOR");
         }
-        
+
         // Remove generator name from args if using !generator command
         if (invoke.toLowerCase() === "generator") {
             args.shift();
         }
-        
+
         const image = await getImageFromMessage(message, args);
         const config = await plugin.getConfig();
         const { STRANGE_API_URL, STRANGE_API_KEY, EMBED_COLOR } = config;

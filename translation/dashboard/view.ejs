@@ -26,27 +26,17 @@
         }
       }
     }"
-    @submit.prevent="submitForm"
-  >
+    @submit.prevent="submitForm">
     <!-- START: Card Body -->
     <div class="mb-3 flex items-center justify-between">
       <div class="flex flex-grow flex-col">
-        <div class="mb-1 text-sm font-semibold text-gray-900 dark:text-white">
-          <%= tr("translation:FLAG_TR") %>
-        </div>
-        <div class="text-sm font-normal text-gray-500 dark:text-gray-400">
-          <%= tr("translation:FLAG_TR_DESC") %>
-        </div>
+        <div class="mb-1 text-sm font-semibold text-gray-900 dark:text-white"><%= tr("translation:FLAG_TR") %></div>
+        <div class="text-sm font-normal text-gray-500 dark:text-gray-400"><%= tr("translation:FLAG_TR_DESC") %></div>
       </div>
       <label for="flag_tr" class="relative flex cursor-pointer items-center">
-        <input 
-          type="checkbox" 
-          name="flag_tr" 
-          id="flag_tr" 
-          class="sr-only" 
-          x-model="formData.flag_translation"
-        />
-        <span class="toggle-bg h-6 w-11 rounded-full border border-gray-200 bg-gray-200 dark:border-gray-600 dark:bg-gray-700"></span>
+        <input type="checkbox" name="flag_tr" id="flag_tr" class="sr-only" x-model="formData.flag_translation" />
+        <span
+          class="toggle-bg h-6 w-11 rounded-full border border-gray-200 bg-gray-200 dark:border-gray-600 dark:bg-gray-700"></span>
       </label>
     </div>
     <!-- END: Card Body -->
@@ -59,8 +49,7 @@
           type="submit"
           :disabled="saving"
           :class="{'opacity-50': saving}"
-          class="inline-flex items-center rounded-lg bg-primary-700 px-3 py-2 text-center text-sm font-medium text-white hover:bg-primary-800 focus:outline-none focus:ring-4 focus:ring-primary-300 dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
-        >
+          class="inline-flex items-center rounded-lg bg-primary-700 px-3 py-2 text-center text-sm font-medium text-white hover:bg-primary-800 focus:outline-none focus:ring-4 focus:ring-primary-300 dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">
           <span x-show="!saving"><%= tr('BTN_SAVE') %></span>
           <span x-show="saving"><%= tr('BTN_SAVING') %></span>
         </button>
