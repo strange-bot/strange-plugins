@@ -5,9 +5,8 @@ const plugin = require("../index");
  * @param {import("discord.js").Client} client
  */
 module.exports = async (client) => {
-    const config = await plugin.getConfig();
-
-    function updatePresence(client) {
+    async function updatePresence(client) {
+        const config = await plugin.getConfig();
         let message = config["MESSAGE"];
 
         if (message.includes("{servers}")) {
@@ -37,6 +36,7 @@ module.exports = async (client) => {
             }
         };
 
+        client.logger.debug(`Updating presence with config: ${JSON.stringify(config)}`);
         client.user.setPresence({
             status: config["STATUS"],
             activities: [
