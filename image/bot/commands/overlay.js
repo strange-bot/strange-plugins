@@ -78,7 +78,7 @@ module.exports = {
     },
 
     async interactionRun({ interaction }) {
-        const { author, guild } = interaction;
+        const { user: author, guild } = interaction;
 
         const user = interaction.options.getUser("user");
         const imageLink = interaction.options.getString("link");
