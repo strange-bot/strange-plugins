@@ -7,7 +7,7 @@ module.exports = async (client) => {
 
     // Set language on client, guilds (TODO: Better logic in the future)
     const config = await client.coreConfig();
-    client.defaultLanguage = config["LOCALE"]["DEFAULT"];
+    client.defaultLanguage = config["LOCALE"]["DEFAULT"] || "en-US";
     for (const guild of client.guilds.cache.values()) {
         const settings = await guild.getSettings("core");
         guild.locale = settings.locale || client.defaultLanguage;
