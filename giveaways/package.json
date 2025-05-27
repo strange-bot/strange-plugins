@@ -5,7 +5,7 @@
     "author": "Sai Teja Madha",
     "license": "ISC",
     "dependencies": {
-        "discord-giveaways": "^6.0.1",
+        "discord-giveaways": "github:strange-bot/discord-giveaways",
         "enhanced-ms": "^2.3.0"
     },
     "peerDependencies": {

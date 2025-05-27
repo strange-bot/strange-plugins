@@ -13,7 +13,7 @@ router.get("/", async (req, res) => {
     const roles = rolesResp.find((d) => d.success)?.data;
 
     res.render(path.join(__dirname, "views/settings.ejs"), {
-        giveaways,
+        giveaways: giveaways || [],
         channels,
         roles,
         tabs: [req.translate("giveaways:LIST_TITLE")],
