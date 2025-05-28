@@ -11,7 +11,5 @@
     "MIN_BEG_DESC": "Set the minimum amount of coins a player can beg for.",
     "MAX_BEG_TITLE": "Maximum Beg Amount",
     "MAX_BEG_DESC": "Set the maximum amount of coins a player can beg for.",
-    "DEFAULTS": "Server Defaults",
-    "BEG_INTERVAL": "Beg Interval",
-    "BEG_INTERVAL_DESC": "Set the interval in which a player can beg for coins (in hours)."
+    "DEFAULTS": "Server Defaults"
 }

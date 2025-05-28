@@ -11,7 +11,5 @@
     "MIN_BEG_DESC": "Définissez le montant minimum de pièces qu'un joueur peut mendier.",
     "MAX_BEG_TITLE": "Montant maximum de demande",
     "MAX_BEG_DESC": "Définissez le montant maximum de pièces qu'un joueur peut mendier.",
-    "DEFAULTS": "Paramètres par défaut du serveur",
-    "BEG_INTERVAL": "Intervalle de mendicité",
-    "BEG_INTERVAL_DESC": "Définissez l'intervalle pendant lequel un joueur peut mendier des pièces (en heures)."
+    "DEFAULTS": "Paramètres par défaut du serveur"
 }

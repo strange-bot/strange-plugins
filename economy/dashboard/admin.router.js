@@ -13,8 +13,7 @@ router.put("/", async (req, res) => {
         (body.currency && typeof body.currency !== "string") ||
         (body.daily_coins && isNaN(body.daily_coins)) ||
         (body.min_beg_amount && isNaN(body.min_beg_amount)) ||
-        (body.max_beg_amount && isNaN(body.max_beg_amount)) ||
-        (body.beg_interval && isNaN(body.beg_interval))
+        (body.max_beg_amount && isNaN(body.max_beg_amount))
     ) {
         return res.status(400);
     }
@@ -23,7 +22,6 @@ router.put("/", async (req, res) => {
     config["DAILY_COINS"] = body.daily_coins;
     config["MIN_BEG_AMOUNT"] = body.min_beg_amount;
     config["MAX_BEG_AMOUNT"] = body.max_beg_amount;
-    config["BEG_INTERVAL"] = body.beg_interval;
 
     await config.save();
     res.sendStatus(200);
