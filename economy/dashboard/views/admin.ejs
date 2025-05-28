@@ -1,4 +1,4 @@
-<section class="mb-6 px-4">
+<section class="mb-6">
   <div
     class="rounded-lg border border-gray-200 bg-white p-4 shadow-sm sm:p-6 2xl:col-span-2 dark:border-gray-700 dark:bg-gray-800">
     <!-- START: Card Header -->
@@ -14,7 +14,6 @@
           daily_coins: '<%= config.DAILY_COINS %>',
           min_beg_amount: '<%= config.MIN_BEG_AMOUNT %>',
           max_beg_amount: '<%= config.MAX_BEG_AMOUNT %>',
-          beg_interval: '<%= config.BEG_INTERVAL %>'
         },
         saving: false,
         async submitForm() {
@@ -111,23 +110,6 @@
               required />
           </div>
 
-          <div>
-            <div class="mb-2">
-              <label for="beg_interval" class="text-sm font-semibold text-gray-900 dark:text-white"
-                ><%= tr("economy:BEG_INTERVAL") %></label
-              >
-              <div class="text-sm font-normal text-gray-500 dark:text-gray-400">
-                <%= tr("economy:BEG_INTERVAL_DESC") %>
-              </div>
-            </div>
-            <input
-              type="number"
-              name="beg_interval"
-              id="beg_interval"
-              class="focus:border-primary-500 focus:ring-primary-500 dark:focus:border-primary-500 dark:focus:ring-primary-500 block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-gray-900 shadow-sm sm:text-sm dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400"
-              x-model="formData.beg_interval"
-              required />
-          </div>
           <!-- END: Column 4 -->
         </div>
       </div>
