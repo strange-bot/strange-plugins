@@ -31,6 +31,8 @@
     "GHOST_DESC": "Enregistrer et modérer les pings fantômes",
     "MASSMENTION_TITLE": "Mention anti-masse",
     "MASSMENTION_DESC": "Modérer automatiquement les messages avec des mentions en masse",
+    "MASSMENTION_THRES_TITLE": "Seuil de mention en masse",
+    "MASSMENTION_THRES_DESC": "Le nombre de mentions qu'un message doit contenir pour être considéré comme une mention en masse",
     "MAXLINES_TITLE": "Max lignes",
     "MAXLINES_DESC": "Supprimer automatiquement les messages contenant plus de lignes que le nombre spécifié"
 }

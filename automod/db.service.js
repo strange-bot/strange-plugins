@@ -23,7 +23,8 @@ class EconomyService extends DBService {
                 anti_links: Boolean,
                 anti_spam: Boolean,
                 anti_ghostping: Boolean,
-                anti_massmention: Number,
+                anti_massmention: Boolean,
+                anti_massmention_threshold: { type: Number, default: 5 },
                 max_lines: { type: Number, default: 0 },
             }),
 

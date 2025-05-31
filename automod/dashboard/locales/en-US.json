@@ -31,6 +31,8 @@
     "GHOST_DESC": "Log and moderate ghost pings",
     "MASSMENTION_TITLE": "Anti Mass Mention",
     "MASSMENTION_DESC": "Automatically moderate messages with mass mentions",
+    "MASSMENTION_THRES_TITLE": "Mass Mention Threshold",
+    "MASSMENTION_THRES_DESC": "The amount of mentions a message must have to be considered a mass mention",
     "MAXLINES_TITLE": "Max Lines",
     "MAXLINES_DESC": "Automatically delete messages with more than the specified amount of lines"
 }

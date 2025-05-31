@@ -56,7 +56,7 @@ module.exports = async (message) => {
         strikesTotal += 1;
     }
 
-    if (settings.anti_massmention > 0) {
+    if (settings.anti_massmention) {
         // check everyone mention
         if (mentions.everyone) {
             fields.push({
@@ -68,13 +68,13 @@ module.exports = async (message) => {
         }
 
         // check user/role mentions
-        if (mentions.users.size + mentions.roles.size > settings.anti_massmention) {
+        if (mentions.users.size + mentions.roles.size > settings.anti_massmention_threshold) {
             fields.push({
                 name: guild.getT("automod:HANDLER.FIELD_ROLE_USER_MENTIONS"),
-                value: `${mentions.users.size + mentions.roles.size}/${settings.anti_massmention}`,
+                value: `${mentions.users.size + mentions.roles.size}/${settings.anti_massmention_threshold}`,
                 inline: true,
             });
-            // strikesTotal += mentions.users.size + mentions.roles.size - settings.anti_massmention;
+            // strikesTotal += mentions.users.size + mentions.roles.size - settings.anti_massmention_threshold;
             strikesTotal += 1;
         }
     }
