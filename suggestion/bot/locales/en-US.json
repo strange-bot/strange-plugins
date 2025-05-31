@@ -34,7 +34,6 @@
     "SUGGEST": {
         "DESCRIPTION": "submit a suggestion",
         "SUGGESTION_DESC": "the suggestion you want to submit",
-        "DISABLED": "Suggestion system is disabled.",
         "CHANNEL_NOT_SET": "Suggestion channel not configured!",
         "CHANNEL_NOT_FOUND": "Suggestion channel not found!",
 

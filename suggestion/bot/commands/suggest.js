@@ -56,7 +56,6 @@ module.exports = {
  */
 async function suggest({ guild, member }, suggestion) {
     const settings = await guild.getSettings("suggestion");
-    if (!settings.enabled) return guild.getT("suggestion:SUGGEST.DISABLED");
     if (!settings.channel_id) return guild.getT("suggestion:SUGGEST.CHANNEL_NOT_SET");
     const channel = member.guild.channels.cache.get(settings.channel_id);
     if (!channel) return guild.getT("suggestion:SUGGEST.CHANNEL_NOT_FOUND");
