@@ -90,7 +90,7 @@ module.exports = {
             const { disabled_slash } = await interaction.guild.getSettings("core");
             const response = await getHelpMenu(interaction);
             const sentMsg = await interaction.followUp(response);
-            return waiter(sentMsg, interaction.user.id, disabled_slash);
+            return waiter(sentMsg, interaction.user.id, null, disabled_slash);
         }
 
         // check if category help (!help cat)
