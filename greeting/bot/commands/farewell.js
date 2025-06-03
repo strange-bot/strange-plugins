@@ -238,7 +238,7 @@ async function sendPreview(settings, member, guild) {
     if (!targetChannel) return guild.getT("greeting:FAREWELL.CHANNEL_NOT_CONFIG");
 
     const response = await buildGreeting(member, "FAREWELL", settings.farewell);
-    await targetChannel.safeSend(response);
+    await targetChannel.send(response);
 
     return guild.getT("greeting:FAREWELL.PREVIEW_SENT", {
         channel: targetChannel.toString(),

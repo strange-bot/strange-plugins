@@ -18,5 +18,5 @@ module.exports = async (member) => {
     // build farewell message
     const response = await buildGreeting(member, "FAREWELL", config, inviterData);
 
-    channel.safeSend(response);
+    channel.send(response);
 };

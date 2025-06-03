@@ -24,5 +24,5 @@ module.exports = async (member) => {
     // build welcome message
     const response = await buildGreeting(member, "WELCOME", config, inviterData);
 
-    channel.safeSend(response);
+    channel.send(response);
 };
