@@ -41,7 +41,6 @@ module.exports = {
                     amount: response,
                     channel: channel.toString(),
                 }),
-                5,
             );
         } else if (response === "BOT_PERM") {
             return message.reply(guild.getT("moderation:PURGE.BOT_PERM", { channel }), 5);

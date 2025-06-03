@@ -1,4 +1,4 @@
-const { Collection, EmbedBuilder, GuildMember } = require("discord.js");
+const { EmbedBuilder, GuildMember } = require("discord.js");
 const { MiscUtils, Logger } = require("strange-sdk/utils");
 const db = require("../db.service");
 const plugin = require("./index");
@@ -198,7 +198,7 @@ module.exports = class ModUtils {
             return "BOT_PERM";
         }
 
-        const toDelete = new Collection();
+        const toDelete = [];
 
         try {
             const messages = await channel.messages.fetch({
@@ -208,38 +208,38 @@ module.exports = class ModUtils {
             });
 
             for (const message of messages.values()) {
-                if (toDelete.size >= amount) break;
+                if (toDelete.length >= amount) break;
                 if (!message.deletable) continue;
                 if (message.createdTimestamp < Date.now() - 1209600000) continue; // skip messages older than 14 days
 
                 if (type === "ALL") {
-                    toDelete.set(message.id, message);
+                    toDelete.push(message);
                 } else if (type === "ATTACHMENT") {
                     if (message.attachments.size > 0) {
-                        toDelete.set(message.id, message);
+                        toDelete.push(message);
                     }
                 } else if (type === "BOT") {
                     if (message.author.bot) {
-                        toDelete.set(message.id, message);
+                        toDelete.push(message);
                     }
                 } else if (type === "LINK") {
                     if (MiscUtils.containsLink(message.content)) {
-                        toDelete.set(message.id, message);
+                        toDelete.push(message);
                     }
                 } else if (type === "TOKEN") {
                     if (message.content.includes(argument)) {
-                        toDelete.set(message.id, message);
+                        toDelete.push(message);
                     }
                 } else if (type === "USER") {
                     if (message.author.id === argument) {
-                        toDelete.set(message.id, message);
+                        toDelete.push(message);
                     }
                 }
             }
 
-            if (toDelete.size === 0) return "NO_MESSAGES";
-            if (toDelete.size === 1 && toDelete.first().author.id === issuer.id) {
-                await toDelete.first().delete();
+            if (toDelete.length === 0) return "NO_MESSAGES";
+            if (toDelete.length === 1 && toDelete[0].author.id === issuer.id) {
+                await toDelete[0].delete();
                 return "NO_MESSAGES";
             }
 
