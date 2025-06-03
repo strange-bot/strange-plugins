@@ -11,8 +11,8 @@ const db = require("../../db.service");
  */
 module.exports = async (reaction, user) => {
     if (!reaction.message.guild) return;
-    const settings = reaction.message.guild.getSettings("translation");
-    if (!settings.enabled || !settings.flag_translation) return;
+    const settings = await reaction.message.guild.getSettings("translation");
+    if (!settings.flag_translation) return;
     if (reaction.partial) {
         try {
             await reaction.fetch();
@@ -30,7 +30,7 @@ module.exports = async (reaction, user) => {
     // cooldown check
     const remaining = await db.getCooldown(user);
     if (remaining > 0) {
-        return message.channel.safeSend(
+        return message.channel.send(
             message.guild.getT("translation:TR_COOLDOWN", {
                 user: user.username,
                 time: MiscUtils.timeformat(remaining),
@@ -83,7 +83,7 @@ module.exports = async (reaction, user) => {
             iconURL: user.displayAvatarURL(),
         });
 
-    message.channel.safeSend({ embeds: [embed], components: [btnRow] }).then(
+    message.channel.send({ embeds: [embed], components: [btnRow] }).then(
         () => db.addCooldown(Date.now()), // set cooldown
     );
 

@@ -10,11 +10,9 @@ router.put("/", async (req, res) => {
     const body = req.body;
 
     // Quick toggles
-    if (Object.prototype.hasOwnProperty.call(body, "settings")) {
-        body.flag_tr = body.flag_tr === "on" ? true : false;
-        if (body.flag_tr != settings.flag_translation) {
-            settings.flag_translation = body.flag_tr;
-        }
+    body.flag_translation = body.flag_translation === true;
+    if (body.flag_translation !== settings.flag_translation) {
+        settings.flag_translation = body.flag_translation;
 
         await settings.save();
     }
