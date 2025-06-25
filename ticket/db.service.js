@@ -79,7 +79,8 @@ class TicketService extends DBService {
     }
 
     async addTicketLog(data) {
-        return new this.getModel("logs")(data).save();
+        const LogsModel = this.getModel("logs");
+        return new LogsModel(data).save();
     }
 
     async closeTicketLog(guildId, channelId, ticketId, closedBy, reason, transcript) {

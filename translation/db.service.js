@@ -64,7 +64,8 @@ class TicketService extends DBService {
     }
 
     async logTranslation(message, code) {
-        return new this.getModel("logs")({
+        const LogsModel = this.getModel("logs");
+        return new LogsModel({
             guild_id: message.guildId,
             channel_id: message.channelId,
             message_id: message.id,
