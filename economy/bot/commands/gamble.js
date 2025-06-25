@@ -34,7 +34,7 @@ module.exports = {
         await message.reply(response);
     },
 
-    async interactionRun(interaction) {
+    async interactionRun({ interaction }) {
         const betAmount = interaction.options.getInteger("coins");
         const response = await gamble(interaction.guild, interaction.user, betAmount);
         await interaction.followUp(response);

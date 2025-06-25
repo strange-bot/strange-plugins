@@ -20,7 +20,7 @@ module.exports = {
         await message.reply(response);
     },
 
-    async interactionRun(interaction) {
+    async interactionRun({ interaction }) {
         const response = await daily(interaction.guild, interaction.user);
         await interaction.followUp(response);
     },

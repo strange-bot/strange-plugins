@@ -199,7 +199,7 @@ module.exports = {
         return message.reply(response);
     },
 
-    async interactionRun(interaction) {
+    async interactionRun({ interaction }) {
         const settings = interaction.guild.getSettings("greeting");
         const sub = interaction.options.getSubcommand();
 

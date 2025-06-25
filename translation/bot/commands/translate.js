@@ -79,7 +79,7 @@ module.exports = {
         await message.reply(response);
     },
 
-    async interactionRun(interaction) {
+    async interactionRun({ interaction }) {
         const outputCode = interaction.options.getString("language");
         const input = interaction.options.getString("text");
         const response = await getTranslation(interaction, interaction.user, input, outputCode);

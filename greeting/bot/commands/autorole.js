@@ -63,7 +63,7 @@ module.exports = {
         await message.reply(response);
     },
 
-    async interactionRun(interaction) {
+    async interactionRun({ interaction }) {
         const sub = interaction.options.getSubcommand();
         const settings = interaction.guild.getSettings("autorole");
         let response;
