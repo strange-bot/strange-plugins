@@ -61,6 +61,7 @@ const buildGreeting = async (member, type, config, inviterData) => {
 
     // build embed
     const embed = new EmbedBuilder();
+    if (config.embed.title) embed.setTitle(config.embed.title);
     if (config.embed.description) {
         const parsed = await parse(config.embed.description, member, inviterData);
         embed.setDescription(parsed);
@@ -69,12 +70,21 @@ const buildGreeting = async (member, type, config, inviterData) => {
     if (config.embed.thumbnail) embed.setThumbnail(member.user.displayAvatarURL());
     if (config.embed.footer) {
         const parsed = await parse(config.embed.footer, member, inviterData);
-        embed.setFooter({ text: parsed });
+        embed.setFooter({ text: parsed, iconURL: config.embed.footer_icon });
     }
     if (config.embed.image) {
         const parsed = await parse(config.embed.image, member);
         embed.setImage(parsed);
     }
+    if (config.embed.author) {
+        embed.setAuthor({ name: config.embed.author, iconURL: config.embed.author_icon });
+    }
+    if (config.embed.fields && Array.isArray(config.embed.fields)) {
+        config.embed.fields.forEach((field) => {
+            embed.addFields({ name: field.name, value: field.value, inline: field.inline });
+        });
+    }
+    if (config.embed.timestamp) embed.setTimestamp();
 
     // set default message
     if (!config.content && !config.embed.description && !config.embed.footer) {
