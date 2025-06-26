@@ -8,7 +8,7 @@ module.exports = async (member) => {
 
     // Autorole
     if (settings.autorole_id) {
-        const role = member.guild.roles.cache.get(config.autorole);
+        const role = member.guild.roles.cache.get(settings.autorole_id);
         if (role) member.roles.add(role).catch(() => {});
     }
 

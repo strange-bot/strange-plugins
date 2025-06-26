@@ -11,7 +11,7 @@ class GreetingService extends DBService {
                 _id: String,
                 autorole_id: String,
                 welcome: {
-                    enabled: Boolean,
+                    enabled: { type: Boolean, default: false },
                     channel: String,
                     content: String,
                     embed: {
@@ -23,7 +23,7 @@ class GreetingService extends DBService {
                     },
                 },
                 farewell: {
-                    enabled: Boolean,
+                    enabled: { type: Boolean, default: false },
                     channel: String,
                     content: String,
                     embed: {

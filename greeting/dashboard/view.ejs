@@ -11,9 +11,10 @@
       <form
         x-data="{
         formData: {
+          enabled: <%= settings.welcome.enabled || false %>,
           welcome_channel: '<%= settings.welcome.channel %>',
-          welcome_content: '<%= settings.welcome.content?.replaceAll(/\\n/g, '&#10;') %>',
-          welcome_embed_content: '<%= settings.welcome.embed.description?.replaceAll(/\\n/g, '&#10;') %>',
+          welcome_content: '<%= settings.welcome.content?.replaceAll(/\\n/g, '\\n') %>',
+          welcome_embed_content: '<%= settings.welcome.embed.description?.replaceAll(/\\n/g, '\\n') %>',
           welcome_embed_footer: '<%= settings.welcome.embed.footer %>',
           welcome_embed_thumbnail: <%= settings.welcome.embed.thumbnail %>,
           welcome_embed_color: '<%= settings.welcome.embed.color %>',
@@ -33,14 +34,17 @@
             });
             if (!response.ok) throw new Error('Failed to update settings');
             Alpine.store('toast').show('<%=tr(`SETTINGS_SAVE`)%>', 'success');
-            setTimeout(() => window.location.reload(), 500);
+            if (action === 'welcome_enable') {
+              this.formData.enabled = true;
+            } else if (action === 'welcome_disable') {
+              this.formData.enabled = false;
+            }
           } catch (error) {
             Alpine.store('toast').show('<%=tr(`SETTINGS_SAVE_ERROR`)%>', 'error');
           }
           this.saving = false;
         }
-      }"
-        @submit.prevent="submitForm($el.getAttribute('data-action'))">
+      }">
         <div>
           <div class="mb-3">
             <div class="mb-2">
@@ -56,7 +60,9 @@
               class="focus:ring-primary-500 focus:border-primary-500 dark:focus:ring-primary-500 dark:focus:border-primary-500 block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400">
               <option selected value disabled><%= tr("CHANNEL_SELECT") %></option>
               <% channels.map((ch) => { %>
-              <option value="<%= ch.id %>"><%= ch.name %></option>
+              <option :selected="formData.welcome_channel === '<%= ch.id %>'" value="<%= ch.id %>">
+                <%= ch.name %>
+              </option>
               <% }) %>
             </select>
           </div>
@@ -69,14 +75,13 @@
               <div class="text-sm font-normal text-gray-500 dark:text-gray-400"><%= tr("greeting:CONTENT_DESC") %></div>
             </div>
             <textarea
+              x-model="formData.welcome_content"
               rows="3"
               maxlength="2000"
               id="welcome_content"
               name="welcome_content"
               class="focus:ring-primary-500 focus:border-primary-500 dark:focus:ring-primary-500 dark:focus:border-primary-500 block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400"
-              placeholder="<%= tr(`greeting:WELCOME_PLACEHOLDER`) %>">
-<%-settings.welcome.content?.replaceAll(/\\n/g, '&#10;')%></textarea
-            >
+              placeholder="<%= tr(`greeting:WELCOME_PLACEHOLDER`) %>"></textarea>
           </div>
 
           <!-- START: Embed Options -->
@@ -107,13 +112,12 @@
                     </div>
                   </div>
                   <textarea
+                    x-model="formData.welcome_embed_content"
                     rows="3"
                     maxlength="2000"
                     id="welcome_embed_content"
                     name="welcome_embed_content"
-                    class="focus:ring-primary-500 focus:border-primary-500 dark:focus:ring-primary-500 dark:focus:border-primary-500 block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400">
-<%-settings.welcome.embed.description?.replaceAll(/\\n/g, '&#10;')%></textarea
-                  >
+                    class="focus:ring-primary-500 focus:border-primary-500 dark:focus:ring-primary-500 dark:focus:border-primary-500 block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400"></textarea>
                 </div>
 
                 <div class="mb-3">
@@ -126,12 +130,12 @@
                     </div>
                   </div>
                   <input
+                    x-model="formData.welcome_embed_footer"
                     type="string"
                     max="2000"
                     id="welcome_embed_footer"
                     name="welcome_embed_footer"
-                    class="focus:border-primary-500 focus:ring-primary-500 dark:focus:border-primary-500 dark:focus:ring-primary-500 block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-gray-900 shadow-sm sm:text-sm dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400"
-                    value="<%= settings.welcome.embed.footer %>" />
+                    class="focus:border-primary-500 focus:ring-primary-500 dark:focus:border-primary-500 dark:focus:ring-primary-500 block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-gray-900 shadow-sm sm:text-sm dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400" />
                 </div>
 
                 <div class="mb-3 flex items-center justify-between">
@@ -144,20 +148,12 @@
                     </div>
                   </div>
                   <label for="welcome_embed_thumbnail" class="relative flex cursor-pointer items-center">
-                    <% if (settings.welcome.embed.thumbnail) { %>
                     <input
                       type="checkbox"
                       name="welcome_embed_thumbnail"
                       id="welcome_embed_thumbnail"
                       class="sr-only"
-                      checked />
-                    <% } else { %>
-                    <input
-                      type="checkbox"
-                      name="welcome_embed_thumbnail"
-                      id="welcome_embed_thumbnail"
-                      class="sr-only" />
-                    <% } %>
+                      x-model="formData.welcome_embed_thumbnail" />
                     <span
                       class="toggle-bg h-6 w-11 rounded-full border border-gray-200 bg-gray-200 dark:border-gray-600 dark:bg-gray-700"></span>
                   </label>
@@ -166,19 +162,19 @@
                 <div class="mb-3">
                   <div class="mb-2">
                     <label for="welcome_embed_color" class="text-sm font-semibold text-gray-900 dark:text-white"
-                      ><%= tr("automod/dash:LOG_EMBED_TITLE") %></label
+                      ><%= tr("greeting:EMBED_COLOR_TITLE") %></label
                     >
                     <div class="text-sm font-normal text-gray-500 dark:text-gray-400">
-                      <%= tr("automod/dash:LOG_EMBED_DESC") %>
+                      <%= tr("greeting:EMBED_COLOR_DESC") %>
                     </div>
                   </div>
                   <div class="grid grid-cols-2 gap-4">
                     <input
+                      x-model="formData.welcome_embed_color"
                       type="color"
                       id="welcome_embed_color"
                       name="welcome_embed_color"
-                      class="focus:border-primary-500 focus:ring-primary-500 dark:focus:border-primary-500 dark:focus:ring-primary-500 block h-full min-h-10 w-full rounded-lg border border-gray-300 p-0.5 text-gray-900 shadow-sm sm:text-sm dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400"
-                      value="<%= settings.welcome.embed.color %>" />
+                      class="focus:border-primary-500 focus:ring-primary-500 dark:focus:border-primary-500 dark:focus:ring-primary-500 block h-full min-h-10 w-full rounded-lg border border-gray-300 p-0.5 text-gray-900 shadow-sm sm:text-sm dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400" />
                   </div>
                 </div>
 
@@ -192,11 +188,11 @@
                     </div>
                   </div>
                   <input
+                    x-model="formData.welcome_embed_image"
                     type="url"
                     id="welcome_embed_image"
                     name="welcome_embed_image"
-                    class="focus:border-primary-500 focus:ring-primary-500 dark:focus:border-primary-500 dark:focus:ring-primary-500 block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-gray-900 shadow-sm sm:text-sm dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400"
-                    value="<%= settings.welcome.embed.image %>" />
+                    class="focus:border-primary-500 focus:ring-primary-500 dark:focus:border-primary-500 dark:focus:ring-primary-500 block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-gray-900 shadow-sm sm:text-sm dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400" />
                 </div>
               </div>
             </div>
@@ -207,40 +203,38 @@
         <!-- START: Card Footer -->
         <div class="mt-4 flex items-center justify-between border-t border-gray-200 pt-3 sm:pt-6 dark:border-gray-700">
           <div>
-            <% if (settings.welcome.enabled) { %>
             <button
-              type="submit"
-              data-action="welcome_disable"
+              x-show="formData.enabled"
+              type="button"
+              @click="submitForm('welcome_disable')"
               :disabled="saving"
               :class="{'opacity-50': saving}"
               class="inline-flex items-center rounded-lg bg-red-700 px-3 py-2 text-center text-sm font-medium text-white hover:bg-red-800 focus:outline-none focus:ring-4 focus:ring-red-300 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-800">
               <span x-show="!saving"><%= tr("BTN_DISABLE") %></span>
               <span x-show="saving"><%= tr("BTN_SAVING") %></span>
             </button>
-            <% } %>
           </div>
           <div class="flex-shrink-0">
-            <% if (settings.welcome.enabled) { %>
             <button
-              type="submit"
-              data-action="welcome_update"
+              x-show="formData.enabled"
+              type="button"
+              @click="submitForm('welcome_update')"
               :disabled="saving"
               :class="{'opacity-50': saving}"
               class="bg-primary-700 hover:bg-primary-800 focus:ring-primary-300 dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800 inline-flex items-center rounded-lg px-3 py-2 text-center text-sm font-medium text-white focus:outline-none focus:ring-4">
               <span x-show="!saving"><%= tr("BTN_SAVE") %></span>
               <span x-show="saving"><%= tr("BTN_SAVING") %></span>
             </button>
-            <% } else { %>
             <button
-              type="submit"
-              data-action="welcome_enable"
+              x-show="!formData.enabled"
+              type="button"
+              @click="submitForm('welcome_enable')"
               :disabled="saving"
               :class="{'opacity-50': saving}"
               class="focus:ring-primary-300 dark:focus:ring-primary-800 inline-flex items-center rounded-lg bg-green-700 px-3 py-2 text-center text-sm font-medium text-white hover:bg-green-800 focus:outline-none focus:ring-4 dark:bg-green-600 dark:hover:bg-green-700">
               <span x-show="!saving"><%= tr("BTN_ENABLE") %></span>
               <span x-show="saving"><%= tr("BTN_SAVING") %></span>
             </button>
-            <% } %>
           </div>
         </div>
         <!-- END: Card Footer -->
@@ -259,9 +253,10 @@
       <form
         x-data="{
         formData: {
+          enabled: <%= settings.farewell.enabled || false %>,
           farewell_channel: '<%= settings.farewell.channel %>',
-          farewell_content: '<%= settings.farewell.content?.replaceAll(/\\n/g, '&#10;') %>',
-          farewell_embed_content: '<%= settings.farewell.embed.description?.replaceAll(/\\n/g, '&#10;') %>',
+          farewell_content: '<%= settings.farewell.content?.replaceAll(/\\n/g, '\\n') %>',
+          farewell_embed_content: '<%= settings.farewell.embed.description?.replaceAll(/\\n/g, '\\n') %>',
           farewell_embed_footer: '<%= settings.farewell.embed.footer %>',
           farewell_embed_thumbnail: <%= settings.farewell.embed.thumbnail %>,
           farewell_embed_color: '<%= settings.farewell.embed.color %>',
@@ -280,15 +275,18 @@
               })
             });
             if (!response.ok) throw new Error('Failed to update settings');
+            if (action === 'farewell_enable') {
+              this.formData.enabled = true;
+            } else if (action === 'farewell_enable') {
+              this.formData.enabled = false;
+            }
             Alpine.store('toast').show('<%=tr(`SETTINGS_SAVE`)%>', 'success');
-            setTimeout(() => window.location.reload(), 500);
           } catch (error) {
             Alpine.store('toast').show('<%=tr(`SETTINGS_SAVE_ERROR`)%>', 'error');
           }
           this.saving = false;
         }
-      }"
-        @submit.prevent="submitForm($el.getAttribute('data-action'))">
+      }">
         <div>
           <div class="mb-3">
             <div class="mb-2">
@@ -304,7 +302,9 @@
               class="focus:ring-primary-500 focus:border-primary-500 dark:focus:ring-primary-500 dark:focus:border-primary-500 block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400">
               <option selected disabled value><%= tr("CHANNEL_SELECT") %></option>
               <% channels.map((ch) => { %>
-              <option value="<%= ch.id %>"><%= ch.name %></option>
+              <option :selected="formData.farewell_channel === '<%= ch.id %>'" value="<%= ch.id %>">
+                <%= ch.name %>
+              </option>
               <% }) %>
             </select>
           </div>
@@ -317,14 +317,13 @@
               <div class="text-sm font-normal text-gray-500 dark:text-gray-400"><%= tr("greeting:CONTENT_DESC") %></div>
             </div>
             <textarea
+              x-model="formData.farewell_content"
               rows="3"
               maxlength="2000"
               id="farewell_content"
               name="farewell_content"
               class="focus:ring-primary-500 focus:border-primary-500 dark:focus:ring-primary-500 dark:focus:border-primary-500 block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400"
-              placeholder="<%= tr(`greeting:FAREWELL_PLACEHOLDER`) %>">
-<%-settings.farewell.content?.replaceAll(/\\n/g, '&#10;')%></textarea
-            >
+              placeholder="<%= tr(`greeting:FAREWELL_PLACEHOLDER`) %>"></textarea>
           </div>
 
           <!-- START: Embed Options -->
@@ -355,13 +354,12 @@
                     </div>
                   </div>
                   <textarea
+                    x-model="formData.farewell_embed_content"
                     rows="3"
                     maxlength="2000"
                     id="farewell_embed_content"
                     name="farewell_embed_content"
-                    class="focus:ring-primary-500 focus:border-primary-500 dark:focus:ring-primary-500 dark:focus:border-primary-500 block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400">
-<%-settings.farewell.embed.description?.replaceAll(/\\n/g, '&#10;')%></textarea
-                  >
+                    class="focus:ring-primary-500 focus:border-primary-500 dark:focus:ring-primary-500 dark:focus:border-primary-500 block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400"></textarea>
                 </div>
 
                 <div class="mb-3">
@@ -374,12 +372,12 @@
                     </div>
                   </div>
                   <input
+                    x-model="formData.farewell_embed_footer"
                     type="string"
                     max="2000"
                     id="farewell_embed_footer"
                     name="farewell_embed_footer"
-                    class="focus:border-primary-500 focus:ring-primary-500 dark:focus:border-primary-500 dark:focus:ring-primary-500 block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-gray-900 shadow-sm sm:text-sm dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400"
-                    value="<%= settings.farewell.embed.footer %>" />
+                    class="focus:border-primary-500 focus:ring-primary-500 dark:focus:border-primary-500 dark:focus:ring-primary-500 block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-gray-900 shadow-sm sm:text-sm dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400" />
                 </div>
 
                 <div class="mb-3 flex items-center justify-between">
@@ -392,20 +390,12 @@
                     </div>
                   </div>
                   <label for="farewell_embed_thumbnail" class="relative flex cursor-pointer items-center">
-                    <% if (settings.farewell.embed.thumbnail) { %>
                     <input
                       type="checkbox"
                       name="farewell_embed_thumbnail"
                       id="farewell_embed_thumbnail"
                       class="sr-only"
-                      checked />
-                    <% } else { %>
-                    <input
-                      type="checkbox"
-                      name="farewell_embed_thumbnail"
-                      id="farewell_embed_thumbnail"
-                      class="sr-only" />
-                    <% } %>
+                      x-model="formData.farewell_embed_thumbnail" />
                     <span
                       class="toggle-bg h-6 w-11 rounded-full border border-gray-200 bg-gray-200 dark:border-gray-600 dark:bg-gray-700"></span>
                   </label>
@@ -414,19 +404,19 @@
                 <div class="mb-3">
                   <div class="mb-2">
                     <label for="farewell_embed_color" class="text-sm font-semibold text-gray-900 dark:text-white"
-                      ><%= tr("automod/dash:LOG_EMBED_TITLE") %></label
+                      ><%= tr("greeting:EMBED_COLOR_TITLE") %></label
                     >
                     <div class="text-sm font-normal text-gray-500 dark:text-gray-400">
-                      <%= tr("automod/dash:LOG_EMBED_DESC") %>
+                      <%= tr("greeting:EMBED_COLOR_DESC") %>
                     </div>
                   </div>
                   <div class="grid grid-cols-2 gap-4">
                     <input
+                      x-model="formData.farewell_embed_color"
                       type="color"
                       id="farewell_embed_color"
                       name="farewell_embed_color"
-                      class="focus:border-primary-500 focus:ring-primary-500 dark:focus:border-primary-500 dark:focus:ring-primary-500 block h-full min-h-10 w-full rounded-lg border border-gray-300 p-0.5 text-gray-900 shadow-sm sm:text-sm dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400"
-                      value="<%= settings.farewell.embed.color %>" />
+                      class="focus:border-primary-500 focus:ring-primary-500 dark:focus:border-primary-500 dark:focus:ring-primary-500 block h-full min-h-10 w-full rounded-lg border border-gray-300 p-0.5 text-gray-900 shadow-sm sm:text-sm dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400" />
                   </div>
                 </div>
 
@@ -440,11 +430,11 @@
                     </div>
                   </div>
                   <input
+                    x-model="formData.farewell_embed_image"
                     type="url"
                     id="farewell_embed_image"
                     name="farewell_embed_image"
-                    class="focus:border-primary-500 focus:ring-primary-500 dark:focus:border-primary-500 dark:focus:ring-primary-500 block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-gray-900 shadow-sm sm:text-sm dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400"
-                    value="<%= settings.farewell.embed.image %>" />
+                    class="focus:border-primary-500 focus:ring-primary-500 dark:focus:border-primary-500 dark:focus:ring-primary-500 block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-gray-900 shadow-sm sm:text-sm dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400" />
                 </div>
               </div>
             </div>
@@ -455,40 +445,38 @@
         <!-- START: Card Footer -->
         <div class="mt-4 flex items-center justify-between border-t border-gray-200 pt-3 sm:pt-6 dark:border-gray-700">
           <div>
-            <% if (settings.farewell.enabled) { %>
             <button
-              type="submit"
-              data-action="farewell_disable"
+              x-show="formData.enabled"
+              type="button"
+              @click="submitForm('farewell_disable')"
               :disabled="saving"
               :class="{'opacity-50': saving}"
               class="inline-flex items-center rounded-lg bg-red-700 px-3 py-2 text-center text-sm font-medium text-white hover:bg-red-800 focus:outline-none focus:ring-4 focus:ring-red-300 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-800">
               <span x-show="!saving"><%= tr("BTN_DISABLE") %></span>
               <span x-show="saving"><%= tr("BTN_SAVING") %></span>
             </button>
-            <% } %>
           </div>
           <div class="flex-shrink-0">
-            <% if (settings.farewell.enabled) { %>
             <button
-              type="submit"
-              data-action="farewell_update"
+              x-show="formData.enabled"
+              type="button"
+              @click="submitForm('farewell_update')"
               :disabled="saving"
               :class="{'opacity-50': saving}"
               class="bg-primary-700 hover:bg-primary-800 focus:ring-primary-300 dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800 inline-flex items-center rounded-lg px-3 py-2 text-center text-sm font-medium text-white focus:outline-none focus:ring-4">
               <span x-show="!saving"><%= tr("BTN_SAVE") %></span>
               <span x-show="saving"><%= tr("BTN_SAVING") %></span>
             </button>
-            <% } else { %>
             <button
-              type="submit"
-              data-action="farewell_enable"
+              x-show="!formData.enabled"
+              type="button"
+              @click="submitForm('farewell_enable')"
               :disabled="saving"
               :class="{'opacity-50': saving}"
               class="focus:ring-primary-300 dark:focus:ring-primary-800 inline-flex items-center rounded-lg bg-green-700 px-3 py-2 text-center text-sm font-medium text-white hover:bg-green-800 focus:outline-none focus:ring-4 dark:bg-green-600 dark:hover:bg-green-700">
               <span x-show="!saving"><%= tr("BTN_ENABLE") %></span>
               <span x-show="saving"><%= tr("BTN_SAVING") %></span>
             </button>
-            <% } %>
           </div>
         </div>
         <!-- END: Card Footer -->
@@ -503,7 +491,7 @@
   <form
     x-data="{
     formData: {
-      role_id: '<%= settings.role_id %>'
+      autorole_id: '<%= settings.autorole_id %>'
     },
     saving: false,
     async submitForm() {
@@ -519,7 +507,6 @@
         });
         if (!response.ok) throw new Error('Failed to update settings');
         Alpine.store('toast').show('<%=tr(`SETTINGS_SAVE`)%>', 'success');
-        setTimeout(() => window.location.reload(), 500);
       } catch (error) {
         Alpine.store('toast').show('<%=tr(`SETTINGS_SAVE_ERROR`)%>', 'error');
       }
@@ -529,17 +516,17 @@
     @submit.prevent="submitForm">
     <div class="mb-3">
       <div class="mb-2">
-        <label for="role_id" class="text-sm font-semibold text-gray-900 dark:text-white"
+        <label for="autorole_id" class="text-sm font-semibold text-gray-900 dark:text-white"
           ><%= tr("greeting:AUTOROLE_TITLE") %></label
         >
         <div class="text-sm font-normal text-gray-500 dark:text-gray-400"><%= tr("greeting:AUTOROLE_DESC") %></div>
       </div>
       <select
-        x-model="formData.role_id"
-        name="role_id"
-        id="role_id"
+        x-model="formData.autorole_id"
+        name="autorole_id"
+        id="autorole_id"
         class="focus:ring-primary-500 focus:border-primary-500 dark:focus:ring-primary-500 dark:focus:border-primary-500 block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400">
-        <% if (!settings.role_id) { %>
+        <% if (!settings.autorole_id) { %>
         <option selected disabled><%= tr("ROLE_SELECT") %></option>
         <% } %> <% roles.map((r) => { %>
         <option value="<%= r.id %>"><%= r.name %></option>
