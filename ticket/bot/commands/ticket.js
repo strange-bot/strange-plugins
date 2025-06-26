@@ -379,7 +379,7 @@ async function ticketModalSetup(oriMsg, member, targetChannel) {
 }
 
 async function setupLogChannel(guild, target, settings) {
-    if (!target.canSendEmbeds()) {
+    if (!guild.canSendEmbeds(target)) {
         return guild.getT("ticket:TICKET.LOG_CHANNEL_PERMS", {
             channel: target.toString(),
         });

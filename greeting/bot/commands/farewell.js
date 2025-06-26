@@ -256,7 +256,7 @@ async function setStatus(settings, status, guild) {
 }
 
 async function setChannel(settings, channel, guild) {
-    if (!channel.canSendEmbeds()) {
+    if (!guild.canSendEmbeds(channel)) {
         return guild.getT("greeting:FAREWELL.CHANNEL_NO_PERMS", {
             channel: channel.toString(),
         });
@@ -310,7 +310,7 @@ async function setMessage(settings, interaction) {
 
     const { guild } = interaction;
 
-    if (!channel.canSendEmbeds()) {
+    if (!guild.canSendEmbeds(channel)) {
         return guild.getT("greeting:FAREWELL.CHANNEL_NO_PERMS", {
             channel: channel.toString(),
         });

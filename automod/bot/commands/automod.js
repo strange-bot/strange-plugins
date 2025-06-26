@@ -363,7 +363,7 @@ async function setChannel(targetChannel, settings, guild) {
         return guild.getT("automod:AUTOMOD.LOG_CHANNEL_DISABLED");
     }
 
-    if (targetChannel && !targetChannel.canSendEmbeds()) {
+    if (targetChannel && !guild.canSendEmbeds(targetChannel)) {
         return guild.getT("automod:AUTOMOD.LOG_CHANNEL_NO_PERMS");
     }
 
