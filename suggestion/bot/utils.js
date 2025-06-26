@@ -4,9 +4,9 @@ const db = require("../db.service");
 
 /**
  * @param {import('discord.js').Message} message
+ * @param {object} settings
  */
-const getStats = (message) => {
-    const settings = message.guild.getSettings("suggestion");
+const getStats = (message, settings) => {
     const upVotes = (message.reactions.resolve(settings.upvote_emoji)?.count || 1) - 1;
     const downVotes = (message.reactions.resolve(settings.downvote_emoji)?.count || 1) - 1;
 
@@ -107,7 +107,7 @@ async function approveSuggestion(member, messageId, reason) {
         (field) => field.name === guild.getT("suggestion:HANDLER.STATS_FIELD"),
     );
     if (!statsField) {
-        const [upVotes, downVotes] = getStats(message);
+        const [upVotes, downVotes] = getStats(message, settings);
         doc.stats.upvotes = upVotes;
         doc.stats.downvotes = downVotes;
         fields.push({
@@ -230,7 +230,7 @@ async function rejectSuggestion(member, messageId, reason) {
         (field) => field.name === guild.getT("suggestion:HANDLER.STATS_FIELD"),
     );
     if (!statsField) {
-        const [upVotes, downVotes] = getStats(message);
+        const [upVotes, downVotes] = getStats(message, settings);
         doc.stats.upvotes = upVotes;
         doc.stats.downvotes = downVotes;
         fields.push({

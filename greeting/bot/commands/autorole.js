@@ -45,7 +45,7 @@ module.exports = {
 
     async messageRun({ message, args }) {
         const input = args.join(" ");
-        const settings = message.guild.getSettings("autorole");
+        const settings = await message.guild.getSettings("autorole");
 
         let response;
 
@@ -65,7 +65,7 @@ module.exports = {
 
     async interactionRun({ interaction }) {
         const sub = interaction.options.getSubcommand();
-        const settings = interaction.guild.getSettings("autorole");
+        const settings = await interaction.guild.getSettings("autorole");
         let response;
 
         // add

@@ -137,7 +137,7 @@ module.exports = {
     },
 
     async messageRun({ message, args }) {
-        const settings = message.guild.getSettings("greeting");
+        const settings = await message.guild.getSettings("greeting");
         const type = args[0].toLowerCase();
         let response;
 
@@ -200,7 +200,7 @@ module.exports = {
     },
 
     async interactionRun({ interaction }) {
-        const settings = interaction.guild.getSettings("greeting");
+        const settings = await interaction.guild.getSettings("greeting");
         const sub = interaction.options.getSubcommand();
 
         let response;

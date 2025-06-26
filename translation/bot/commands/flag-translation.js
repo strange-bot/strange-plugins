@@ -55,7 +55,7 @@ module.exports = {
 };
 
 async function setFlagTranslation({ guild }, input) {
-    const settings = guild.getSettings("translation");
+    const settings = await guild.getSettings("translation");
     const status = input.toLowerCase() === "on" ? true : false;
 
     settings.flag_translation = status;
