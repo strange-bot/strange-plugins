@@ -139,7 +139,7 @@ module.exports = {
 
     async interactionRun({ interaction }) {
         const sub = interaction.options.getSubcommand();
-        const settings = interaction.guild.getSettings("ticket");
+        const settings = await interaction.guild.getSettings("ticket");
         let response;
 
         // list
