@@ -43,7 +43,7 @@ module.exports = {
         ],
     },
 
-    async messageRun(message, args) {
+    async messageRun({ message, args }) {
         const input = args.join(" ");
         const settings = message.guild.getSettings("autorole");
 

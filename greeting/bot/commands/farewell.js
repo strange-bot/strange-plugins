@@ -136,7 +136,7 @@ module.exports = {
         ],
     },
 
-    async messageRun(message, args) {
+    async messageRun({ message, args }) {
         const settings = message.guild.getSettings("greeting");
         const type = args[0].toLowerCase();
         let response;

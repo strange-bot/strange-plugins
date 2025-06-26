@@ -61,7 +61,7 @@ module.exports = {
         ],
     },
 
-    async messageRun(message, args) {
+    async messageRun({ message, args }) {
         let embed = EmbedUtils.embed();
         const outputCode = args.shift();
 

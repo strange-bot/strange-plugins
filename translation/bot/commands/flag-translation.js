@@ -36,7 +36,7 @@ module.exports = {
         ],
     },
 
-    async messageRun(message, args) {
+    async messageRun({ message, args }) {
         const status = args[0].toLowerCase();
         if (!["on", "off"].includes(status))
             return message.reply("Invalid status. Value must be `on/off`");
