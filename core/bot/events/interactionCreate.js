@@ -28,13 +28,10 @@ module.exports = async (interaction) => {
                 .catch(() => {});
         }
 
-        const [settings, pluginSettings] = await Promise.all([
-            guild.getSettings("core"),
-            guild.getSettings(cmd.plugin.name),
-        ]);
+        const settings = await guild.getSettings("core");
 
         // check if the plugin is disabled
-        if (pluginSettings.enabled === false) {
+        if (!settings.enabled_plugins.includes(cmd.plugin.name)) {
             return interaction
                 .reply({
                     content: guild.getT("core:HANDLER.PLUGIN_DISABLED"),

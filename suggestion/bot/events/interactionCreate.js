@@ -5,10 +5,7 @@ const { approveSuggestion, rejectSuggestion, deleteSuggestion } = require("../ut
  * @param {import('discord.js').BaseInteraction} interaction
  */
 module.exports = async (interaction) => {
-    if (!interaction.inGuild()) return;
     const guild = interaction.guild;
-    const settings = await guild.getSettings("suggestion");
-    if (!settings.enabled) return;
 
     // BUTTONS
     if (interaction.isButton()) {
@@ -78,7 +75,6 @@ module.exports = async (interaction) => {
             const reason = interaction.fields.getTextInputValue("reason");
             const response = await approveSuggestion(
                 interaction.member,
-                interaction.channel,
                 interaction.message.id,
                 reason,
             );
@@ -91,7 +87,6 @@ module.exports = async (interaction) => {
             const reason = interaction.fields.getTextInputValue("reason");
             const response = await rejectSuggestion(
                 interaction.member,
-                interaction.channel,
                 interaction.message.id,
                 reason,
             );

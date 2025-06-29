@@ -256,8 +256,8 @@ module.exports = {
                 interaction.guild,
             );
         } else if (sub === "log") {
-            const channelId = interaction.options.getChannel("channel").id;
-            response = await setChannel(channelId, settings, interaction.guild);
+            const channel = interaction.options.getChannel("channel");
+            response = await setChannel(channel, settings, interaction.guild);
         } else if (sub === "whitelist") {
             response = getWhitelist(interaction.guild, settings);
         } else if (sub === "whitelistadd") {

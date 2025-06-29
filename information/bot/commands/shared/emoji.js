@@ -16,7 +16,7 @@ module.exports = (guild, emoji) => {
             stripIndent`
             **${guild.getT("information:INFO.EMOJI_ID")}:** ${custom.id}
             **${guild.getT("information:INFO.EMOJI_NAME")}:** ${custom.name}
-            **${guild.getT("information:INFO.EMOJI_ANIMATED")}:** ${guild.getT(custom.animated ? "common:YES" : "common:NO")}`,
+            **${guild.getT("information:INFO.EMOJI_ANIMATED")}:** ${guild.getT(custom.animated ? "YES" : "NO")}`,
         )
         .setImage(url);
 

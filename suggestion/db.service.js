@@ -37,8 +37,8 @@ class SuggestionService extends DBService {
 
             logs: new Schema({
                 guild_id: String,
-                channel_id: String,
                 message_id: String,
+                channel_id: String,
                 user_id: String,
                 suggestion: String,
                 status: {

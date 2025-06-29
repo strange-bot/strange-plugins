@@ -192,11 +192,8 @@ async function antiSpam(settings, input, guild) {
 
 async function antiMassMention(settings, input, threshold, guild) {
     const status = input.toUpperCase() === "ON" ? true : false;
-    if (!status) {
-        settings.anti_massmention = 0;
-    } else {
-        settings.anti_massmention = threshold;
-    }
+    settings.anti_massmention = status;
+    settings.anti_massmention_threshold = threshold;
     await settings.save();
     return status
         ? guild.getT("automod:ANTI.MASS_MENTION_ENABLED", { threshold })

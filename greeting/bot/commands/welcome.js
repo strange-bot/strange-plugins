@@ -195,7 +195,7 @@ module.exports = {
         }
 
         //
-        else response = message.guild.getT("common:INVALID_SUBCOMMAND", { sub: type });
+        else response = message.guild.getT("INVALID_SUBCOMMAND", { sub: type });
         return message.reply(response);
     },
 
@@ -222,7 +222,7 @@ module.exports = {
                 break;
 
             default:
-                response = interaction.guild.getT("common:INVALID_SUBCOMMAND", { sub });
+                response = interaction.guild.getT("INVALID_SUBCOMMAND", { sub });
         }
 
         return interaction.followUp(response);

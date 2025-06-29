@@ -91,7 +91,7 @@ module.exports = {
         }
 
         // default
-        else response = interaction.guild.getT("common:INVALID_SUBCOMMAND", { sub });
+        else response = interaction.guild.getT("INVALID_SUBCOMMAND", { sub });
 
         await interaction.followUp(response);
     },

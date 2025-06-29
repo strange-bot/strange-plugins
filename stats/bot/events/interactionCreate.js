@@ -4,8 +4,6 @@ const db = require("../../db.service");
  * @param {import('discord.js').BaseInteraction} interaction
  */
 module.exports = async (interaction) => {
-    if (!interaction.guild) return;
-
     const statsDb = await db.getMemberStats(interaction.guildId, interaction.member.id);
 
     if (interaction.isChatInputCommand()) statsDb.commands.slash += 1;

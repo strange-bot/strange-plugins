@@ -154,8 +154,8 @@ async function handleSlashCommand(interaction, cmd) {
         context.interaction = interaction;
         await cmd.interactionRun(context);
     } catch (ex) {
-        await interaction.followUpT("core:HANDLER.ERROR");
         interaction.client.logger.error("interactionRun", ex);
+        await interaction.followUpT("core:HANDLER.ERROR");
     } finally {
         if (cmd.cooldown > 0) applyCooldown("cmd", interaction.user.id, cmd);
     }

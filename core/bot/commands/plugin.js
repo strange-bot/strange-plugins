@@ -113,13 +113,13 @@ module.exports = {
  */
 async function listPlugins({ client, guild }) {
     const plugins = client.pluginManager.plugins.filter((p) => !p.ownerOnly);
-    const enabledPlugins = await guild.getEnabledPlugins();
+    const { enabled_plugins } = await guild.getSettings("core");
 
     const embed = EmbedUtils.embed()
         .setAuthor({ name: guild.getT("core:PLUGIN.LIST_EMBED_TITLE") })
         .addFields(
             plugins.map((p) => {
-                const status = enabledPlugins.includes(p.name)
+                const status = enabled_plugins.includes(p.name)
                     ? guild.getT("core:PLUGIN.ENABLED")
                     : guild.getT("core:PLUGIN.DISABLED");
                 return {
@@ -148,14 +148,14 @@ async function pluginInfo({ client, guild }, plugin) {
         .find((p) => p.name === plugin);
     if (!p) return guild.getT("core:PLUGIN.NOT_FOUND", { plugin });
 
-    const enabledPlugins = await guild.getEnabledPlugins();
+    const { enabled_plugins } = await guild.getSettings("core");
     const embed = EmbedUtils.embed()
         .setAuthor({ name: guild.getT("core:PLUGIN.INFO_EMBED_TITLE", { plugin }) })
         .setDescription(
             guild.getT("core:PLUGIN.INFO_EMBED_DESC", {
                 name: p.name,
                 version: p.version,
-                status: enabledPlugins.includes(p.name)
+                status: enabled_plugins.includes(p.name)
                     ? guild.getT("core:PLUGIN.ENABLED")
                     : guild.getT("core:PLUGIN.DISABLED"),
                 prefixCmds: [...p.commands].filter((c) => c.command.enabled).length,
@@ -171,14 +171,14 @@ async function pluginInfo({ client, guild }, plugin) {
  */
 async function pluginStatus(arg0) {
     const { client, guild } = arg0;
+    const { enabled_plugins } = await guild.getSettings("core");
 
     const options = [];
     for (const p of client.pluginManager.plugins.filter((p) => !p.ownerOnly)) {
-        const settings = await p.getSettings(guild);
         options.push({
             label: p.name,
             value: p.name,
-            default: settings.enabled ? true : false,
+            default: enabled_plugins.includes(p.name),
         });
     }
 
@@ -223,10 +223,16 @@ async function pluginStatus(arg0) {
     });
 
     for (const p of client.pluginManager.plugins) {
-        if (!waiter.values.includes(p.name) && p.name !== "core") {
+        if (waiter.values.includes(p.name)) {
+            await client.pluginManager.enableInGuild(p.name, guild.id);
+        } else if (p.name !== "core") {
             await client.pluginManager.disableInGuild(p.name, guild.id);
         }
     }
+
+    const settings = await guild.getSettings("core");
+    settings.enabled_plugins = waiter.values;
+    await settings.save();
 
     await sentMsg.edit({
         content: guild.getT("core:PLUGIN.STATUS_SELECT_SUCCESS"),

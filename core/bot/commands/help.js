@@ -10,7 +10,6 @@ const {
 } = require("discord.js");
 const { getCommandUsage, getSlashUsage } = require("../handler");
 const { EmbedUtils } = require("strange-sdk/utils");
-const db = require("../../db.service");
 
 const CMDS_PER_PAGE = 5;
 const IDLE_TIMEOUT = 30;
@@ -57,13 +56,11 @@ module.exports = {
         }
 
         // check if category help (!help cat)
-        const [enabledPlugins, { disabled_prefix }] = await Promise.all([
-            message.guild.getEnabledPlugins(),
-            message.guild.getSettings("core"),
-        ]);
+        const settings = await message.guild.getSettings("core");
+        const { enabled_plugins, disabled_prefix } = settings;
         if (
             message.client.pluginManager.plugins.some(
-                (p) => p.name === trigger && !p.ownerOnly && enabledPlugins.includes(p.name),
+                (p) => p.name === trigger && !p.ownerOnly && enabled_plugins.includes(p.name),
             )
         ) {
             return pluginWaiter(message, trigger, prefix, disabled_prefix);
@@ -71,8 +68,7 @@ module.exports = {
 
         // check if command help (!help cmdName)
         const cmd = message.client.prefixCommands.get(trigger);
-        const settings = await db.getSettings(message.guild);
-        if (cmd && !settings.disabled_prefix.includes(trigger)) {
+        if (cmd && !disabled_prefix.includes(trigger)) {
             const embed = getCommandUsage(message.guild, cmd, prefix, trigger);
             return message.reply({ embeds: [embed] });
         }
@@ -94,14 +90,13 @@ module.exports = {
         }
 
         // check if category help (!help cat)
-        const [enabledPlugins, { disabled_slash }] = await Promise.all([
-            interaction.guild.getEnabledPlugins(),
-            interaction.guild.getSettings("core"),
-        ]);
+        const settings = await interaction.guild.getSettings("core");
+        const { enabled_plugins, disabled_slash } = settings;
         if (pluginName) {
             if (
                 interaction.client.pluginManager.plugins.some(
-                    (p) => p.name === pluginName && !p.ownerOnly && enabledPlugins.includes(p.name),
+                    (p) =>
+                        p.name === pluginName && !p.ownerOnly && enabled_plugins.includes(p.name),
                 )
             ) {
                 return pluginWaiter(interaction, pluginName, disabled_slash);
@@ -112,8 +107,7 @@ module.exports = {
         // check if command help (!help cmdName)
         if (cmdName) {
             const cmd = interaction.client.slashCommands.get(cmdName);
-            const settings = await db.getSettings(interaction.guild);
-            if (cmd && !settings.disabled_slash.includes(cmd.name)) {
+            if (cmd && !disabled_slash.includes(cmd.name)) {
                 const embed = getSlashUsage(interaction.guild, cmd);
                 return interaction.followUp({ embeds: [embed] });
             }
@@ -126,7 +120,7 @@ module.exports = {
  * @param {Message | CommandInteraction} arg0
  */
 async function getHelpMenu({ client, guild }) {
-    const enabled_plugins = await guild.getEnabledPlugins();
+    const { enabled_plugins } = await guild.getSettings("core");
 
     // Menu Row
     const options = [];

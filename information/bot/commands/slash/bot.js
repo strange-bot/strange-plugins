@@ -64,7 +64,7 @@ module.exports = {
 
         // Invalid
         else {
-            return interaction.followUpT("common:INVALID_SUBCOMMAND", { sub });
+            return interaction.followUpT("INVALID_SUBCOMMAND", { sub });
         }
     },
 };

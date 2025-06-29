@@ -48,7 +48,7 @@ module.exports = (member) => {
                 value: member.user.displayAvatarURL({ extension: "png" }),
             },
         )
-        .setFooter({ text: guild.getT("common:REQUESTED_BY", { user: member.user.username }) })
+        .setFooter({ text: guild.getT("REQUESTED_BY", { user: member.user.username }) })
         .setTimestamp(Date.now());
 
     return { embeds: [embed] };

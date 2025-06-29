@@ -22,9 +22,8 @@ const OPEN_PERMS = ["ManageChannels"];
  * @param {import('discord.js').BaseInteraction} interaction
  */
 module.exports = async (interaction) => {
-    if (!interaction.inGuild() || !interaction.isButton()) return;
+    if (!interaction.isButton()) return;
     const settings = await db.getSettings(interaction.guild);
-    if (!settings.enabled) return;
 
     //  Ticket Open Button
     if (interaction.customId === "ticket:CREATE") {

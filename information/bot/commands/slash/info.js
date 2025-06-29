@@ -108,7 +108,7 @@ module.exports = {
 
         // bot
         else if (sub === "bot") {
-            response = botInfo(interaction);
+            response = await botInfo(interaction);
         }
 
         // avatar
@@ -125,7 +125,7 @@ module.exports = {
 
         // return
         else {
-            return interaction.followUpT("common:INVALID_SUBCOMMAND", { sub });
+            return interaction.followUpT("INVALID_SUBCOMMAND", { sub });
         }
 
         await interaction.followUp(response);
