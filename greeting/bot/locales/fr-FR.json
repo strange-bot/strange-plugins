@@ -43,7 +43,6 @@
         "INVALID_COLOR": "Couleur invalide. La valeur doit être un code hexadécimal valide",
         "INVALID_IMAGE": "URL d'image invalide. Veuillez fournir une URL d'image valide",
 
-        "PLUGIN_DISABLED": "Le plugin de salutations est désactivé dans ce serveur",
         "WELCOME_DISABLED": "Le message de bienvenue n'est pas activé dans ce serveur",
 
         "CHANNEL_NOT_CONFIG": "Aucun salon n'est configuré pour envoyer le message de bienvenue",
@@ -83,7 +82,6 @@
         "INVALID_COLOR": "Couleur invalide. La valeur doit être un code couleur hexadécimal valide",
         "INVALID_IMAGE": "URL d'image invalide. Veuillez fournir une URL d'image valide",
 
-        "PLUGIN_DISABLED": "Le plugin de message d'accueil est désactivé sur ce serveur",
         "FAREWELL_DISABLED": "Message d'adieu non activé sur ce serveur",
 
         "CHANNEL_NOT_CONFIG": "Aucun canal n'est configuré pour envoyer un message d'adieu",

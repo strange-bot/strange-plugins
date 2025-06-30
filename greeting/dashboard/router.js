@@ -45,23 +45,25 @@ router.put("/", async (req, res) => {
                 settings.welcome.content = body.welcome_content;
             }
         }
-        if (body.welcome_embed_content !== undefined) {
-            body.welcome_embed_content = body.welcome_embed_content.trim().replace(/\r?\n/g, "\\n");
-            if (body.welcome_embed_content !== settings.welcome.embed.description) {
-                settings.welcome.embed.description = body.welcome_embed_content;
+        if (body.welcome_embed_description !== undefined) {
+            body.welcome_embed_description = body.welcome_embed_description
+                .trim()
+                .replace(/\r?\n/g, "\\n");
+            if (body.welcome_embed_description !== settings.welcome.embed.description) {
+                settings.welcome.embed.description = body.welcome_embed_description;
             }
         }
         if (body.welcome_embed_footer !== undefined) {
             body.welcome_embed_footer = body.welcome_embed_footer.trim();
-            if (body.welcome_embed_footer !== settings.welcome.embed.footer) {
-                settings.welcome.embed.footer = body.welcome_embed_footer;
+            if (body.welcome_embed_footer !== settings.welcome.embed.footer.text) {
+                settings.welcome.embed.footer.text = body.welcome_embed_footer;
             }
         }
-        if (body.welcome_embed_thumbnail !== undefined) {
-            const status = body.welcome_embed_thumbnail === "on";
-            if (status !== settings.welcome.embed.thumbnail) {
-                settings.welcome.embed.thumbnail = status;
-            }
+        if (
+            body.welcome_embed_thumbnail !== undefined &&
+            body.welcome_embed_thumbnail !== settings.welcome.embed.thumbnail
+        ) {
+            settings.welcome.embed.thumbnail = body.welcome_embed_thumbnail;
         }
         if (
             body.welcome_embed_color !== undefined &&
@@ -89,21 +91,21 @@ router.put("/", async (req, res) => {
         }
         if (
             body.welcome_embed_author != null &&
-            body.welcome_embed_author !== settings.welcome.embed.author
+            body.welcome_embed_author !== settings.welcome.embed.author.name
         ) {
-            settings.welcome.embed.author = body.welcome_embed_author;
+            settings.welcome.embed.author.name = body.welcome_embed_author;
         }
         if (
             body.welcome_embed_author_icon != null &&
-            body.welcome_embed_author_icon !== settings.welcome.embed.author_icon
+            body.welcome_embed_author_icon !== settings.welcome.embed.author.iconURL
         ) {
-            settings.welcome.embed.author_icon = body.welcome_embed_author_icon;
+            settings.welcome.embed.author.iconURL = body.welcome_embed_author_icon;
         }
         if (
             body.welcome_embed_footer_icon != null &&
-            body.welcome_embed_footer_icon !== settings.welcome.embed.footer_icon
+            body.welcome_embed_footer_icon !== settings.welcome.embed.footer.iconURL
         ) {
-            settings.welcome.embed.footer_icon = body.welcome_embed_footer_icon;
+            settings.welcome.embed.footer.iconURL = body.welcome_embed_footer_icon;
         }
         if (typeof body.welcome_embed_timestamp !== "undefined") {
             const status =
@@ -136,25 +138,25 @@ router.put("/", async (req, res) => {
                 settings.farewell.content = body.farewell_content;
             }
         }
-        if (body.farewell_embed_content) {
-            body.farewell_embed_content = body.farewell_embed_content
+        if (body.farewell_embed_description) {
+            body.farewell_embed_description = body.farewell_embed_description
                 .trim()
                 .replace(/\r?\n/g, "\\n");
-            if (body.farewell_embed_content !== settings.farewell.embed.description) {
-                settings.farewell.embed.description = body.farewell_embed_content;
+            if (body.farewell_embed_description !== settings.farewell.embed.description) {
+                settings.farewell.embed.description = body.farewell_embed_description;
             }
         }
         if (body.farewell_embed_footer) {
             body.farewell_embed_footer = body.farewell_embed_footer.trim();
-            if (body.farewell_embed_footer !== settings.farewell.embed.footer) {
-                settings.farewell.embed.footer = body.farewell_embed_footer;
+            if (body.farewell_embed_footer !== settings.farewell.embed.footer.text) {
+                settings.farewell.embed.footer.text = body.farewell_embed_footer;
             }
         }
-        if (body.farewell_embed_thumbnail) {
-            const status = body.farewell_embed_thumbnail === "on";
-            if (status !== settings.farewell.embed.thumbnail) {
-                settings.farewell.embed.thumbnail = status;
-            }
+        if (
+            body.farewell_embed_thumbnail !== undefined &&
+            body.farewell_embed_thumbnail !== settings.farewell.embed.thumbnail
+        ) {
+            settings.farewell.embed.thumbnail = body.farewell_embed_thumbnail;
         }
         if (
             body.farewell_embed_color &&
@@ -182,21 +184,21 @@ router.put("/", async (req, res) => {
         }
         if (
             body.farewell_embed_author != null &&
-            body.farewell_embed_author !== settings.farewell.embed.author
+            body.farewell_embed_author !== settings.farewell.embed.author.name
         ) {
-            settings.farewell.embed.author = body.farewell_embed_author;
+            settings.farewell.embed.author.name = body.farewell_embed_author;
         }
         if (
             body.farewell_embed_author_icon != null &&
-            body.farewell_embed_author_icon !== settings.farewell.embed.author_icon
+            body.farewell_embed_author_icon !== settings.farewell.embed.author.iconURL
         ) {
-            settings.farewell.embed.author_icon = body.farewell_embed_author_icon;
+            settings.farewell.embed.author.iconURL = body.farewell_embed_author_icon;
         }
         if (
             body.farewell_embed_footer_icon != null &&
-            body.farewell_embed_footer_icon !== settings.farewell.embed.footer_icon
+            body.farewell_embed_footer_icon !== settings.farewell.embed.footer.iconURL
         ) {
-            settings.farewell.embed.footer_icon = body.farewell_embed_footer_icon;
+            settings.farewell.embed.footer.iconURL = body.farewell_embed_footer_icon;
         }
         if (typeof body.farewell_embed_timestamp !== "undefined") {
             const status =

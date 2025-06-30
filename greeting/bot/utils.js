@@ -69,15 +69,18 @@ const buildGreeting = async (member, type, config, inviterData) => {
     if (config.embed.color) embed.setColor(config.embed.color);
     if (config.embed.thumbnail) embed.setThumbnail(member.user.displayAvatarURL());
     if (config.embed.footer) {
-        const parsed = await parse(config.embed.footer, member, inviterData);
-        embed.setFooter({ text: parsed, iconURL: config.embed.footer_icon });
+        const parsed = await parse(config.embed.footer.text, member, inviterData);
+        embed.setFooter({ text: parsed, iconURL: config.embed.footer.iconURL || null });
     }
     if (config.embed.image) {
         const parsed = await parse(config.embed.image, member);
         embed.setImage(parsed);
     }
     if (config.embed.author) {
-        embed.setAuthor({ name: config.embed.author, iconURL: config.embed.author_icon });
+        embed.setAuthor({
+            name: config.embed.author.name,
+            iconURL: config.embed.author_icon || null,
+        });
     }
     if (config.embed.fields && Array.isArray(config.embed.fields)) {
         config.embed.fields.forEach((field) => {

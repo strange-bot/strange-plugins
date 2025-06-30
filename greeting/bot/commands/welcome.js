@@ -230,9 +230,7 @@ module.exports = {
 };
 
 async function sendPreview(settings, member, guild) {
-    if (!settings.greeting?.enabled) return guild.getT("greeting:WELCOME.PLUGIN_DISABLED");
-    if (!settings.greeting?.welcome?.enabled)
-        return guild.getT("greeting:WELCOME.WELCOME_DISABLED");
+    if (!settings.welcome?.enabled) return guild.getT("greeting:WELCOME.WELCOME_DISABLED");
 
     const targetChannel = member.guild.channels.cache.get(settings.welcome.channel);
     if (!targetChannel) return guild.getT("greeting:WELCOME.CHANNEL_NOT_CONFIG");
@@ -246,7 +244,6 @@ async function sendPreview(settings, member, guild) {
 }
 
 async function setStatus(settings, status, guild) {
-    if (!settings.greeting?.enabled) return guild.getT("greeting:WELCOME.PLUGIN_DISABLED");
     const enabled = status.toUpperCase() === "ON" ? true : false;
     settings.welcome.enabled = enabled;
     await settings.save();

@@ -230,9 +230,7 @@ module.exports = {
 };
 
 async function sendPreview(settings, member, guild) {
-    if (!settings.greeting?.enabled) return guild.getT("greeting:FAREWELL.PLUGIN_DISABLED");
-    if (!settings.greeting?.farewell?.enabled)
-        return guild.getT("greeting:FAREWELL.FAREWELL_DISABLED");
+    if (!settings.farewell?.enabled) return guild.getT("greeting:FAREWELL.FAREWELL_DISABLED");
 
     const targetChannel = member.guild.channels.cache.get(settings.farewell.channel);
     if (!targetChannel) return guild.getT("greeting:FAREWELL.CHANNEL_NOT_CONFIG");
@@ -246,7 +244,6 @@ async function sendPreview(settings, member, guild) {
 }
 
 async function setStatus(settings, status, guild) {
-    if (!settings.greeting?.enabled) return guild.getT("greeting:FAREWELL.PLUGIN_DISABLED");
     const enabled = status.toUpperCase() === "ON" ? true : false;
     settings.farewell.enabled = enabled;
     await settings.save();
