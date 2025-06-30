@@ -9,7 +9,7 @@
         automod_action: '<%= settings.action %>',
         log_embed: '<%= settings.embed_colors.log %>',
         dm_embed: '<%= settings.embed_colors.dm %>',
-        wh_channels: <%= JSON.stringify(settings.wh_channels) %>,
+        wh_channels: <%= JSON.stringify(settings.wh_channels.filter(ch => ch !== '')) %>,
         basic_settings: true
       },
       saving: false,
@@ -140,17 +140,59 @@
                 <%= tr("automod:WHITELIST_CH_DESC") %>
               </div>
             </div>
-            <select
-              multiple
-              x-model="formData.wh_channels"
-              name="wh_channels"
-              id="wh_channels"
-              class="focus:ring-primary-500 focus:border-primary-500 dark:focus:ring-primary-500 dark:focus:border-primary-500 block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400">
-              <option value=""><%= tr("CHANNEL_SELECT") %></option>
-              <% channels.map((ch) => { %>
-              <option value="<%= ch.id %>"><%= ch.name %></option>
-              <% }) %>
-            </select>
+            <div class="relative w-full">
+              <button
+                id="dropdownWhitelistButton"
+                data-dropdown-toggle="dropdownWhitelistCheckbox"
+                class="inline-flex w-full items-center rounded-lg border border-gray-300 bg-gray-50 px-3 py-2.5 text-left text-sm text-gray-900 dark:border-gray-600 dark:bg-gray-700 dark:text-white"
+                type="button">
+                <span
+                  x-text="formData.wh_channels.length ? `${formData.wh_channels.length} channel${formData.wh_channels.length > 1 ? 's' : ''} selected` : 'No channels selected'"></span>
+                <svg
+                  class="ms-auto h-3 w-3"
+                  aria-hidden="true"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 10 6">
+                  <path
+                    stroke="#6b7280"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="m1 1 4 4 4-4" />
+                </svg>
+              </button>
+              <div
+                id="dropdownWhitelistCheckbox"
+                class="absolute left-0 z-10 hidden w-full divide-y divide-gray-100 rounded-lg bg-white shadow-sm dark:divide-gray-600 dark:bg-gray-700">
+                <ul
+                  class="space-y-3 p-3 text-sm text-gray-700 dark:text-gray-200"
+                  aria-labelledby="dropdownWhitelistButton">
+                  <% channels.forEach((ch) => { %>
+                  <li>
+                    <div class="flex items-center">
+                      <input
+                        type="checkbox"
+                        :id="'<%= ch.id %>'"
+                        :value="'<%= ch.id %>'"
+                        :checked="formData.wh_channels.includes('<%= ch.id %>')"
+                        @change="
+                            if ($event.target.checked) {
+                              if (!formData.wh_channels.includes('<%= ch.id %>')) formData.wh_channels.push('<%= ch.id %>');
+                            } else {
+                              formData.wh_channels = formData.wh_channels.filter(id => id !== '<%= ch.id %>');
+                            }
+                          "
+                        class="h-4 w-4 rounded-sm border-gray-300 bg-gray-100 text-blue-600 focus:ring-2 focus:ring-blue-500 dark:border-gray-500 dark:bg-gray-600 dark:ring-offset-gray-700 dark:focus:ring-blue-600 dark:focus:ring-offset-gray-700" />
+                      <label :for="'<%= ch.id %>'" class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300"
+                        ><%= ch.name %></label
+                      >
+                    </div>
+                  </li>
+                  <% }) %>
+                </ul>
+              </div>
+            </div>
           </div>
         </div>
         <!-- END: Card Body -->
@@ -318,11 +360,15 @@
                 class="toggle-bg h-6 w-11 rounded-full border border-gray-200 bg-gray-200 dark:border-gray-600 dark:bg-gray-700"></span>
             </label>
           </div>
-          
+
           <div class="mb-3">
             <div class="mb-2">
-              <div class="text-sm font-semibold text-gray-900 dark:text-white"><%= tr("automod:MASSMENTION_THRES_TITLE") %></div>
-              <div class="text-sm font-normal text-gray-500 dark:text-gray-400"><%= tr("automod:MASSMENTION_THRES_DESC") %></div>
+              <div class="text-sm font-semibold text-gray-900 dark:text-white">
+                <%= tr("automod:MASSMENTION_THRES_TITLE") %>
+              </div>
+              <div class="text-sm font-normal text-gray-500 dark:text-gray-400">
+                <%= tr("automod:MASSMENTION_THRES_DESC") %>
+              </div>
             </div>
             <input
               type="number"
@@ -332,7 +378,7 @@
               name="anti_massmention_threshold"
               class="focus:border-primary-500 focus:ring-primary-500 dark:focus:border-primary-500 dark:focus:ring-primary-500 block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-gray-900 shadow-sm sm:text-sm dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400" />
           </div>
-          
+
           <div class="mb-3">
             <div class="mb-2">
               <div class="text-sm font-semibold text-gray-900 dark:text-white"><%= tr("automod:MAXLINES_TITLE") %></div>
