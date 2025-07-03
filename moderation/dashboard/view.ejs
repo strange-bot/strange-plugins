@@ -1,4 +1,4 @@
-<section class="rounded-lg border border-gray-200 bg-white p-4 shadow-sm dark:border-gray-700 dark:bg-gray-800">
+<section class="border-border bg-bg-panel rounded-lg border p-4 shadow-sm">
   <form
     x-data="{
     formData: {
@@ -33,16 +33,14 @@
         <!-- START: Column 1 (Modlog) -->
         <div>
           <div class="mb-2">
-            <label for="log_channel" class="text-sm font-semibold text-gray-900 dark:text-white"
-              ><%= tr("moderation:CH_TITLE") %></label
-            >
-            <div class="text-sm font-normal text-gray-500 dark:text-gray-400"><%= tr("moderation:CH_DESC") %></div>
+            <label for="log_channel" class="text-text text-sm font-semibold"><%= tr("moderation:CH_TITLE") %></label>
+            <div class="text-text-muted text-sm font-normal"><%= tr("moderation:CH_DESC") %></div>
           </div>
           <select
             x-model="formData.log_channel"
             name="log_channel"
             id="log_channel"
-            class="focus:ring-primary-500 focus:border-primary-500 dark:focus:ring-primary-500 dark:focus:border-primary-500 block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400">
+            class="focus:ring-primary focus:border-primary border-border bg-bg-interactive text-text block w-full rounded-lg border p-2.5 text-sm">
             <option value=""><%= tr("CHANNEL_SELECT") %></option>
             <% channels.map((ch) => { %>
             <option value="<%= ch.id %>"><%= ch.name %></option>
@@ -54,10 +52,10 @@
         <!-- START: Column 2 (Max Warnings) -->
         <div>
           <div class="mb-2">
-            <label for="maxwarn_count" class="text-sm font-semibold text-gray-900 dark:text-white"
+            <label for="maxwarn_count" class="text-text text-sm font-semibold"
               ><%= tr("moderation:MAXWARN_TITLE") %></label
             >
-            <div class="text-sm font-normal text-gray-500 dark:text-gray-400"><%= tr("moderation:MAXWARN_DESC") %></div>
+            <div class="text-text-muted text-sm font-normal"><%= tr("moderation:MAXWARN_DESC") %></div>
           </div>
           <input
             x-model="formData.maxwarn_count"
@@ -66,7 +64,7 @@
             max="100"
             name="maxwarn_count"
             id="maxwarn_count"
-            class="focus:border-primary-500 focus:ring-primary-500 dark:focus:border-primary-500 dark:focus:ring-primary-500 block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-gray-900 shadow-sm sm:text-sm dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400"
+            class="focus:border-primary focus:ring-primary border-border bg-bg-interactive text-text block w-full rounded-lg border p-2.5 shadow-sm sm:text-sm"
             required />
         </div>
         <!-- END: Column 2 -->
@@ -74,18 +72,16 @@
         <!-- START: Column 3 (Max Warn Action) -->
         <div>
           <div class="mb-2">
-            <label for="maxwarn_action" class="text-sm font-semibold text-gray-900 dark:text-white"
+            <label for="maxwarn_action" class="text-text text-sm font-semibold"
               ><%= tr("moderation:MAXWARN_ACTION_TITLE") %></label
             >
-            <div class="text-sm font-normal text-gray-500 dark:text-gray-400">
-              <%= tr("moderation:MAXWARN_ACTION_DESC") %>
-            </div>
+            <div class="text-text-muted text-sm font-normal"><%= tr("moderation:MAXWARN_ACTION_DESC") %></div>
           </div>
           <select
             x-model="formData.maxwarn_action"
             name="maxwarn_action"
             id="maxwarn_action"
-            class="focus:ring-primary-500 focus:border-primary-500 dark:focus:ring-primary-500 dark:focus:border-primary-500 block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400">
+            class="focus:ring-primary focus:border-primary border-border bg-bg-interactive text-text block w-full rounded-lg border p-2.5 text-sm">
             <option selected="selected"><%= settings.max_warn.action %></option>
             <% if(settings.max_warn.action !== "TIMEOUT") { %>
             <option>TIMEOUT</option>
@@ -102,14 +98,14 @@
     <!-- END: Card Body -->
 
     <!-- START: Card Footer -->
-    <div class="mt-4 flex items-center justify-between border-t border-gray-200 pt-3 sm:pt-6 dark:border-gray-700">
+    <div class="border-border mt-4 flex items-center justify-between border-t pt-3 sm:pt-6">
       <div></div>
       <div class="flex-shrink-0">
         <button
           type="submit"
           :disabled="saving"
           :class="{'opacity-50': saving}"
-          class="bg-primary-700 hover:bg-primary-800 focus:ring-primary-300 dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800 inline-flex items-center rounded-lg px-3 py-2 text-center text-sm font-medium text-white focus:outline-none focus:ring-4">
+          class="bg-primary hover:bg-primary-dark focus:ring-primary inline-flex items-center rounded-lg px-3 py-2 text-center text-sm font-medium text-white focus:outline-none focus:ring-4">
           <span x-show="!saving"><%= tr('BTN_SAVE') %></span>
           <span x-show="saving"><%= tr('BTN_SAVING') %></span>
         </button>

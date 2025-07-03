@@ -1,9 +1,8 @@
 <section class="mb-6">
-  <div
-    class="rounded-lg border border-gray-200 bg-white p-4 shadow-sm sm:p-6 2xl:col-span-2 dark:border-gray-700 dark:bg-gray-800">
+  <div class="border-border bg-bg-panel rounded-lg border p-4 shadow-sm sm:p-6 2xl:col-span-2">
     <!-- START: Card Header -->
-    <div class="mb-4 flex items-center justify-between border-b border-gray-200 pb-4 dark:border-gray-700">
-      <h3 class="text-lg font-semibold text-gray-800 dark:text-white"><%= tr("economy:DEFAULTS") %></h3>
+    <div class="border-border mb-4 flex items-center justify-between border-b pb-4">
+      <h3 class="text-text text-lg font-semibold"><%= tr("economy:DEFAULTS") %></h3>
     </div>
     <!-- END: Card Header -->
 
@@ -40,10 +39,8 @@
           <!-- START: Column 1 (Currency) -->
           <div>
             <div class="mb-2">
-              <label for="currency" class="text-sm font-semibold text-gray-900 dark:text-white"
-                ><%= tr("economy:CURRENCY_TITLE") %></label
-              >
-              <div class="text-sm font-normal text-gray-500 dark:text-gray-400"><%= tr("economy:CURRENCY_DESC") %></div>
+              <label for="currency" class="text-text text-sm font-semibold"><%= tr("economy:CURRENCY_TITLE") %></label>
+              <div class="text-text-muted text-sm font-normal"><%= tr("economy:CURRENCY_DESC") %></div>
             </div>
             <input
               type="text"
@@ -51,7 +48,7 @@
               maxlength="2"
               name="currency"
               id="currency"
-              class="focus:border-primary-500 focus:ring-primary-500 dark:focus:border-primary-500 dark:focus:ring-primary-500 block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-gray-900 shadow-sm sm:text-sm dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400"
+              class="focus:border-primary focus:ring-primary border-border bg-bg-interactive text-text block w-full rounded-lg border p-2.5 shadow-sm sm:text-sm"
               x-model="formData.currency"
               required />
           </div>
@@ -60,16 +57,14 @@
           <!-- START: Column 2 (Daily Coins) -->
           <div>
             <div class="mb-2">
-              <label for="daily_coins" class="text-sm font-semibold text-gray-900 dark:text-white"
-                ><%= tr("economy:DAILY_TITLE") %></label
-              >
-              <div class="text-sm font-normal text-gray-500 dark:text-gray-400"><%= tr("economy:DAILY_DESC") %></div>
+              <label for="daily_coins" class="text-text text-sm font-semibold"><%= tr("economy:DAILY_TITLE") %></label>
+              <div class="text-text-muted text-sm font-normal"><%= tr("economy:DAILY_DESC") %></div>
             </div>
             <input
               type="number"
               name="daily_coins"
               id="daily_coins"
-              class="focus:border-primary-500 focus:ring-primary-500 dark:focus:border-primary-500 dark:focus:ring-primary-500 block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-gray-900 shadow-sm sm:text-sm dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400"
+              class="focus:border-primary focus:ring-primary border-border bg-bg-interactive text-text block w-full rounded-lg border p-2.5 shadow-sm sm:text-sm"
               x-model="formData.daily_coins"
               required />
           </div>
@@ -78,16 +73,16 @@
           <!-- START: Column 3 (Minimum Beg Amount) -->
           <div>
             <div class="mb-2">
-              <label for="min_beg_amount" class="text-sm font-semibold text-gray-900 dark:text-white"
+              <label for="min_beg_amount" class="text-text text-sm font-semibold"
                 ><%= tr("economy:MIN_BEG_TITLE") %></label
               >
-              <div class="text-sm font-normal text-gray-500 dark:text-gray-400"><%= tr("economy:MIN_BEG_DESC") %></div>
+              <div class="text-text-muted text-sm font-normal"><%= tr("economy:MIN_BEG_DESC") %></div>
             </div>
             <input
               type="number"
               name="min_beg_amount"
               id="min_beg_amount"
-              class="focus:border-primary-500 focus:ring-primary-500 dark:focus:border-primary-500 dark:focus:ring-primary-500 block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-gray-900 shadow-sm sm:text-sm dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400"
+              class="focus:border-primary focus:ring-primary border-border bg-bg-interactive text-text block w-full rounded-lg border p-2.5 shadow-sm sm:text-sm"
               x-model="formData.min_beg_amount"
               required />
           </div>
@@ -96,16 +91,16 @@
           <!-- START: Column 4 (Maximum Beg Amount) -->
           <div>
             <div class="mb-2">
-              <label for="max_beg_amount" class="text-sm font-semibold text-gray-900 dark:text-white"
+              <label for="max_beg_amount" class="text-text text-sm font-semibold"
                 ><%= tr("economy:MAX_BEG_TITLE") %></label
               >
-              <div class="text-sm font-normal text-gray-500 dark:text-gray-400"><%= tr("economy:MAX_BEG_DESC") %></div>
+              <div class="text-text-muted text-sm font-normal"><%= tr("economy:MAX_BEG_DESC") %></div>
             </div>
             <input
               type="number"
               name="max_beg_amount"
               id="max_beg_amount"
-              class="focus:border-primary-500 focus:ring-primary-500 dark:focus:border-primary-500 dark:focus:ring-primary-500 block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-gray-900 shadow-sm sm:text-sm dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400"
+              class="focus:border-primary focus:ring-primary border-border bg-bg-interactive text-text block w-full rounded-lg border p-2.5 shadow-sm sm:text-sm"
               x-model="formData.max_beg_amount"
               required />
           </div>
@@ -116,14 +111,14 @@
       <!-- END: Card Body -->
 
       <!-- START: Card Footer -->
-      <div class="mt-4 flex items-center justify-between border-t border-gray-200 pt-3 sm:pt-6 dark:border-gray-700">
+      <div class="border-border mt-4 flex items-center justify-between border-t pt-3 sm:pt-6">
         <div></div>
         <div class="flex-shrink-0">
           <button
             type="submit"
             :disabled="saving"
             :class="{'opacity-50': saving}"
-            class="bg-primary-700 hover:bg-primary-800 focus:ring-primary-300 dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800 inline-flex items-center rounded-lg px-3 py-2 text-center text-sm font-medium text-white focus:outline-none focus:ring-4">
+            class="bg-primary hover:bg-primary-dark focus:ring-primary inline-flex items-center rounded-lg px-3 py-2 text-center text-sm font-medium text-white focus:outline-none focus:ring-4">
             <span x-show="!saving"><%= tr('BTN_SAVE') %></span>
             <span x-show="saving"><%= tr('BTN_SAVING') %></span>
           </button>

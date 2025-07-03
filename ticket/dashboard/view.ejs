@@ -1,4 +1,4 @@
-<section class="rounded-lg border border-gray-200 bg-white p-4 shadow-sm dark:border-gray-700 dark:bg-gray-800">
+<section class="border-border bg-bg-panel rounded-lg border p-4 shadow-sm">
   <form
     x-data="{
       formData: {
@@ -37,34 +37,32 @@
         <!-- START: Column 1 -->
         <div>
           <div class="mb-2">
-            <label for="create_embed" class="text-sm font-semibold text-gray-900 dark:text-white"
+            <label for="create_embed" class="text-text text-sm font-semibold"
               ><%= tr("ticket:CREATE_EMBED_TITLE") %></label
             >
-            <div class="text-sm font-normal text-gray-500 dark:text-gray-400">
-              <%= tr("ticket:CREATE_EMBED_DESC") %>
-            </div>
+            <div class="text-text-muted text-sm font-normal"><%= tr("ticket:CREATE_EMBED_DESC") %></div>
           </div>
           <input
             type="color"
             x-model="formData.create_embed"
             id="create_embed"
-            class="focus:border-primary-500 focus:ring-primary-500 dark:focus:border-primary-500 dark:focus:ring-primary-500 block h-10 w-full rounded-lg border border-gray-300 p-0.5 text-gray-900 shadow-sm sm:text-sm dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400"
+            class="focus:border-primary focus:ring-primary border-border bg-bg-panel text-text block h-10 w-full rounded-lg border p-0.5 shadow-sm sm:text-sm"
             required />
         </div>
 
         <!-- START: Column 2 -->
         <div>
           <div class="mb-2">
-            <label for="close_embed" class="text-sm font-semibold text-gray-900 dark:text-white"
+            <label for="close_embed" class="text-text text-sm font-semibold"
               ><%= tr("ticket:CLOSE_EMBED_TITLE") %></label
             >
-            <div class="text-sm font-normal text-gray-500 dark:text-gray-400"><%= tr("ticket:CLOSE_EMBED_DESC") %></div>
+            <div class="text-text-muted text-sm font-normal"><%= tr("ticket:CLOSE_EMBED_DESC") %></div>
           </div>
           <input
             type="color"
             x-model="formData.close_embed"
             id="close_embed"
-            class="focus:border-primary-500 focus:ring-primary-500 dark:focus:border-primary-500 dark:focus:ring-primary-500 block h-10 w-full rounded-lg border border-gray-300 p-0.5 text-gray-900 shadow-sm sm:text-sm dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400"
+            class="focus:border-primary focus:ring-primary border-border bg-bg-panel text-text block h-10 w-full rounded-lg border p-0.5 shadow-sm sm:text-sm"
             required />
         </div>
       </div>
@@ -76,15 +74,13 @@
         <!-- START: Column 1 -->
         <div>
           <div class="mb-2">
-            <label for="log_channel" class="text-sm font-semibold text-gray-900 dark:text-white"
-              ><%= tr("ticket:LOGS_TITLE") %></label
-            >
-            <div class="text-sm font-normal text-gray-500 dark:text-gray-400"><%= tr("ticket:LOGS_DESC") %></div>
+            <label for="log_channel" class="text-text text-sm font-semibold"><%= tr("ticket:LOGS_TITLE") %></label>
+            <div class="text-text-muted text-sm font-normal"><%= tr("ticket:LOGS_DESC") %></div>
           </div>
           <select
             x-model="formData.log_channel"
             id="log_channel"
-            class="focus:ring-primary-500 focus:border-primary-500 dark:focus:ring-primary-500 dark:focus:border-primary-500 block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400">
+            class="focus:ring-primary focus:border-primary border-border bg-bg-interactive text-text block w-full rounded-lg border p-2.5 text-sm">
             <option value=""><%= tr("CHANNEL_SELECT") %></option>
             <% channels.map((ch) => { %>
             <option value="<%= ch.id %>"><%= ch.name %></option>
@@ -95,31 +91,29 @@
         <!-- START: Column 2 -->
         <div>
           <div class="mb-2">
-            <label for="limit" class="text-sm font-semibold text-gray-900 dark:text-white"
-              ><%= tr("ticket:LIMIT_TITLE") %></label
-            >
-            <div class="text-sm font-normal text-gray-500 dark:text-gray-400"><%= tr("ticket:LIMIT_DESC") %></div>
+            <label for="limit" class="text-text text-sm font-semibold"><%= tr("ticket:LIMIT_TITLE") %></label>
+            <div class="text-text-muted text-sm font-normal"><%= tr("ticket:LIMIT_DESC") %></div>
           </div>
           <input
             type="number"
             min="0"
             x-model="formData.limit"
             id="limit"
-            class="focus:border-primary-500 focus:ring-primary-500 dark:focus:border-primary-500 dark:focus:ring-primary-500 block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-gray-900 shadow-sm sm:text-sm dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400" />
+            class="focus:border-primary focus:ring-primary border-border bg-bg-interactive text-text block w-full rounded-lg border p-2.5 shadow-sm sm:text-sm" />
         </div>
       </div>
     </div>
     <!-- END: Card Body -->
 
     <!-- START: Card Footer -->
-    <div class="mt-4 flex items-center justify-between border-t border-gray-200 pt-3 sm:pt-6 dark:border-gray-700">
+    <div class="border-border mt-4 flex items-center justify-between border-t pt-3 sm:pt-6">
       <div></div>
       <div class="flex-shrink-0">
         <button
           type="submit"
           :disabled="saving"
           :class="{'opacity-50': saving}"
-          class="bg-primary-700 hover:bg-primary-800 focus:ring-primary-300 dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800 inline-flex items-center rounded-lg px-3 py-2 text-center text-sm font-medium text-white focus:outline-none focus:ring-4">
+          class="bg-primary hover:bg-primary-dark focus:ring-primary inline-flex items-center rounded-lg px-3 py-2 text-center text-sm font-medium text-white focus:outline-none focus:ring-4">
           <span x-show="!saving"><%= tr('BTN_SAVE') %></span>
           <span x-show="saving"><%= tr('BTN_SAVING') %></span>
         </button>
@@ -131,18 +125,18 @@
 
 <%- contentFor(tr("ticket:CATEGORY_TITLE")) %>
 <!-- START: List Categories -->
-<section class="rounded-lg border border-gray-200 bg-white p-4 shadow-sm dark:border-gray-700 dark:bg-gray-800">
+<section class="border-border bg-bg-panel rounded-lg border p-4 shadow-sm">
   <!-- START: Card Header -->
   <div class="items-center justify-between lg:flex">
     <div class="mb-4 lg:mb-0">
-      <span class="text-base font-normal text-gray-500 dark:text-gray-400"><%= tr("ticket:CATEGORY_DESC") %></span>
+      <span class="text-text-muted text-base font-normal"><%= tr("ticket:CATEGORY_DESC") %></span>
     </div>
     <div class="items-center sm:flex">
       <div class="flex-shrink-0">
         <a
           data-modal-target="create-modal"
           data-modal-toggle="create-modal"
-          class="text-primary-700 dark:text-primary-500 inline-flex cursor-pointer items-center rounded-lg p-2 text-xs font-medium uppercase hover:bg-gray-100 sm:text-sm dark:hover:bg-gray-700">
+          class="text-primary hover:bg-bg-interactive inline-flex cursor-pointer items-center rounded-lg p-2 text-xs font-medium uppercase sm:text-sm">
           <%= tr("ticket:CREATE_MODAL_BTN") %>
           <i class="fa-solid fa-angle-right ml-1"></i>
         </a>
@@ -156,44 +150,36 @@
     <div class="overflow-x-auto rounded-lg">
       <div class="inline-block min-w-full align-middle">
         <div class="overflow-hidden shadow sm:rounded-lg">
-          <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-600">
-            <thead class="bg-gray-50 dark:bg-gray-700">
+          <table class="divide-border min-w-full divide-y">
+            <thead class="bg-bg-panel">
               <tr>
-                <th
-                  scope="col"
-                  class="p-4 text-left text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-white">
+                <th scope="col" class="text-text-muted p-4 text-left text-xs font-medium uppercase tracking-wider">
                   <%=tr("ticket:CAT_COL")%>
                 </th>
-                <th
-                  scope="col"
-                  class="p-4 text-left text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-white">
+                <th scope="col" class="text-text-muted p-4 text-left text-xs font-medium uppercase tracking-wider">
                   <%=tr("ticket:CAT_DESC_COL")%>
                 </th>
-                <th
-                  scope="col"
-                  class="p-4 text-left text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-white">
+                <th scope="col" class="text-text-muted p-4 text-left text-xs font-medium uppercase tracking-wider">
                   <%=tr("ticket:ACTION_COL")%>
                 </th>
               </tr>
             </thead>
-            <tbody class="bg-white dark:bg-gray-800">
+            <tbody class="bg-bg-panel">
               <% categories.forEach((cat, id) => { %>
-              <tr class="rounded border border-gray-200 dark:border-gray-600">
-                <td class="whitespace-nowrap p-4 text-sm font-normal text-gray-900 dark:text-white"><%= cat.name %></td>
-                <td class="whitespace-nowrap p-4 text-sm font-normal text-gray-500 dark:text-gray-400">
-                  <%= cat.description %>
-                </td>
+              <tr class="border-border rounded border">
+                <td class="text-text whitespace-nowrap p-4 text-sm font-normal"><%= cat.name %></td>
+                <td class="text-text-muted whitespace-nowrap p-4 text-sm font-normal"><%= cat.description %></td>
                 <td class="whitespace-nowrap p-4">
                   <button
                     data-modal-target="update-modal-<%=id+1%>"
                     data-modal-toggle="update-modal-<%=id+1%>"
-                    class="mr-2 rounded-md border border-green-100 bg-green-100 px-2.5 py-0.5 text-xs font-medium text-green-800 dark:border-green-500 dark:bg-gray-700 dark:text-green-400">
+                    class="mr-2 rounded-md border border-green-100 bg-green-100 px-2.5 py-0.5 text-xs font-medium text-green-800">
                     <%=tr("ticket:ACTION_UPDATE_BTN")%>
                   </button>
                   <button
                     data-modal-target="delete-modal-<%=id+1%>"
                     data-modal-toggle="delete-modal-<%=id+1%>"
-                    class="rounded-md border border-red-100 bg-red-100 px-2.5 py-0.5 text-xs font-medium text-red-800 dark:border-red-500 dark:bg-gray-700 dark:text-red-400">
+                    class="rounded-md border border-red-100 bg-red-100 px-2.5 py-0.5 text-xs font-medium text-red-800">
                     <%=tr("ticket:ACTION_DELETE_BTN")%>
                   </button>
                 </td>
@@ -219,13 +205,13 @@
   <div class="relative max-h-full w-full max-w-2xl p-4">
     <form method="post">
       <!-- Modal content -->
-      <div class="relative rounded-lg bg-white shadow dark:bg-gray-700">
+      <div class="bg-bg-panel relative rounded-lg shadow">
         <!-- Modal header -->
-        <div class="flex items-center justify-between rounded-t border-b p-4 md:p-5 dark:border-gray-600">
-          <h4 class="text-xl font-semibold text-gray-900 dark:text-white"><%= tr("ticket:CREATE_TITLE") %></h4>
+        <div class="border-border flex items-center justify-between rounded-t border-b p-4 md:p-5">
+          <h4 class="text-text text-xl font-semibold"><%= tr("ticket:CREATE_TITLE") %></h4>
           <button
             type="button"
-            class="ms-auto inline-flex h-8 w-8 items-center justify-center rounded-lg bg-transparent text-sm text-gray-400 hover:bg-gray-200 hover:text-gray-900 dark:hover:bg-gray-600 dark:hover:text-white"
+            class="text-text-muted hover:bg-bg-interactive hover:text-text ms-auto inline-flex h-8 w-8 items-center justify-center rounded-lg bg-transparent text-sm"
             data-modal-hide="create-modal">
             <i class="fa-solid fa-xmark h-5 w-5"></i>
             <span class="sr-only"><%=tr("ticket:CLOSE_MODAL_BTN")%></span>
@@ -236,31 +222,27 @@
         <div class="space-y-4 p-4 md:p-5">
           <div class="mb-3">
             <div class="mb-2">
-              <label for="name" class="text-sm font-semibold text-gray-900 dark:text-white"
-                ><%= tr("ticket:NAME_TITLE") %>*</label
-              >
-              <div class="text-sm font-normal text-gray-500 dark:text-gray-400"><%= tr("ticket:NAME_DESC")%></div>
+              <label for="name" class="text-text text-sm font-semibold"><%= tr("ticket:NAME_TITLE") %>*</label>
+              <div class="text-text-muted text-sm font-normal"><%= tr("ticket:NAME_DESC")%></div>
             </div>
             <input
               type="text"
               name="name"
               id="name"
-              class="focus:border-primary-500 focus:ring-primary-500 dark:focus:border-primary-500 dark:focus:ring-primary-500 block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-gray-900 shadow-sm sm:text-sm dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400"
+              class="focus:border-primary focus:ring-primary border-border bg-bg-interactive text-text block w-full rounded-lg border p-2.5 shadow-sm sm:text-sm"
               required />
           </div>
 
           <div class="mb-3">
             <div class="mb-2">
-              <label for="description" class="text-sm font-semibold text-gray-900 dark:text-white"
-                ><%= tr("ticket:DESC_TITLE") %>*</label
-              >
-              <div class="text-sm font-normal text-gray-500 dark:text-gray-400"><%= tr("ticket:DESC_DESC")%></div>
+              <label for="description" class="text-text text-sm font-semibold"><%= tr("ticket:DESC_TITLE") %>*</label>
+              <div class="text-text-muted text-sm font-normal"><%= tr("ticket:DESC_DESC")%></div>
             </div>
             <input
               type="text"
               name="description"
               id="description"
-              class="focus:border-primary-500 focus:ring-primary-500 dark:focus:border-primary-500 dark:focus:ring-primary-500 block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-gray-900 shadow-sm sm:text-sm dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400"
+              class="focus:border-primary focus:ring-primary border-border bg-bg-interactive text-text block w-full rounded-lg border p-2.5 shadow-sm sm:text-sm"
               required />
           </div>
 
@@ -268,18 +250,16 @@
             <div class="grid gap-4 md:grid-cols-2 xl:grid-cols-2">
               <div>
                 <div class="mb-2">
-                  <label for="staff_roles" class="text-sm font-semibold text-gray-900 dark:text-white"
+                  <label for="staff_roles" class="text-text text-sm font-semibold"
                     ><%= tr("ticket:STAFF_ROLE_TITLE") %></label
                   >
-                  <div class="text-sm font-normal text-gray-500 dark:text-gray-400">
-                    <%= tr("ticket:STAFF_ROLE_DESC") %>
-                  </div>
+                  <div class="text-text-muted text-sm font-normal"><%= tr("ticket:STAFF_ROLE_DESC") %></div>
                 </div>
                 <select
                   multiple
                   name="staff_roles"
                   id="staff_roles"
-                  class="focus:ring-primary-500 focus:border-primary-500 dark:focus:ring-primary-500 dark:focus:border-primary-500 block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400">
+                  class="focus:ring-primary focus:border-primary border-border bg-bg-interactive text-text block w-full rounded-lg border p-2.5 text-sm">
                   <% roles.map((r) => { %>
                   <option value="<%= r.id %>"><%= r.name %></option>
                   <% }) %>
@@ -287,18 +267,16 @@
               </div>
               <div>
                 <div class="mb-2">
-                  <label for="member_roles" class="text-sm font-semibold text-gray-900 dark:text-white"
+                  <label for="member_roles" class="text-text text-sm font-semibold"
                     ><%= tr("ticket:MEM_ROLE_TITLE") %></label
                   >
-                  <div class="text-sm font-normal text-gray-500 dark:text-gray-400">
-                    <%= tr("ticket:MEM_ROLE_DESC") %>
-                  </div>
+                  <div class="text-text-muted text-sm font-normal"><%= tr("ticket:MEM_ROLE_DESC") %></div>
                 </div>
                 <select
                   multiple
                   name="member_roles"
                   id="member_roles"
-                  class="focus:ring-primary-500 focus:border-primary-500 dark:focus:ring-primary-500 dark:focus:border-primary-500 block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400">
+                  class="focus:ring-primary focus:border-primary border-border bg-bg-interactive text-text block w-full rounded-lg border p-2.5 text-sm">
                   <% roles.map((r) => { %>
                   <option value="<%= r.id %>"><%= r.name %></option>
                   <% }) %>
@@ -308,68 +286,58 @@
           </div>
 
           <div>
-            <span class="text-sm font-semibold text-gray-900 dark:text-white"><%= tr("ticket:OPEN_MSG") %></span>
-            <hr class="my-2 border-gray-200 dark:border-gray-600" />
+            <span class="text-text text-sm font-semibold"><%= tr("ticket:OPEN_MSG") %></span>
+            <hr class="border-border my-2" />
           </div>
 
           <div class="mb-3">
             <div class="mb-2">
-              <label for="embed_title" class="text-sm font-semibold text-gray-900 dark:text-white"
-                ><%= tr("ticket:EMBED_TITLE") %></label
-              >
-              <div class="text-sm font-normal text-gray-500 dark:text-gray-400">
-                <%= tr("ticket:EMBED_TITLE_DESC") %>
-              </div>
+              <label for="embed_title" class="text-text text-sm font-semibold"><%= tr("ticket:EMBED_TITLE") %></label>
+              <div class="text-text-muted text-sm font-normal"><%= tr("ticket:EMBED_TITLE_DESC") %></div>
             </div>
             <input
               type="text"
               name="embed_title"
               id="embed_title"
               maxlength="256"
-              class="focus:border-primary-500 focus:ring-primary-500 dark:focus:border-primary-500 dark:focus:ring-primary-500 block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-gray-900 shadow-sm sm:text-sm dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400" />
+              class="focus:border-primary focus:ring-primary border-border bg-bg-interactive text-text block w-full rounded-lg border p-2.5 shadow-sm sm:text-sm" />
           </div>
 
           <div class="mb-3">
             <div class="mb-2">
-              <label for="embed_description" class="text-sm font-semibold text-gray-900 dark:text-white"
+              <label for="embed_description" class="text-text text-sm font-semibold"
                 ><%= tr("ticket:EMBED_DESC") %></label
               >
-              <div class="text-sm font-normal text-gray-500 dark:text-gray-400">
-                <%= tr("ticket:EMBED_DESC_DESC") %>
-              </div>
+              <div class="text-text-muted text-sm font-normal"><%= tr("ticket:EMBED_DESC_DESC") %></div>
             </div>
             <textarea
               rows="3"
               maxlength="2000"
               id="embed_description"
               name="embed_description"
-              class="focus:ring-primary-500 focus:border-primary-500 dark:focus:ring-primary-500 dark:focus:border-primary-500 block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400"></textarea>
+              class="focus:ring-primary focus:border-primary border-border bg-bg-interactive text-text block w-full rounded-lg border p-2.5 text-sm"></textarea>
           </div>
 
           <div class="mb-3">
             <div class="mb-2">
-              <label for="embed_footer" class="text-sm font-semibold text-gray-900 dark:text-white"
-                ><%= tr("ticket:EMBED_FOOTER") %></label
-              >
-              <div class="text-sm font-normal text-gray-500 dark:text-gray-400">
-                <%= tr("ticket:EMBED_FOOTER_DESC") %>
-              </div>
+              <label for="embed_footer" class="text-text text-sm font-semibold"><%= tr("ticket:EMBED_FOOTER") %></label>
+              <div class="text-text-muted text-sm font-normal"><%= tr("ticket:EMBED_FOOTER_DESC") %></div>
             </div>
             <input
               type="text"
               name="embed_footer"
               id="embed_footer"
               maxlength="256"
-              class="focus:border-primary-500 focus:ring-primary-500 dark:focus:border-primary-500 dark:focus:ring-primary-500 block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-gray-900 shadow-sm sm:text-sm dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400" />
+              class="focus:border-primary focus:ring-primary border-border bg-bg-interactive text-text block w-full rounded-lg border p-2.5 shadow-sm sm:text-sm" />
           </div>
         </div>
 
         <!-- Modal footer -->
-        <div class="mt-2 flex items-center rounded-b border-t border-gray-200 p-4 md:p-5 dark:border-gray-600">
+        <div class="border-border mt-2 flex items-center rounded-b border-t p-4 md:p-5">
           <button
             name="create_category"
             type="submit"
-            class="bg-primary-700 hover:bg-primary-800 focus:ring-primary-300 dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800 rounded-lg px-5 py-2.5 text-center text-sm font-medium text-white focus:outline-none focus:ring-4">
+            class="bg-primary hover:bg-primary-dark focus:ring-primary rounded-lg px-5 py-2.5 text-center text-sm font-medium text-white focus:outline-none focus:ring-4">
             <%= tr("ticket:CREATE_BTN") %>
           </button>
         </div>
@@ -388,13 +356,13 @@
   <div class="relative max-h-full w-full max-w-2xl p-4">
     <form method="post">
       <!-- Modal content -->
-      <div class="relative rounded-lg bg-white shadow dark:bg-gray-700">
+      <div class="bg-bg-panel relative rounded-lg shadow">
         <!-- Modal header -->
-        <div class="flex items-center justify-between rounded-t border-b p-4 md:p-5 dark:border-gray-600">
-          <h4 class="text-xl font-semibold text-gray-900 dark:text-white"><%= tr("ticket:UPDATE_TITLE") %></h4>
+        <div class="border-border flex items-center justify-between rounded-t border-b p-4 md:p-5">
+          <h4 class="text-text text-xl font-semibold"><%= tr("ticket:UPDATE_TITLE") %></h4>
           <button
             type="button"
-            class="ms-auto inline-flex h-8 w-8 items-center justify-center rounded-lg bg-transparent text-sm text-gray-400 hover:bg-gray-200 hover:text-gray-900 dark:hover:bg-gray-600 dark:hover:text-white"
+            class="text-text-muted hover:bg-bg-interactive hover:text-text ms-auto inline-flex h-8 w-8 items-center justify-center rounded-lg bg-transparent text-sm"
             data-modal-hide="update-modal-<%=i+1%>">
             <i class="fa-solid fa-x"></i>
             <span class="sr-only"><%=tr("ticket:CLOSE_MODAL_BTN")%></span>
@@ -407,16 +375,14 @@
 
           <div class="mb-3">
             <div class="mb-2">
-              <label for="description" class="text-sm font-semibold text-gray-900 dark:text-white"
-                ><%= tr("ticket:DESC_TITLE") %>*</label
-              >
-              <div class="text-sm font-normal text-gray-500 dark:text-gray-400"><%= tr("ticket:DESC_DESC")%></div>
+              <label for="description" class="text-text text-sm font-semibold"><%= tr("ticket:DESC_TITLE") %>*</label>
+              <div class="text-text-muted text-sm font-normal"><%= tr("ticket:DESC_DESC")%></div>
             </div>
             <input
               type="text"
               name="description"
               id="description"
-              class="focus:border-primary-500 focus:ring-primary-500 dark:focus:border-primary-500 dark:focus:ring-primary-500 block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-gray-900 shadow-sm sm:text-sm dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400"
+              class="focus:border-primary focus:ring-primary border-border bg-bg-interactive text-text block w-full rounded-lg border p-2.5 shadow-sm sm:text-sm"
               value="<%= cat.description %>"
               required />
           </div>
@@ -425,18 +391,16 @@
             <div class="grid gap-4 md:grid-cols-2 xl:grid-cols-2">
               <div>
                 <div class="mb-2">
-                  <label for="staff_roles" class="text-sm font-semibold text-gray-900 dark:text-white"
+                  <label for="staff_roles" class="text-text text-sm font-semibold"
                     ><%= tr("ticket:STAFF_ROLE_TITLE") %></label
                   >
-                  <div class="text-sm font-normal text-gray-500 dark:text-gray-400">
-                    <%= tr("ticket:STAFF_ROLE_DESC") %>
-                  </div>
+                  <div class="text-text-muted text-sm font-normal"><%= tr("ticket:STAFF_ROLE_DESC") %></div>
                 </div>
                 <select
                   multiple
                   name="staff_roles"
                   id="staff_roles"
-                  class="focus:ring-primary-500 focus:border-primary-500 dark:focus:ring-primary-500 dark:focus:border-primary-500 block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400">
+                  class="focus:ring-primary focus:border-primary border-border bg-bg-interactive text-text block w-full rounded-lg border p-2.5 text-sm">
                   <% roles.map((r) => { %> <% if (cat.staff_roles.includes(r.id)) { %>
                   <option value="<%= r.id %>" selected><%= r.name %></option>
                   <% } else { %>
@@ -446,18 +410,16 @@
               </div>
               <div>
                 <div class="mb-2">
-                  <label for="member_roles" class="text-sm font-semibold text-gray-900 dark:text-white"
+                  <label for="member_roles" class="text-text text-sm font-semibold"
                     ><%= tr("ticket:MEM_ROLE_TITLE") %></label
                   >
-                  <div class="text-sm font-normal text-gray-500 dark:text-gray-400">
-                    <%= tr("ticket:MEM_ROLE_DESC") %>
-                  </div>
+                  <div class="text-text-muted text-sm font-normal"><%= tr("ticket:MEM_ROLE_DESC") %></div>
                 </div>
                 <select
                   multiple
                   name="member_roles"
                   id="member_roles"
-                  class="focus:ring-primary-500 focus:border-primary-500 dark:focus:ring-primary-500 dark:focus:border-primary-500 block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400">
+                  class="focus:ring-primary focus:border-primary border-border bg-bg-interactive text-text block w-full rounded-lg border p-2.5 text-sm">
                   <% roles.map((r) => { %> <% if (cat.member_roles.includes(r.id)) { %>
                   <option value="<%= r.id %>" selected><%= r.name %></option>
                   <% } else { %>
@@ -469,73 +431,63 @@
           </div>
 
           <div>
-            <span class="text-sm font-semibold text-gray-900 dark:text-white"><%= tr("ticket:OPEN_MSG") %></span>
-            <hr class="my-2 border-gray-200 dark:border-gray-600" />
+            <span class="text-text text-sm font-semibold"><%= tr("ticket:OPEN_MSG") %></span>
+            <hr class="border-border my-2" />
           </div>
 
           <div class="mb-3">
             <div class="mb-2">
-              <label for="embed_title" class="text-sm font-semibold text-gray-900 dark:text-white"
-                ><%= tr("ticket:EMBED_TITLE") %></label
-              >
-              <div class="text-sm font-normal text-gray-500 dark:text-gray-400">
-                <%= tr("ticket:EMBED_TITLE_DESC") %>
-              </div>
+              <label for="embed_title" class="text-text text-sm font-semibold"><%= tr("ticket:EMBED_TITLE") %></label>
+              <div class="text-text-muted text-sm font-normal"><%= tr("ticket:EMBED_TITLE_DESC") %></div>
             </div>
             <input
               type="text"
               name="embed_title"
               id="embed_title"
               maxlength="256"
-              class="focus:border-primary-500 focus:ring-primary-500 dark:focus:border-primary-500 dark:focus:ring-primary-500 block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-gray-900 shadow-sm sm:text-sm dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400"
+              class="focus:border-primary focus:ring-primary border-border bg-bg-interactive text-text block w-full rounded-lg border p-2.5 shadow-sm sm:text-sm"
               value="<%= cat.open_msg.title %>" />
           </div>
 
           <div class="mb-3">
             <div class="mb-2">
-              <label for="embed_description" class="text-sm font-semibold text-gray-900 dark:text-white"
+              <label for="embed_description" class="text-text text-sm font-semibold"
                 ><%= tr("ticket:EMBED_DESC") %></label
               >
-              <div class="text-sm font-normal text-gray-500 dark:text-gray-400">
-                <%= tr("ticket:EMBED_DESC_DESC") %>
-              </div>
+              <div class="text-text-muted text-sm font-normal"><%= tr("ticket:EMBED_DESC_DESC") %></div>
             </div>
             <textarea
               rows="3"
               maxlength="2000"
               id="embed_description"
               name="embed_description"
-              class="focus:ring-primary-500 focus:border-primary-500 dark:focus:ring-primary-500 dark:focus:border-primary-500 block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400">
-<%-cat.open_msg.description?.replaceAll(/\\n/g, '&#10;')%></textarea
+              class="focus:ring-primary focus:border-primary border-border bg-bg-interactive text-text block w-full rounded-lg border p-2.5 text-sm">
+<%-cat.open_msg.description?.replaceAll(/\n/g, '&#10;')%></textarea
             >
           </div>
 
           <div class="mb-3">
             <div class="mb-2">
-              <label for="embed_footer" class="text-sm font-semibold text-gray-900 dark:text-white"
-                ><%= tr("ticket:EMBED_FOOTER") %></label
-              >
-              <div class="text-sm font-normal text-gray-500 dark:text-gray-400">
-                <%= tr("ticket:EMBED_FOOTER_DESC") %>
-              </div>
+              <label for="embed_footer" class="text-text text-sm font-semibold"><%= tr("ticket:EMBED_FOOTER") %></label>
+              <div class="text-text-muted text-sm font-normal"><%= tr("ticket:EMBED_FOOTER_DESC") %></div>
             </div>
             <input
               type="text"
               name="embed_footer"
               id="embed_footer"
               maxlength="256"
-              class="focus:border-primary-500 focus:ring-primary-500 dark:focus:border-primary-500 dark:focus:ring-primary-500 block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-gray-900 shadow-sm sm:text-sm dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400"
+              class="focus:border-primary focus:ring-primary border-border bg-bg-interactive text-text block w-full rounded-lg border p-2.5 shadow-sm sm:text-sm"
               value="<%= cat.open_msg.footer %>" />
           </div>
         </div>
 
         <!-- Modal footer -->
-        <div class="mt-2 flex items-center rounded-b border-t border-gray-200 p-4 md:p-5 dark:border-gray-600">
+        <div class="border-border mt-2 flex items-center rounded-b border-t p-4 md:p-5">
           <button
             name="update_category"
             type="submit"
-            class="bg-primary-700 hover:bg-primary-800 focus:ring-primary-300 dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800 rounded-lg px-5 py-2.5 text-center text-sm font-medium text-white focus:outline-none focus:ring-4">
-            <%= tr("invite/dash:UPDATE_BTN") %>
+            class="bg-primary hover:bg-primary-dark focus:ring-primary rounded-lg px-5 py-2.5 text-center text-sm font-medium text-white focus:outline-none focus:ring-4">
+            <%= tr("ticket:UPDATE_BTN") %>
           </button>
         </div>
       </div>
@@ -551,29 +503,29 @@
   tabindex="-1"
   class="fixed left-0 right-0 top-0 z-50 hidden h-[calc(100%-1rem)] max-h-full w-full items-center justify-center overflow-y-auto overflow-x-hidden md:inset-0">
   <div class="relative max-h-full w-full max-w-md p-4">
-    <div class="relative rounded-lg bg-white shadow dark:bg-gray-700">
+    <div class="bg-bg-panel relative rounded-lg shadow">
       <button
         type="button"
-        class="absolute end-2.5 top-3 ms-auto inline-flex h-8 w-8 items-center justify-center rounded-lg bg-transparent text-sm text-gray-400 hover:bg-gray-200 hover:text-gray-900 dark:hover:bg-gray-600 dark:hover:text-white"
+        class="text-text-muted hover:bg-bg-interactive hover:text-text absolute end-2.5 top-3 ms-auto inline-flex h-8 w-8 items-center justify-center rounded-lg bg-transparent text-sm"
         data-modal-hide="delete-modal-<%=i+1%>">
         <i class="fa-solid fa-angle-right ml-1"></i>
         <span class="sr-only"><%=tr("ticket:CLOSE_MODAL_BTN")%></span>
       </button>
       <div class="p-4 text-center md:p-5">
-        <i class="fa-regular fa-circle-exclamation mb-3 h-12 w-12 dark:text-gray-200"></i>
-        <h3 class="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400"><%=tr("ticket:DELETE_CONFIRM")%></h3>
+        <i class="fa-regular fa-circle-exclamation text-text-muted mb-3 h-12 w-12"></i>
+        <h3 class="text-text-muted mb-5 text-lg font-normal"><%=tr("ticket:DELETE_CONFIRM")%></h3>
         <form method="post">
           <input type="hidden" name="name" value="<%= cat.name %>" />
           <button
             type="submit"
             name="delete_category"
-            class="inline-flex items-center rounded-lg bg-red-600 px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-red-800 focus:outline-none focus:ring-4 focus:ring-red-300 dark:focus:ring-red-800">
+            class="inline-flex items-center rounded-lg bg-red-600 px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-red-800 focus:outline-none focus:ring-4 focus:ring-red-300">
             <%=tr("ticket:DELETE_CONFIRM_BTN")%>
           </button>
           <button
             data-modal-hide="delete-modal-<%=i+1%>"
             type="button"
-            class="hover:text-primary-700 ms-3 rounded-lg border border-gray-200 bg-white px-5 py-2.5 text-sm font-medium text-gray-900 hover:bg-gray-100 focus:z-10 focus:outline-none focus:ring-4 focus:ring-gray-100 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white dark:focus:ring-gray-700">
+            class="hover:text-primary border-border bg-bg-panel text-text hover:bg-bg-interactive focus:ring-border ms-3 rounded-lg border px-5 py-2.5 text-sm font-medium focus:z-10 focus:outline-none focus:ring-4">
             <%=tr("ticket:DELETE_CANCEL_BTN")%>
           </button>
         </form>

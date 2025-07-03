@@ -49,19 +49,17 @@
       this.saving = false;
     }
   }"
-  class="rounded-lg border border-gray-200 bg-white p-4 shadow-sm dark:border-gray-700 dark:bg-gray-800">
+  class="border-border bg-bg-panel rounded-lg border p-4 shadow-sm">
   <div class="grid grid-cols-1 gap-0 lg:grid-cols-2">
     <!-- Channel -->
     <div class="mb-3">
       <div class="mb-2">
-        <label for="welcome_channel" class="text-sm font-semibold text-gray-900 dark:text-white"
-          ><%= tr("greeting:CHANNEL_TITLE") %></label
-        >
-        <div class="text-sm font-normal text-gray-500 dark:text-gray-400"><%= tr("greeting:CHANNEL_DESC") %></div>
+        <label for="welcome_channel" class="text-text text-sm font-semibold"><%= tr("greeting:CHANNEL_TITLE") %></label>
+        <div class="text-text-muted text-sm font-normal"><%= tr("greeting:CHANNEL_DESC") %></div>
       </div>
       <select
         x-model="formData.welcome_channel"
-        class="focus:ring-primary-500 focus:border-primary-500 dark:focus:ring-primary-500 dark:focus:border-primary-500 block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400">
+        class="focus:ring-primary focus:border-primary border-border bg-bg-interactive text-text block w-full rounded-lg border p-2.5 text-sm">
         <option value="" disabled><%= tr('CHANNEL_SELECT') %></option>
         <template x-for="ch in channels" :key="ch.id">
           <option :value="ch.id" x-text="ch.name" :selected="ch.id === formData.welcome_channel"></option>
@@ -101,7 +99,7 @@
         @click="submitForm('welcome_disable')"
         :disabled="saving"
         :class="{'opacity-50': saving}"
-        class="inline-flex items-center rounded-lg bg-red-700 px-3 py-2 text-center text-sm font-medium text-white hover:bg-red-800 focus:outline-none focus:ring-4 focus:ring-red-300 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-800">
+        class="bg-error hover:bg-error-dark focus:ring-error-light inline-flex items-center rounded-lg px-3 py-2 text-center text-sm font-medium text-white focus:outline-none focus:ring-4">
         <span x-show="!saving"><%= tr("BTN_DISABLE") %></span>
         <span x-show="saving"><%= tr("BTN_SAVING") %></span>
       </button>
@@ -113,7 +111,7 @@
         @click="submitForm('welcome_update')"
         :disabled="saving"
         :class="{'opacity-50': saving}"
-        class="bg-primary-700 hover:bg-primary-800 focus:ring-primary-300 dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800 inline-flex items-center rounded-lg px-3 py-2 text-center text-sm font-medium text-white focus:outline-none focus:ring-4">
+        class="bg-primary hover:bg-primary-dark focus:ring-primary inline-flex items-center rounded-lg px-3 py-2 text-center text-sm font-medium text-white focus:outline-none focus:ring-4">
         <span x-show="!saving"><%= tr("BTN_SAVE") %></span>
         <span x-show="saving"><%= tr("BTN_SAVING") %></span>
       </button>
@@ -123,7 +121,7 @@
         @click="submitForm('welcome_enable')"
         :disabled="saving"
         :class="{'opacity-50': saving}"
-        class="focus:ring-primary-300 dark:focus:ring-primary-800 inline-flex items-center rounded-lg bg-green-700 px-3 py-2 text-center text-sm font-medium text-white hover:bg-green-800 focus:outline-none focus:ring-4 dark:bg-green-600 dark:hover:bg-green-700">
+        class="focus:ring-primary bg-success hover:bg-success-dark inline-flex items-center rounded-lg px-3 py-2 text-center text-sm font-medium text-white focus:outline-none focus:ring-4">
         <span x-show="!saving"><%= tr("BTN_ENABLE") %></span>
         <span x-show="saving"><%= tr("BTN_SAVING") %></span>
       </button>
@@ -182,22 +180,20 @@
       this.saving = false;
     }
   }"
-  class="rounded-lg border border-gray-200 bg-white p-4 shadow-sm dark:border-gray-700 dark:bg-gray-800">
+  class="border-border bg-bg-panel rounded-lg border p-4 shadow-sm">
   <div class="grid grid-cols-1 gap-0 lg:grid-cols-2">
     <!-- Channel -->
     <div class="mb-3">
       <div class="mb-2">
-        <label for="welcome_channel" class="text-sm font-semibold text-gray-900 dark:text-white"
-          ><%= tr("greeting:CHANNEL_TITLE") %></label
-        >
-        <div class="text-sm font-normal text-gray-500 dark:text-gray-400"><%= tr("greeting:CHANNEL_DESC") %></div>
+        <label for="farewell_channel" class="text-text text-sm font-semibold"><%= tr("greeting:CHANNEL_TITLE") %></label>
+        <div class="text-text-muted text-sm font-normal"><%= tr("greeting:CHANNEL_DESC") %></div>
       </div>
       <select
-        x-model="formData.welcome_channel"
-        class="focus:ring-primary-500 focus:border-primary-500 dark:focus:ring-primary-500 dark:focus:border-primary-500 block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400">
+        x-model="formData.farewell_channel"
+        class="focus:ring-primary focus:border-primary border-border bg-bg-interactive text-text block w-full rounded-lg border p-2.5 text-sm">
         <option value="" disabled><%= tr('CHANNEL_SELECT') %></option>
         <template x-for="ch in channels" :key="ch.id">
-          <option :value="ch.id" x-text="ch.name" :selected="ch.id === formData.welcome_channel"></option>
+          <option :value="ch.id" x-text="ch.name" :selected="ch.id === formData.farewell_channel"></option>
         </template>
       </select>
     </div>
@@ -234,7 +230,7 @@
         @click="submitForm('farewell_disable')"
         :disabled="saving"
         :class="{'opacity-50': saving}"
-        class="inline-flex items-center rounded-lg bg-red-700 px-3 py-2 text-center text-sm font-medium text-white hover:bg-red-800 focus:outline-none focus:ring-4 focus:ring-red-300 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-800">
+        class="bg-error hover:bg-error-dark focus:ring-error-light inline-flex items-center rounded-lg px-3 py-2 text-center text-sm font-medium text-white focus:outline-none focus:ring-4">
         <span x-show="!saving"><%= tr("BTN_DISABLE") %></span>
         <span x-show="saving"><%= tr("BTN_SAVING") %></span>
       </button>
@@ -246,7 +242,7 @@
         @click="submitForm('farewell_update')"
         :disabled="saving"
         :class="{'opacity-50': saving}"
-        class="bg-primary-700 hover:bg-primary-800 focus:ring-primary-300 dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800 inline-flex items-center rounded-lg px-3 py-2 text-center text-sm font-medium text-white focus:outline-none focus:ring-4">
+        class="bg-primary hover:bg-primary-dark focus:ring-primary inline-flex items-center rounded-lg px-3 py-2 text-center text-sm font-medium text-white focus:outline-none focus:ring-4">
         <span x-show="!saving"><%= tr("BTN_SAVE") %></span>
         <span x-show="saving"><%= tr("BTN_SAVING") %></span>
       </button>
@@ -256,7 +252,7 @@
         @click="submitForm('farewell_enable')"
         :disabled="saving"
         :class="{'opacity-50': saving}"
-        class="focus:ring-primary-300 dark:focus:ring-primary-800 inline-flex items-center rounded-lg bg-green-700 px-3 py-2 text-center text-sm font-medium text-white hover:bg-green-800 focus:outline-none focus:ring-4 dark:bg-green-600 dark:hover:bg-green-700">
+        class="focus:ring-primary bg-success hover:bg-success-dark inline-flex items-center rounded-lg px-3 py-2 text-center text-sm font-medium text-white focus:outline-none focus:ring-4">
         <span x-show="!saving"><%= tr("BTN_ENABLE") %></span>
         <span x-show="saving"><%= tr("BTN_SAVING") %></span>
       </button>
@@ -265,7 +261,7 @@
 </section>
 
 <%- contentFor("Autorole") %>
-<section class="rounded-lg border border-gray-200 bg-white p-4 shadow-sm sm:p-6 dark:border-gray-700 dark:bg-gray-800">
+<section class="border-border bg-bg-panel rounded-lg border p-4 shadow-sm">
   <form
     x-data="{
     roles: <%= roles ? JSON.stringify(roles) : '[]' %>,
@@ -295,16 +291,14 @@
     @submit.prevent="submitForm">
     <div class="mb-3">
       <div class="mb-2">
-        <label for="autorole_id" class="text-sm font-semibold text-gray-900 dark:text-white"
-          ><%= tr("greeting:AUTOROLE_TITLE") %></label
-        >
-        <div class="text-sm font-normal text-gray-500 dark:text-gray-400"><%= tr("greeting:AUTOROLE_DESC") %></div>
+        <label for="autorole_id" class="text-text text-sm font-semibold"><%= tr("greeting:AUTOROLE_TITLE") %></label>
+        <div class="text-text-muted text-sm font-normal"><%= tr("greeting:AUTOROLE_DESC") %></div>
       </div>
       <select
         x-model="formData.autorole_id"
         name="autorole_id"
         id="autorole_id"
-        class="focus:ring-primary-500 focus:border-primary-500 dark:focus:ring-primary-500 dark:focus:border-primary-500 block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400">
+        class="focus:ring-primary focus:border-primary border-border bg-bg-interactive text-text block w-full rounded-lg border p-2.5 text-sm">
         <template x-for="role in roles" :key="role.id">
           <option
             :value="String(role.id)"
@@ -316,14 +310,14 @@
     <!-- END: Card Body -->
 
     <!-- START: Card Footer -->
-    <div class="mt-4 flex items-center justify-between border-t border-gray-200 pt-3 sm:pt-6 dark:border-gray-700">
+    <div class="border-border mt-4 flex items-center justify-between border-t pt-3 sm:pt-6">
       <div></div>
       <div class="flex-shrink-0">
         <button
           type="submit"
           :disabled="saving"
           :class="{'opacity-50': saving}"
-          class="bg-primary-700 hover:bg-primary-800 focus:ring-primary-300 dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800 inline-flex items-center rounded-lg px-3 py-2 text-center text-sm font-medium text-white focus:outline-none focus:ring-4">
+          class="bg-primary hover:bg-primary-dark focus:ring-primary inline-flex items-center rounded-lg px-3 py-2 text-center text-sm font-medium text-white focus:outline-none focus:ring-4">
           <span x-show="!saving"><%= tr("BTN_SAVE") %></span>
           <span x-show="saving"><%= tr("BTN_SAVING") %></span>
         </button>
