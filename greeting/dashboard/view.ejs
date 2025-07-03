@@ -5,7 +5,7 @@
     formData: {
       enabled: <%= settings.welcome.enabled ? 'true' : 'false' %>,
       welcome_channel: '<%= settings.welcome.channel %>',
-      welcome_content: `<%= settings.welcome.content?.replaceAll(/\\n/g, '\\n') %>`,
+      welcome_content: `<%= settings.welcome.content?.replaceAll(/\\n/g, '\\n') || 'Welcome to our server! 🎉' %>`,
       welcome_embed_title: `<%= settings.welcome.embed.title %>`,
       welcome_embed_description: `<%= settings.welcome.embed.description?.replaceAll(/\\n/g, '\\n') %>`,
       welcome_embed_color: `<%= settings.welcome.embed.color || '#5865F2' %>`,
@@ -49,340 +49,85 @@
       this.saving = false;
     }
   }"
-  class="bg-gray-100 text-gray-900 dark:bg-gray-900 dark:text-gray-100">
-  <div
-    class="grid grid-cols-1 gap-0 overflow-hidden rounded-lg border border-gray-200 lg:grid-cols-2 dark:border-gray-700">
-    <!-- START: Col 1 (Configuration) -->
-    <div class="bg-white p-6 dark:bg-gray-800">
-      <!-- Channel -->
-      <div class="mb-3">
-        <div class="mb-2">
-          <label for="welcome_channel" class="text-sm font-semibold text-gray-900 dark:text-white"
-            ><%= tr("greeting:CHANNEL_TITLE") %></label
-          >
-          <div class="text-sm font-normal text-gray-500 dark:text-gray-400"><%= tr("greeting:CHANNEL_DESC") %></div>
-        </div>
-        <select
-          x-model="formData.welcome_channel"
-          class="focus:ring-primary-500 focus:border-primary-500 dark:focus:ring-primary-500 dark:focus:border-primary-500 block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400">
-          <option value="" disabled><%= tr('CHANNEL_SELECT') %></option>
-          <template x-for="ch in channels" :key="ch.id">
-            <option :value="ch.id" x-text="ch.name" :selected="ch.id === formData.welcome_channel"></option>
-          </template>
-        </select>
+  class="rounded-lg border border-gray-200 bg-white p-4 shadow-sm dark:border-gray-700 dark:bg-gray-800">
+  <div class="grid grid-cols-1 gap-0 lg:grid-cols-2">
+    <!-- Channel -->
+    <div class="mb-3">
+      <div class="mb-2">
+        <label for="welcome_channel" class="text-sm font-semibold text-gray-900 dark:text-white"
+          ><%= tr("greeting:CHANNEL_TITLE") %></label
+        >
+        <div class="text-sm font-normal text-gray-500 dark:text-gray-400"><%= tr("greeting:CHANNEL_DESC") %></div>
       </div>
-
-      <!-- Plain Text -->
-      <div class="mb-3">
-        <div class="mb-2">
-          <label for="welcome_content" class="text-sm font-semibold text-gray-900 dark:text-white"
-            ><%= tr("greeting:CONTENT_TITLE") %></label
-          >
-        </div>
-        <textarea
-          x-model="formData.welcome_content"
-          rows="3"
-          class="mt-1 block w-full rounded border border-gray-300 bg-gray-50 p-2 text-gray-900 dark:border-gray-600 dark:bg-gray-700 dark:text-white"
-          placeholder="<%= tr('greeting:WELCOME_PLACEHOLDER') %>"></textarea>
-      </div>
-
-      <!-- Embed Options -->
-      <div>
-        <h4 class="mb-2 text-sm font-semibold text-gray-900 dark:text-white"><%= tr("greeting:EMBED_OPTIONS") %></h4>
-        <!-- Title -->
-        <div class="mb-3">
-          <div class="mb-2">
-            <label class="text-xs font-semibold text-gray-900 dark:text-white"><%= tr("greeting:EMBED_TITLE") %></label>
-          </div>
-          <input
-            x-model="formData.welcome_embed_title"
-            type="text"
-            maxlength="256"
-            class="block w-full rounded border border-gray-300 bg-gray-50 p-2 text-gray-900 dark:border-gray-600 dark:bg-gray-700 dark:text-white"
-            placeholder="Welcome to our server!" />
-        </div>
-        <!-- Description -->
-        <div class="mb-3">
-          <div class="mb-2">
-            <label class="text-xs font-semibold text-gray-900 dark:text-white"><%= tr("greeting:EMBED_DESC") %></label>
-          </div>
-          <textarea
-            x-model="formData.welcome_embed_description"
-            rows="3"
-            maxlength="4096"
-            class="block w-full rounded border border-gray-300 bg-gray-50 p-2 text-gray-900 dark:border-gray-600 dark:bg-gray-700 dark:text-white"
-            placeholder="We're excited to have you here!"></textarea>
-        </div>
-        <!-- Color -->
-        <div class="mb-3">
-          <div class="mb-2">
-            <label class="text-xs font-semibold text-gray-900 dark:text-white"><%= tr("greeting:EMBED_COLOR") %></label>
-          </div>
-          <div class="flex items-center gap-3">
-            <input
-              x-model="formData.welcome_embed_color"
-              type="color"
-              class="h-8 w-12 cursor-pointer rounded border-0 p-0"
-              style="background: none" />
-            <span class="text-xs text-gray-500 dark:text-gray-400" x-text="formData.welcome_embed_color"></span>
-          </div>
-        </div>
-        <!-- Author & Icon -->
-        <div class="mb-3 grid grid-cols-1 gap-4 md:grid-cols-2">
-          <div>
-            <div class="mb-2">
-              <label class="text-xs font-semibold text-gray-900 dark:text-white"
-                ><%= tr("greeting:EMBED_AUTHOR_NAME") %></label
-              >
-            </div>
-            <input
-              x-model="formData.welcome_embed_author"
-              type="text"
-              maxlength="256"
-              class="block w-full rounded border border-gray-300 bg-gray-50 p-2 text-gray-900 dark:border-gray-600 dark:bg-gray-700 dark:text-white"
-              placeholder="" />
-          </div>
-          <div>
-            <div class="mb-2">
-              <label class="text-xs font-semibold text-gray-900 dark:text-white"
-                ><%= tr("greeting:EMBED_AUTHOR_ICON") %></label
-              >
-            </div>
-            <input
-              x-model="formData.welcome_embed_author_icon"
-              type="url"
-              class="block w-full rounded border border-gray-300 bg-gray-50 p-2 text-gray-900 dark:border-gray-600 dark:bg-gray-700 dark:text-white"
-              placeholder="https://..." />
-          </div>
-        </div>
-        <!-- Fields -->
-        <div class="mb-3">
-          <div class="mb-2">
-            <label class="text-xs font-semibold text-gray-900 dark:text-white"
-              ><%= tr("greeting:EMBED_FIELDS") %></label
-            >
-          </div>
-          <template x-for="(field, idx) in formData.welcome_embed_fields" :key="idx">
-            <div class="mb-2 flex items-center gap-2">
-              <input
-                x-model="field.name"
-                type="text"
-                maxlength="256"
-                class="flex-1 rounded border border-gray-300 bg-gray-50 p-2 text-gray-900 dark:border-gray-600 dark:bg-gray-700 dark:text-white"
-                placeholder="<%= tr(`greeting:EMBED_FIELD_NAME`) %>" />
-              <input
-                x-model="field.value"
-                type="text"
-                maxlength="1024"
-                class="flex-1 rounded border border-gray-300 bg-gray-50 p-2 text-gray-900 dark:border-gray-600 dark:bg-gray-700 dark:text-white"
-                placeholder="<%= tr(`greeting:EMBED_FIELD_VALUE`) %>" />
-              <label class="flex items-center gap-1 text-xs">
-                <input
-                  type="checkbox"
-                  x-model="field.inline"
-                  class="rounded border-gray-300 bg-gray-50 dark:bg-gray-700" />
-                <%= tr("greeting:EMBED_FIELD_INLINE") %>
-              </label>
-              <button type="button" @click="removeField(idx)" class="px-2 text-lg text-red-500 hover:text-red-700">
-                ×
-              </button>
-            </div>
-          </template>
-          <button type="button" @click="addField()" class="mt-1 rounded bg-[#5865F2] px-3 py-1 text-xs text-white">
-            + <%= tr("greeting:EMBED_ADD_FIELD") %>
-          </button>
-        </div>
-        <!-- Footer & Icon -->
-        <div class="mb-3 grid grid-cols-1 gap-4 md:grid-cols-2">
-          <div>
-            <div class="mb-2">
-              <label class="text-xs font-semibold text-gray-900 dark:text-white"
-                ><%= tr("greeting:EMBED_FOOTER") %></label
-              >
-            </div>
-            <input
-              x-model="formData.welcome_embed_footer"
-              type="text"
-              maxlength="2048"
-              class="block w-full rounded border border-gray-300 bg-gray-50 p-2 text-gray-900 dark:border-gray-600 dark:bg-gray-700 dark:text-white"
-              placeholder="" />
-          </div>
-          <div>
-            <div class="mb-2">
-              <label class="text-xs font-semibold text-gray-900 dark:text-white"
-                ><%= tr("greeting:EMBED_FOOTER_ICON") %></label
-              >
-            </div>
-            <input
-              x-model="formData.welcome_embed_footer_icon"
-              type="url"
-              class="block w-full rounded border border-gray-300 bg-gray-50 p-2 text-gray-900 dark:border-gray-600 dark:bg-gray-700 dark:text-white"
-              placeholder="https://..." />
-          </div>
-        </div>
-        <!-- Thumbnail & Image -->
-        <div class="mb-3 grid grid-cols-1 gap-4 md:grid-cols-2">
-          <div>
-            <div class="mb-2">
-              <label class="text-xs font-semibold text-gray-900 dark:text-white"
-                ><%= tr("greeting:EMBED_THUMBNAIL") %></label
-              >
-            </div>
-            <input
-              x-model="formData.welcome_embed_thumbnail"
-              type="url"
-              class="block w-full rounded border border-gray-300 bg-gray-50 p-2 text-gray-900 dark:border-gray-600 dark:bg-gray-700 dark:text-white"
-              placeholder="https://..." />
-          </div>
-          <div>
-            <div class="mb-2">
-              <label class="text-xs font-semibold text-gray-900 dark:text-white"
-                ><%= tr("greeting:EMBED_IMAGE") %></label
-              >
-            </div>
-            <input
-              x-model="formData.welcome_embed_image"
-              type="url"
-              class="block w-full rounded border border-gray-300 bg-gray-50 p-2 text-gray-900 dark:border-gray-600 dark:bg-gray-700 dark:text-white"
-              placeholder="https://..." />
-          </div>
-        </div>
-        <!-- Timestamp -->
-        <div class="mb-3 flex items-center gap-2">
-          <input
-            type="checkbox"
-            x-model="formData.welcome_embed_timestamp"
-            class="rounded border-gray-300 bg-gray-50 dark:bg-gray-700" />
-          <label class="text-xs font-semibold text-gray-900 dark:text-white"
-            ><%= tr("greeting:EMBED_TIMESTAMP") %></label
-          >
-        </div>
-      </div>
-
-      <div class="mt-4 flex items-center justify-between border-t border-gray-200 pt-3 sm:pt-6 dark:border-gray-700">
-        <div>
-          <button
-            x-show="formData.enabled"
-            type="button"
-            @click="submitForm('welcome_disable')"
-            :disabled="saving"
-            :class="{'opacity-50': saving}"
-            class="inline-flex items-center rounded-lg bg-red-700 px-3 py-2 text-center text-sm font-medium text-white hover:bg-red-800 focus:outline-none focus:ring-4 focus:ring-red-300 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-800">
-            <span x-show="!saving"><%= tr("BTN_DISABLE") %></span>
-            <span x-show="saving"><%= tr("BTN_SAVING") %></span>
-          </button>
-        </div>
-        <div class="flex-shrink-0">
-          <button
-            x-show="formData.enabled"
-            type="button"
-            @click="submitForm('welcome_update')"
-            :disabled="saving"
-            :class="{'opacity-50': saving}"
-            class="bg-primary-700 hover:bg-primary-800 focus:ring-primary-300 dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800 inline-flex items-center rounded-lg px-3 py-2 text-center text-sm font-medium text-white focus:outline-none focus:ring-4">
-            <span x-show="!saving"><%= tr("BTN_SAVE") %></span>
-            <span x-show="saving"><%= tr("BTN_SAVING") %></span>
-          </button>
-          <button
-            x-show="!formData.enabled"
-            type="button"
-            @click="submitForm('welcome_enable')"
-            :disabled="saving"
-            :class="{'opacity-50': saving}"
-            class="focus:ring-primary-300 dark:focus:ring-primary-800 inline-flex items-center rounded-lg bg-green-700 px-3 py-2 text-center text-sm font-medium text-white hover:bg-green-800 focus:outline-none focus:ring-4 dark:bg-green-600 dark:hover:bg-green-700">
-            <span x-show="!saving"><%= tr("BTN_ENABLE") %></span>
-            <span x-show="saving"><%= tr("BTN_SAVING") %></span>
-          </button>
-        </div>
-      </div>
-    </div>
-    <!-- END: Col 1 (Configuration) -->
-
-    <!-- START: Col 2 (Preview) -->
-    <div class="border-l border-gray-200 bg-gray-50 p-4 dark:border-gray-700 dark:bg-gray-900">
-      <div class="rounded-lg bg-[#36393F] p-4">
-        <!-- Channel & Time -->
-        <div class="mb-2 flex items-center text-xs text-[#99AAb5]">
-          <span class="mr-1 font-bold">#</span>
-          <span x-text="channels.find(c => c.id === formData.welcome_channel)?.name || formData.welcome_channel"></span>
-          <span class="mx-2">•</span>
-          <span>Just now</span>
-        </div>
-        <!-- Bot Message -->
-        <div class="mb-3 flex">
-          <img class="mr-3 h-10 w-10 rounded-full" src="<%= coreConfig['DASHBOARD']['LOGO_URL'] %>" alt="Bot Avatar" />
-          <div>
-            <div class="font-bold text-white"><%= coreConfig['DASHBOARD']['LOGO_NAME'] %></div>
-            <div class="text-[#dcddde]" x-text="formData.welcome_content || 'Welcome to the server Martian 🎉'"></div>
-          </div>
-        </div>
-        <!-- Embed -->
-        <template
-          x-if="formData.welcome_embed_title || formData.welcome_embed_description || formData.welcome_embed_fields.length > 0">
-          <div
-            class="mb-4 rounded border-l-4 p-4"
-            :style="`background:#2f3136;border-color:${formData.welcome_embed_color || '#5865F2'}`">
-            <!-- Author -->
-            <template x-if="formData.welcome_embed_author">
-              <div class="mb-2 flex items-center">
-                <template x-if="formData.welcome_embed_author_icon">
-                  <img :src="formData.welcome_embed_author_icon" class="mr-2 h-6 w-6 rounded-full" />
-                </template>
-                <span class="font-bold text-white" x-text="formData.welcome_embed_author"></span>
-              </div>
-            </template>
-            <!-- Title -->
-            <template x-if="formData.welcome_embed_title">
-              <div class="mb-2 text-lg font-bold text-white" x-text="formData.welcome_embed_title"></div>
-            </template>
-            <!-- Description -->
-            <template x-if="formData.welcome_embed_description">
-              <div class="mb-3 text-[#dcddde]" x-text="formData.welcome_embed_description"></div>
-            </template>
-            <!-- Thumbnail -->
-            <template x-if="formData.welcome_embed_thumbnail">
-              <div class="float-right mb-2 ml-4">
-                <img :src="formData.welcome_embed_thumbnail" class="h-16 w-16 rounded-lg" />
-              </div>
-            </template>
-            <!-- Fields -->
-            <template x-if="formData.welcome_embed_fields.length > 0">
-              <div class="mb-3 grid grid-cols-1 gap-4 md:grid-cols-2">
-                <template x-for="field in formData.welcome_embed_fields">
-                  <div class="mb-2" :class="field.inline ? 'inline-block w-full' : 'col-span-2'">
-                    <div class="font-bold text-white" x-text="field.name || 'Field title'"></div>
-                    <div class="text-[#dcddde]" x-text="field.value || 'Field content'"></div>
-                  </div>
-                </template>
-              </div>
-            </template>
-            <!-- Image -->
-            <template x-if="formData.welcome_embed_image">
-              <img :src="formData.welcome_embed_image" class="mt-2 max-h-60 w-full rounded-lg object-cover" />
-            </template>
-            <!-- Footer -->
-            <template x-if="formData.welcome_embed_footer || formData.welcome_embed_timestamp">
-              <div class="mt-3 flex items-center text-xs text-[#99AAb5]">
-                <template x-if="formData.welcome_embed_footer_icon">
-                  <img :src="formData.welcome_embed_footer_icon" class="mr-1 h-4 w-4 rounded-full" />
-                </template>
-                <span x-text="formData.welcome_embed_footer"></span>
-                <template x-if="formData.welcome_embed_footer && formData.welcome_embed_timestamp">
-                  <span class="mx-1">•</span>
-                </template>
-                <span x-show="formData.welcome_embed_timestamp" x-text="new Date().toLocaleString()"></span>
-              </div>
-            </template>
-          </div>
+      <select
+        x-model="formData.welcome_channel"
+        class="focus:ring-primary-500 focus:border-primary-500 dark:focus:ring-primary-500 dark:focus:border-primary-500 block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400">
+        <option value="" disabled><%= tr('CHANNEL_SELECT') %></option>
+        <template x-for="ch in channels" :key="ch.id">
+          <option :value="ch.id" x-text="ch.name" :selected="ch.id === formData.welcome_channel"></option>
         </template>
-        <!-- Empty State -->
-        <template
-          x-if="!formData.welcome_embed_title && !formData.welcome_embed_description && formData.welcome_embed_fields.length === 0">
-          <div class="py-8 text-center text-[#99AAb5]"><%= tr("greeting:PREVIEW_PLACEHOLDER") %></div>
-        </template>
-      </div>
+      </select>
     </div>
-    <!-- END: Col 2 (Preview) -->
+  </div>
+
+  <div class="mt-3">
+    <%- includePartial('embedPreview', { 
+      channelName: "channels.find(c => c.id === formData.welcome_channel)?.name",
+      content: "formData.welcome_content", 
+      embed: { 
+        title: "formData.welcome_embed_title", 
+        author: { 
+          name: "formData.welcome_embed_author", 
+          iconURL: "formData.welcome_embed_author_icon" 
+        }, 
+        description: "formData.welcome_embed_description", 
+        color: "formData.welcome_embed_color", 
+        fields: "formData.welcome_embed_fields", 
+        footer: { 
+          text: "formData.welcome_embed_footer", 
+          iconURL: "formData.welcome_embed_footer_icon" 
+        }, 
+        thumbnail: "formData.welcome_embed_thumbnail", 
+        image: "formData.welcome_embed_image", 
+        timestamp: "formData.welcome_embed_timestamp" 
+      } 
+    }) %>
+  </div>
+  <div class="mt-2 flex items-center justify-between p-2 sm:pt-6">
+    <div>
+      <button
+        x-show="formData.enabled"
+        type="button"
+        @click="submitForm('welcome_disable')"
+        :disabled="saving"
+        :class="{'opacity-50': saving}"
+        class="inline-flex items-center rounded-lg bg-red-700 px-3 py-2 text-center text-sm font-medium text-white hover:bg-red-800 focus:outline-none focus:ring-4 focus:ring-red-300 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-800">
+        <span x-show="!saving"><%= tr("BTN_DISABLE") %></span>
+        <span x-show="saving"><%= tr("BTN_SAVING") %></span>
+      </button>
+    </div>
+    <div class="flex-shrink-0">
+      <button
+        x-show="formData.enabled"
+        type="button"
+        @click="submitForm('welcome_update')"
+        :disabled="saving"
+        :class="{'opacity-50': saving}"
+        class="bg-primary-700 hover:bg-primary-800 focus:ring-primary-300 dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800 inline-flex items-center rounded-lg px-3 py-2 text-center text-sm font-medium text-white focus:outline-none focus:ring-4">
+        <span x-show="!saving"><%= tr("BTN_SAVE") %></span>
+        <span x-show="saving"><%= tr("BTN_SAVING") %></span>
+      </button>
+      <button
+        x-show="!formData.enabled"
+        type="button"
+        @click="submitForm('welcome_enable')"
+        :disabled="saving"
+        :class="{'opacity-50': saving}"
+        class="focus:ring-primary-300 dark:focus:ring-primary-800 inline-flex items-center rounded-lg bg-green-700 px-3 py-2 text-center text-sm font-medium text-white hover:bg-green-800 focus:outline-none focus:ring-4 dark:bg-green-600 dark:hover:bg-green-700">
+        <span x-show="!saving"><%= tr("BTN_ENABLE") %></span>
+        <span x-show="saving"><%= tr("BTN_SAVING") %></span>
+      </button>
+    </div>
   </div>
 </section>
 
@@ -437,341 +182,85 @@
       this.saving = false;
     }
   }"
-  class="bg-gray-100 text-gray-900 dark:bg-gray-900 dark:text-gray-100">
-  <div
-    class="grid grid-cols-1 gap-0 overflow-hidden rounded-lg border border-gray-200 lg:grid-cols-2 dark:border-gray-700">
-    <!-- START: Col 1 (Configuration) -->
-    <div class="bg-white p-6 dark:bg-gray-800">
-      <!-- Channel -->
-      <div class="mb-3">
-        <div class="mb-2">
-          <label for="farewell_channel" class="text-sm font-semibold text-gray-900 dark:text-white"
-            ><%= tr("greeting:CHANNEL_TITLE") %></label
-          >
-          <div class="text-sm font-normal text-gray-500 dark:text-gray-400"><%= tr("greeting:CHANNEL_DESC") %></div>
-        </div>
-        <select
-          x-model="formData.farewell_channel"
-          class="focus:ring-primary-500 focus:border-primary-500 dark:focus:ring-primary-500 dark:focus:border-primary-500 block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400">
-          <option value="" disabled><%= tr('CHANNEL_SELECT') %></option>
-          <template x-for="ch in channels" :key="ch.id">
-            <option :value="ch.id" x-text="ch.name" :selected="formData.farewell_channel === ch.id"></option>
-          </template>
-        </select>
+  class="rounded-lg border border-gray-200 bg-white p-4 shadow-sm dark:border-gray-700 dark:bg-gray-800">
+  <div class="grid grid-cols-1 gap-0 lg:grid-cols-2">
+    <!-- Channel -->
+    <div class="mb-3">
+      <div class="mb-2">
+        <label for="welcome_channel" class="text-sm font-semibold text-gray-900 dark:text-white"
+          ><%= tr("greeting:CHANNEL_TITLE") %></label
+        >
+        <div class="text-sm font-normal text-gray-500 dark:text-gray-400"><%= tr("greeting:CHANNEL_DESC") %></div>
       </div>
-
-      <!-- Plain Text -->
-      <div class="mb-3">
-        <div class="mb-2">
-          <label for="farewell_content" class="text-sm font-semibold text-gray-900 dark:text-white"
-            ><%= tr("greeting:CONTENT_TITLE") %></label
-          >
-        </div>
-        <textarea
-          x-model="formData.farewell_content"
-          rows="3"
-          class="mt-1 block w-full rounded border border-gray-300 bg-gray-50 p-2 text-gray-900 dark:border-gray-600 dark:bg-gray-700 dark:text-white"
-          placeholder="<%= tr('greeting:FAREWELL_PLACEHOLDER') %>"></textarea>
-      </div>
-
-      <!-- Embed Options -->
-      <div>
-        <h4 class="mb-2 text-sm font-semibold text-gray-900 dark:text-white"><%= tr("greeting:EMBED_OPTIONS") %></h4>
-        <!-- Title -->
-        <div class="mb-3">
-          <div class="mb-2">
-            <label class="text-xs font-semibold text-gray-900 dark:text-white"><%= tr("greeting:EMBED_TITLE") %></label>
-          </div>
-          <input
-            x-model="formData.farewell_embed_title"
-            type="text"
-            maxlength="256"
-            class="block w-full rounded border border-gray-300 bg-gray-50 p-2 text-gray-900 dark:border-gray-600 dark:bg-gray-700 dark:text-white"
-            placeholder="Welcome to our server!" />
-        </div>
-        <!-- Description -->
-        <div class="mb-3">
-          <div class="mb-2">
-            <label class="text-xs font-semibold text-gray-900 dark:text-white"><%= tr("greeting:EMBED_DESC") %></label>
-          </div>
-          <textarea
-            x-model="formData.farewell_embed_description"
-            rows="3"
-            maxlength="4096"
-            class="block w-full rounded border border-gray-300 bg-gray-50 p-2 text-gray-900 dark:border-gray-600 dark:bg-gray-700 dark:text-white"
-            placeholder="We're excited to have you here!"></textarea>
-        </div>
-        <!-- Color -->
-        <div class="mb-3">
-          <div class="mb-2">
-            <label class="text-xs font-semibold text-gray-900 dark:text-white"><%= tr("greeting:EMBED_COLOR") %></label>
-          </div>
-          <div class="flex items-center gap-3">
-            <input
-              x-model="formData.farewell_embed_color"
-              type="color"
-              class="h-8 w-12 cursor-pointer rounded border-0 p-0"
-              style="background: none" />
-            <span class="text-xs text-gray-500 dark:text-gray-400" x-text="formData.farewell_embed_color"></span>
-          </div>
-        </div>
-        <!-- Author & Icon -->
-        <div class="mb-3 grid grid-cols-1 gap-4 md:grid-cols-2">
-          <div>
-            <div class="mb-2">
-              <label class="text-xs font-semibold text-gray-900 dark:text-white"
-                ><%= tr("greeting:EMBED_AUTHOR_NAME") %></label
-              >
-            </div>
-            <input
-              x-model="formData.farewell_embed_author"
-              type="text"
-              maxlength="256"
-              class="block w-full rounded border border-gray-300 bg-gray-50 p-2 text-gray-900 dark:border-gray-600 dark:bg-gray-700 dark:text-white"
-              placeholder="" />
-          </div>
-          <div>
-            <div class="mb-2">
-              <label class="text-xs font-semibold text-gray-900 dark:text-white"
-                ><%= tr("greeting:EMBED_AUTHOR_ICON") %></label
-              >
-            </div>
-            <input
-              x-model="formData.farewell_embed_author_icon"
-              type="url"
-              class="block w-full rounded border border-gray-300 bg-gray-50 p-2 text-gray-900 dark:border-gray-600 dark:bg-gray-700 dark:text-white"
-              placeholder="https://..." />
-          </div>
-        </div>
-        <!-- Fields -->
-        <div class="mb-3">
-          <div class="mb-2">
-            <label class="text-xs font-semibold text-gray-900 dark:text-white"
-              ><%= tr("greeting:EMBED_FIELDS") %></label
-            >
-          </div>
-          <template x-for="(field, idx) in formData.farewell_embed_fields" :key="idx">
-            <div class="mb-2 flex items-center gap-2">
-              <input
-                x-model="field.name"
-                type="text"
-                maxlength="256"
-                class="flex-1 rounded border border-gray-300 bg-gray-50 p-2 text-gray-900 dark:border-gray-600 dark:bg-gray-700 dark:text-white"
-                placeholder="<%= tr(`greeting:EMBED_FIELD_NAME`) %>" />
-              <input
-                x-model="field.value"
-                type="text"
-                maxlength="1024"
-                class="flex-1 rounded border border-gray-300 bg-gray-50 p-2 text-gray-900 dark:border-gray-600 dark:bg-gray-700 dark:text-white"
-                placeholder="<%= tr(`greeting:EMBED_FIELD_VALUE`) %>" />
-              <label class="flex items-center gap-1 text-xs">
-                <input
-                  type="checkbox"
-                  x-model="field.inline"
-                  class="rounded border-gray-300 bg-gray-50 dark:bg-gray-700" />
-                <%= tr("greeting:EMBED_FIELD_INLINE") %>
-              </label>
-              <button type="button" @click="removeField(idx)" class="px-2 text-lg text-red-500 hover:text-red-700">
-                ×
-              </button>
-            </div>
-          </template>
-          <button type="button" @click="addField()" class="mt-1 rounded bg-[#5865F2] px-3 py-1 text-xs text-white">
-            + <%= tr("greeting:EMBED_ADD_FIELD") %>
-          </button>
-        </div>
-        <!-- Footer & Icon -->
-        <div class="mb-3 grid grid-cols-1 gap-4 md:grid-cols-2">
-          <div>
-            <div class="mb-2">
-              <label class="text-xs font-semibold text-gray-900 dark:text-white"
-                ><%= tr("greeting:EMBED_FOOTER") %></label
-              >
-            </div>
-            <input
-              x-model="formData.farewell_embed_footer"
-              type="text"
-              maxlength="2048"
-              class="block w-full rounded border border-gray-300 bg-gray-50 p-2 text-gray-900 dark:border-gray-600 dark:bg-gray-700 dark:text-white"
-              placeholder="" />
-          </div>
-          <div>
-            <div class="mb-2">
-              <label class="text-xs font-semibold text-gray-900 dark:text-white"
-                ><%= tr("greeting:EMBED_FOOTER_ICON") %></label
-              >
-            </div>
-            <input
-              x-model="formData.farewell_embed_footer_icon"
-              type="url"
-              class="block w-full rounded border border-gray-300 bg-gray-50 p-2 text-gray-900 dark:border-gray-600 dark:bg-gray-700 dark:text-white"
-              placeholder="https://..." />
-          </div>
-        </div>
-        <!-- Thumbnail & Image -->
-        <div class="mb-3 grid grid-cols-1 gap-4 md:grid-cols-2">
-          <div>
-            <div class="mb-2">
-              <label class="text-xs font-semibold text-gray-900 dark:text-white"
-                ><%= tr("greeting:EMBED_THUMBNAIL") %></label
-              >
-            </div>
-            <input
-              x-model="formData.farewell_embed_thumbnail"
-              type="url"
-              class="block w-full rounded border border-gray-300 bg-gray-50 p-2 text-gray-900 dark:border-gray-600 dark:bg-gray-700 dark:text-white"
-              placeholder="https://..." />
-          </div>
-          <div>
-            <div class="mb-2">
-              <label class="text-xs font-semibold text-gray-900 dark:text-white"
-                ><%= tr("greeting:EMBED_IMAGE") %></label
-              >
-            </div>
-            <input
-              x-model="formData.farewell_embed_image"
-              type="url"
-              class="block w-full rounded border border-gray-300 bg-gray-50 p-2 text-gray-900 dark:border-gray-600 dark:bg-gray-700 dark:text-white"
-              placeholder="https://..." />
-          </div>
-        </div>
-        <!-- Timestamp -->
-        <div class="mb-3 flex items-center gap-2">
-          <input
-            type="checkbox"
-            x-model="formData.farewell_embed_timestamp"
-            class="rounded border-gray-300 bg-gray-50 dark:bg-gray-700" />
-          <label class="text-xs font-semibold text-gray-900 dark:text-white"
-            ><%= tr("greeting:EMBED_TIMESTAMP") %></label
-          >
-        </div>
-      </div>
-
-      <div class="mt-4 flex items-center justify-between border-t border-gray-200 pt-3 sm:pt-6 dark:border-gray-700">
-        <div>
-          <button
-            x-show="formData.enabled"
-            type="button"
-            @click="submitForm('farewell_disable')"
-            :disabled="saving"
-            :class="{'opacity-50': saving}"
-            class="inline-flex items-center rounded-lg bg-red-700 px-3 py-2 text-center text-sm font-medium text-white hover:bg-red-800 focus:outline-none focus:ring-4 focus:ring-red-300 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-800">
-            <span x-show="!saving"><%= tr("BTN_DISABLE") %></span>
-            <span x-show="saving"><%= tr("BTN_SAVING") %></span>
-          </button>
-        </div>
-        <div class="flex-shrink-0">
-          <button
-            x-show="formData.enabled"
-            type="button"
-            @click="submitForm('farewell_update')"
-            :disabled="saving"
-            :class="{'opacity-50': saving}"
-            class="bg-primary-700 hover:bg-primary-800 focus:ring-primary-300 dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800 inline-flex items-center rounded-lg px-3 py-2 text-center text-sm font-medium text-white focus:outline-none focus:ring-4">
-            <span x-show="!saving"><%= tr("BTN_SAVE") %></span>
-            <span x-show="saving"><%= tr("BTN_SAVING") %></span>
-          </button>
-          <button
-            x-show="!formData.enabled"
-            type="button"
-            @click="submitForm('farewell_enable')"
-            :disabled="saving"
-            :class="{'opacity-50': saving}"
-            class="focus:ring-primary-300 dark:focus:ring-primary-800 inline-flex items-center rounded-lg bg-green-700 px-3 py-2 text-center text-sm font-medium text-white hover:bg-green-800 focus:outline-none focus:ring-4 dark:bg-green-600 dark:hover:bg-green-700">
-            <span x-show="!saving"><%= tr("BTN_ENABLE") %></span>
-            <span x-show="saving"><%= tr("BTN_SAVING") %></span>
-          </button>
-        </div>
-      </div>
-    </div>
-    <!-- END: Col 1 (Configuration) -->
-
-    <!-- START: Col 2 (Preview) -->
-    <div class="border-l border-gray-200 bg-gray-50 p-4 dark:border-gray-700 dark:bg-gray-900">
-      <div class="rounded-lg bg-[#36393F] p-4">
-        <!-- Channel & Time -->
-        <div class="mb-2 flex items-center text-xs text-[#99AAb5]">
-          <span class="mr-1 font-bold">#</span>
-          <span
-            x-text="channels.find(c => c.id === formData.farewell_channel)?.name || formData.farewell_channel"></span>
-          <span class="mx-2">•</span>
-          <span>Just now</span>
-        </div>
-        <!-- Bot Message -->
-        <div class="mb-3 flex">
-          <img class="mr-3 h-10 w-10 rounded-full" src="<%= coreConfig['DASHBOARD']['LOGO_URL'] %>" alt="Bot Avatar" />
-          <div>
-            <div class="font-bold text-white"><%= coreConfig['DASHBOARD']['LOGO_NAME'] %></div>
-            <div class="text-[#dcddde]" x-text="formData.farewell_content || 'Goodbye Martian 👋'"></div>
-          </div>
-        </div>
-        <!-- Embed -->
-        <template
-          x-if="formData.farewell_embed_title || formData.farewell_embed_description || formData.farewell_embed_fields.length > 0">
-          <div
-            class="mb-4 rounded border-l-4 p-4"
-            :style="`background:#2f3136;border-color:${formData.farewell_embed_color || '#5865F2'}`">
-            <!-- Author -->
-            <template x-if="formData.farewell_embed_author">
-              <div class="mb-2 flex items-center">
-                <template x-if="formData.farewell_embed_author_icon">
-                  <img :src="formData.farewell_embed_author_icon" class="mr-2 h-6 w-6 rounded-full" />
-                </template>
-                <span class="font-bold text-white" x-text="formData.farewell_embed_author"></span>
-              </div>
-            </template>
-            <!-- Title -->
-            <template x-if="formData.farewell_embed_title">
-              <div class="mb-2 text-lg font-bold text-white" x-text="formData.farewell_embed_title"></div>
-            </template>
-            <!-- Description -->
-            <template x-if="formData.farewell_embed_description">
-              <div class="mb-3 text-[#dcddde]" x-text="formData.farewell_embed_description"></div>
-            </template>
-            <!-- Thumbnail -->
-            <template x-if="formData.farewell_embed_thumbnail">
-              <div class="float-right mb-2 ml-4">
-                <img :src="formData.farewell_embed_thumbnail" class="h-16 w-16 rounded-lg" />
-              </div>
-            </template>
-            <!-- Fields -->
-            <template x-if="formData.farewell_embed_fields.length > 0">
-              <div class="mb-3 grid grid-cols-1 gap-4 md:grid-cols-2">
-                <template x-for="field in formData.farewell_embed_fields">
-                  <div class="mb-2" :class="field.inline ? 'inline-block w-full' : 'col-span-2'">
-                    <div class="font-bold text-white" x-text="field.name || 'Field title'"></div>
-                    <div class="text-[#dcddde]" x-text="field.value || 'Field content'"></div>
-                  </div>
-                </template>
-              </div>
-            </template>
-            <!-- Image -->
-            <template x-if="formData.farewell_embed_image">
-              <img :src="formData.farewell_embed_image" class="mt-2 max-h-60 w-full rounded-lg object-cover" />
-            </template>
-            <!-- Footer -->
-            <template x-if="formData.farewell_embed_footer || formData.farewell_embed_timestamp">
-              <div class="mt-3 flex items-center text-xs text-[#99AAb5]">
-                <template x-if="formData.farewell_embed_footer_icon">
-                  <img :src="formData.farewell_embed_footer_icon" class="mr-1 h-4 w-4 rounded-full" />
-                </template>
-                <span x-text="formData.farewell_embed_footer"></span>
-                <template x-if="formData.farewell_embed_footer && formData.farewell_embed_timestamp">
-                  <span class="mx-1">•</span>
-                </template>
-                <span x-show="formData.farewell_embed_timestamp" x-text="new Date().toLocaleString()"></span>
-              </div>
-            </template>
-          </div>
+      <select
+        x-model="formData.welcome_channel"
+        class="focus:ring-primary-500 focus:border-primary-500 dark:focus:ring-primary-500 dark:focus:border-primary-500 block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400">
+        <option value="" disabled><%= tr('CHANNEL_SELECT') %></option>
+        <template x-for="ch in channels" :key="ch.id">
+          <option :value="ch.id" x-text="ch.name" :selected="ch.id === formData.welcome_channel"></option>
         </template>
-        <!-- Empty State -->
-        <template
-          x-if="!formData.farewell_embed_title && !formData.farewell_embed_description && formData.farewell_embed_fields.length === 0">
-          <div class="py-8 text-center text-[#99AAb5]"><%= tr("greeting:PREVIEW_PLACEHOLDER") %></div>
-        </template>
-      </div>
+      </select>
     </div>
-    <!-- END: Col 2 (Preview) -->
+  </div>
+
+  <div class="mt-3">
+    <%- includePartial('embedPreview', { 
+      channelName: "channels.find(c => c.id === formData.farewell_channel)?.name",
+      content: "formData.farewell_content", 
+      embed: { 
+        title: "formData.farewell_embed_title", 
+        author: { 
+          name: "formData.farewell_embed_author", 
+          iconURL: "formData.farewell_embed_author_icon" 
+        }, 
+        description: "formData.farewell_embed_description", 
+        color: "formData.farewell_embed_color", 
+        fields: "formData.farewell_embed_fields", 
+        footer: { 
+          text: "formData.farewell_embed_footer", 
+          iconURL: "formData.farewell_embed_footer_icon" 
+        }, 
+        thumbnail: "formData.farewell_embed_thumbnail", 
+        image: "formData.farewell_embed_image", 
+        timestamp: "formData.farewell_embed_timestamp" 
+      } 
+    }) %>
+  </div>
+  <div class="mt-2 flex items-center justify-between p-2 sm:pt-6">
+    <div>
+      <button
+        x-show="formData.enabled"
+        type="button"
+        @click="submitForm('welcome_disable')"
+        :disabled="saving"
+        :class="{'opacity-50': saving}"
+        class="inline-flex items-center rounded-lg bg-red-700 px-3 py-2 text-center text-sm font-medium text-white hover:bg-red-800 focus:outline-none focus:ring-4 focus:ring-red-300 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-800">
+        <span x-show="!saving"><%= tr("BTN_DISABLE") %></span>
+        <span x-show="saving"><%= tr("BTN_SAVING") %></span>
+      </button>
+    </div>
+    <div class="flex-shrink-0">
+      <button
+        x-show="formData.enabled"
+        type="button"
+        @click="submitForm('welcome_update')"
+        :disabled="saving"
+        :class="{'opacity-50': saving}"
+        class="bg-primary-700 hover:bg-primary-800 focus:ring-primary-300 dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800 inline-flex items-center rounded-lg px-3 py-2 text-center text-sm font-medium text-white focus:outline-none focus:ring-4">
+        <span x-show="!saving"><%= tr("BTN_SAVE") %></span>
+        <span x-show="saving"><%= tr("BTN_SAVING") %></span>
+      </button>
+      <button
+        x-show="!formData.enabled"
+        type="button"
+        @click="submitForm('welcome_enable')"
+        :disabled="saving"
+        :class="{'opacity-50': saving}"
+        class="focus:ring-primary-300 dark:focus:ring-primary-800 inline-flex items-center rounded-lg bg-green-700 px-3 py-2 text-center text-sm font-medium text-white hover:bg-green-800 focus:outline-none focus:ring-4 dark:bg-green-600 dark:hover:bg-green-700">
+        <span x-show="!saving"><%= tr("BTN_ENABLE") %></span>
+        <span x-show="saving"><%= tr("BTN_SAVING") %></span>
+      </button>
+    </div>
   </div>
 </section>
 

@@ -11,28 +11,6 @@
     "CHANNEL_TITLE": "Channel",
     "CHANNEL_DESC": "The channel where the message will be sent",
 
-    "CONTENT_TITLE": "Content",
-    "CONTENT_DESC": "The message that will be sent",
-
-    "EMBED_OPTIONS": "Embed Options",
-    "EMBED_TITLE": "Embed Title",
-    "EMBED_DESC": "Embed Description",
-    "EMBED_COLOR": "Embed Color",
-    "EMBED_AUTHOR_NAME": "Author Name",
-    "EMBED_AUTHOR_ICON": "Author Icon",
-    "EMBED_FIELDS": "Embed Fields",
-    "EMBED_FIELD_NAME": "Field Name",
-    "EMBED_FIELD_VALUE": "Field Value",
-    "EMBED_FIELD_INLINE": "Inline?",
-    "EMBED_ADD_FIELD": "Add Field",
-    "EMBED_FOOTER": "Footer Text",
-    "EMBED_FOOTER_ICON": "Footer Icon",
-    "EMBED_THUMBNAIL": "Thumbnail URL",
-    "EMBED_IMAGE": "Embed Image",
-    "EMBED_TIMESTAMP": "Show Timestamp",
-
-    "PREVIEW_PLACEHOLDER": "Embed preview will appear here when configured",
-
     "AUTOROLE_TITLE": "Role to assign",
     "AUTOROLE_DESC": "The role that will be assigned to users when they join the server"
 }

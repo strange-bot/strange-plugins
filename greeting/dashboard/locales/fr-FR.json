@@ -11,28 +11,6 @@
     "CHANNEL_TITLE": "Chaîne",
     "CHANNEL_DESC": "Le canal où le message sera envoyé",
 
-    "CONTENT_TITLE": "Contenu",
-    "CONTENT_DESC": "Le message qui sera envoyé",
-
-    "EMBED_OPTIONS": "Options d'intégration",
-    "EMBED_TITLE": "Titre de l'intégration",
-    "EMBED_DESC": "Description intégrée",
-    "EMBED_COLOR": "Intégrer la couleur",
-    "EMBED_AUTHOR_NAME": "Nom de l'auteur",
-    "EMBED_AUTHOR_ICON": "Icône de l'auteur",
-    "EMBED_FIELDS": "Champs intégrés",
-    "EMBED_FIELD_NAME": "Nom du champ",
-    "EMBED_FIELD_VALUE": "Valeur du champ",
-    "EMBED_FIELD_INLINE": "En ligne ?",
-    "EMBED_ADD_FIELD": "Ajouter un champ",
-    "EMBED_FOOTER": "Texte du pied de page",
-    "EMBED_FOOTER_ICON": "Icône du pied de page",
-    "EMBED_THUMBNAIL": "URL de la vignette",
-    "EMBED_IMAGE": "Image intégrée",
-    "EMBED_TIMESTAMP": "Afficher l'horodatage",
-
-    "PREVIEW_PLACEHOLDER": "L'aperçu de l'intégration apparaîtra ici lorsqu'il sera configuré",
-
     "AUTOROLE_TITLE": "Rôle à attribuer",
     "AUTOROLE_DESC": "Le rôle qui sera attribué aux utilisateurs lorsqu'ils rejoindront le serveur"
 }
