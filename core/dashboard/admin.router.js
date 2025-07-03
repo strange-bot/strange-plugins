@@ -1,10 +1,9 @@
 const path = require("path");
 const router = require("express").Router();
 
-router.get("/", (req, res) => {
+router.get("/", (_req, res) => {
     res.render(path.join(__dirname, "views", "admin.ejs"), {
-        config: res.locals.config,
-        languages: req.app.i18n.availableLanguages,
+        config: res.locals.config
     });
 });
 
