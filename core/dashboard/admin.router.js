@@ -3,7 +3,7 @@ const router = require("express").Router();
 
 router.get("/", (_req, res) => {
     res.render(path.join(__dirname, "views", "admin.ejs"), {
-        config: res.locals.config
+        config: res.locals.config,
     });
 });
 

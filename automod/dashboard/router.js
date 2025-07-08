@@ -78,7 +78,11 @@ router.put("/", async (req, res) => {
             settings.anti_massmention = body.anti_massmention;
         }
 
-        if (body.anti_massmention_threshold && !isNaN(body.anti_massmention_threshold) && body.anti_massmention_threshold != settings.anti_massmention_threshold) {
+        if (
+            body.anti_massmention_threshold &&
+            !isNaN(body.anti_massmention_threshold) &&
+            body.anti_massmention_threshold != settings.anti_massmention_threshold
+        ) {
             settings.anti_massmention_threshold = Number(body.anti_massmention_threshold);
         }
     }
