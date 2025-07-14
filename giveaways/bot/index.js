@@ -8,6 +8,5 @@ module.exports = new BotPlugin({
         client.giveawaysManager = require("./giveaway")(client);
     },
 
-    ipcHandler: require("./ipcHandler"),
     dbService: require("../db.service"),
 });
