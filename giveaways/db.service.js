@@ -1,8 +1,8 @@
 const { DBService, Schema, SchemaTypes } = require("strange-sdk");
 
 class GiveawaysService extends DBService {
-    constructor(pluginName) {
-        super(pluginName);
+    constructor() {
+        super(__dirname);
     }
 
     defineSchemas(config) {
@@ -80,4 +80,4 @@ class GiveawaysService extends DBService {
     }
 }
 
-module.exports = new GiveawaysService("giveaways");
+module.exports = new GiveawaysService();

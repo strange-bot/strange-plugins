@@ -1,8 +1,8 @@
 const { DBService, Schema } = require("strange-sdk");
 
 class GreetingService extends DBService {
-    constructor(pluginName) {
-        super(pluginName);
+    constructor() {
+        super(__dirname);
     }
 
     defineSchemas(_config) {
@@ -78,4 +78,4 @@ class GreetingService extends DBService {
     }
 }
 
-module.exports = new GreetingService("greeting");
+module.exports = new GreetingService();

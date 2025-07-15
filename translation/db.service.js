@@ -3,8 +3,8 @@ const { DBService, Schema } = require("strange-sdk");
 const TRANSLATE_COOLDOWN = 120;
 
 class TicketService extends DBService {
-    constructor(pluginName) {
-        super(pluginName);
+    constructor() {
+        super(__dirname);
     }
 
     defineSchemas(_config) {
@@ -74,4 +74,4 @@ class TicketService extends DBService {
     }
 }
 
-module.exports = new TicketService("social");
+module.exports = new TicketService();

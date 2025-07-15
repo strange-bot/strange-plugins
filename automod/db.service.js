@@ -1,8 +1,8 @@
 const { DBService, Schema } = require("strange-sdk");
 
-class EconomyService extends DBService {
-    constructor(pluginName) {
-        super(pluginName);
+class AutoModService extends DBService {
+    constructor() {
+        super(__dirname);
     }
 
     defineSchemas(_config) {
@@ -74,7 +74,7 @@ class EconomyService extends DBService {
     async addAutoModLogToDb(member, content, reason, strikes) {
         if (!member) throw new Error("Member is undefined");
 
-        const Model = this.getModel("automod-logs");
+        const Model = this.getModel("logs");
         await new Model({
             guild_id: member.guild.id,
             member_id: member.id,
@@ -85,4 +85,4 @@ class EconomyService extends DBService {
     }
 }
 
-module.exports = new EconomyService("automod");
+module.exports = new AutoModService();

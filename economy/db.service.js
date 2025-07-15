@@ -1,8 +1,8 @@
 const { DBService, Schema } = require("strange-sdk");
 
 class EconomyService extends DBService {
-    constructor(pluginName) {
-        super(pluginName);
+    constructor() {
+        super(__dirname);
     }
 
     defineSchemas(config) {
@@ -73,4 +73,4 @@ class EconomyService extends DBService {
     }
 }
 
-module.exports = new EconomyService("economy");
+module.exports = new EconomyService();

@@ -2,8 +2,8 @@ const { DBService, Schema } = require("strange-sdk");
 const reqString = { type: String, required: true };
 
 class ModerationService extends DBService {
-    constructor(pluginName) {
-        super(pluginName);
+    constructor() {
+        super(__dirname);
     }
 
     defineSchemas(_config) {
@@ -58,4 +58,4 @@ class ModerationService extends DBService {
     }
 }
 
-module.exports = new ModerationService("moderation");
+module.exports = new ModerationService();

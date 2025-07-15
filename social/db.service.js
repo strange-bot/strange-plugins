@@ -1,8 +1,8 @@
 const { DBService, Schema } = require("strange-sdk");
 
 class SocialService extends DBService {
-    constructor(pluginName) {
-        super(pluginName);
+    constructor() {
+        super(__dirname);
     }
 
     defineSchemas(_config) {
@@ -30,4 +30,4 @@ class SocialService extends DBService {
     }
 }
 
-module.exports = new SocialService("social");
+module.exports = new SocialService();

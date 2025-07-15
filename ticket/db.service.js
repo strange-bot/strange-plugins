@@ -2,8 +2,8 @@ const { DBService, Schema } = require("strange-sdk");
 const reqString = { type: String, required: true };
 
 class TicketService extends DBService {
-    constructor(pluginName) {
-        super(pluginName);
+    constructor() {
+        super(__dirname);
     }
 
     defineSchemas(config) {
@@ -99,4 +99,4 @@ class TicketService extends DBService {
     }
 }
 
-module.exports = new TicketService("ticket");
+module.exports = new TicketService();

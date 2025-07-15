@@ -3,8 +3,8 @@ const ReqString = { type: String, required: true };
 const DefaultBoolean = { type: Boolean, default: false };
 
 class StatsService extends DBService {
-    constructor(pluginName) {
-        super(pluginName);
+    constructor() {
+        super(__dirname);
     }
 
     defineSchemas(config) {
@@ -116,4 +116,4 @@ class StatsService extends DBService {
     }
 }
 
-module.exports = new StatsService("stats");
+module.exports = new StatsService();
