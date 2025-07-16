@@ -1,5 +1,5 @@
 const { ApplicationCommandOptionType, ChannelType } = require("discord.js");
-const plugin = require("../index");
+const db = require("../../db.service");
 
 /**
  * @type {import('strange-sdk').CommandType}
@@ -53,7 +53,7 @@ module.exports = {
  * @param {import('discord.js').Channel} targetChannel
  */
 async function setChannel({ guild }, targetChannel) {
-    const settings = await plugin.getSettings(guild);
+    const settings = await db.getSettings(guild);
     if (!targetChannel && !settings.modlog_channel) {
         return guild.getT("moderation:MODLOG.ALREADY_DISABLED");
     }

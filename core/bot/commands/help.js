@@ -10,6 +10,7 @@ const {
 } = require("discord.js");
 const { getCommandUsage, getSlashUsage } = require("../handler");
 const { EmbedUtils } = require("strange-sdk/utils");
+const db = require("../../db.service");
 
 const CMDS_PER_PAGE = 5;
 const IDLE_TIMEOUT = 30;
@@ -49,14 +50,14 @@ module.exports = {
 
         // !help
         if (!trigger) {
-            const { disabled_prefix } = await message.guild.getSettings("core");
+            const { disabled_prefix } = await db.getSettings(message.guild);
             const response = await getHelpMenu(message);
             const sentMsg = await message.reply(response);
             return waiter(sentMsg, message.author.id, prefix, disabled_prefix);
         }
 
         // check if category help (!help cat)
-        const settings = await message.guild.getSettings("core");
+        const settings = await db.getSettings(message.guild);
         const { enabled_plugins, disabled_prefix } = settings;
         if (
             message.client.pluginManager.plugins.some(
@@ -83,14 +84,14 @@ module.exports = {
 
         // !help
         if (!cmdName && !pluginName) {
-            const { disabled_slash } = await interaction.guild.getSettings("core");
+            const { disabled_slash } = await db.getSettings(interaction.guild);
             const response = await getHelpMenu(interaction);
             const sentMsg = await interaction.followUp(response);
             return waiter(sentMsg, interaction.user.id, null, disabled_slash);
         }
 
         // check if category help (!help cat)
-        const settings = await interaction.guild.getSettings("core");
+        const settings = await db.getSettings(interaction.guild);
         const { enabled_plugins, disabled_slash } = settings;
         if (pluginName) {
             if (
@@ -120,7 +121,7 @@ module.exports = {
  * @param {Message | CommandInteraction} arg0
  */
 async function getHelpMenu({ client, guild }) {
-    const { enabled_plugins } = await guild.getSettings("core");
+    const { enabled_plugins } = await db.getSettings(guild);
 
     // Menu Row
     const options = [];

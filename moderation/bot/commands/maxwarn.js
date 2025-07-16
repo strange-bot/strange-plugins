@@ -1,5 +1,5 @@
 const { ApplicationCommandOptionType } = require("discord.js");
-const plugin = require("../index");
+const db = require("../../db.service");
 
 /**
  * @type {import('strange-sdk').CommandType}
@@ -112,7 +112,7 @@ module.exports = {
 };
 
 async function setLimit(guild, limit) {
-    const settings = await plugin.getSettings(guild);
+    const settings = await db.getSettings(guild);
     settings.max_warn.limit = limit;
     await settings.save();
     return guild.getT("moderation:MAXWARN.LIMIT_SET", { limit });
@@ -136,7 +136,7 @@ async function setAction(guild, action) {
             return guild.getT("moderation:MAXWARN.BAN_PERM");
         }
     }
-    const settings = await plugin.getSettings(guild);
+    const settings = await db.getSettings(guild);
     settings.max_warn.action = action;
     await settings.save();
     return guild.getT("moderation:MAXWARN.ACTION_SET", { action });

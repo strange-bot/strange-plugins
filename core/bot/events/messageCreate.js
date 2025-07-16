@@ -1,5 +1,6 @@
 const { handlePrefixCommand } = require("../handler");
 const plugin = require("../index");
+const db = require("../../db.service");
 
 /**
  * @param {import('discord.js').Message} message
@@ -10,7 +11,7 @@ module.exports = async (message) => {
     if (!message.guild || message.author.bot) return;
     const guild = message.guild;
 
-    const [config, settings] = await Promise.all([plugin.getConfig(), plugin.getSettings(guild)]);
+    const [config, settings] = await Promise.all([plugin.getConfig(), db.getSettings(guild)]);
 
     if (!config["PREFIX_COMMANDS"]["ENABLED"]) return;
 

@@ -1,5 +1,6 @@
 const { MessageFlags } = require("discord.js");
 const { handleSlashCommand, handleContext } = require("../handler");
+const db = require("../../db.service");
 
 /**
  * @param {import('discord.js').Interaction} interaction
@@ -28,7 +29,7 @@ module.exports = async (interaction) => {
                 .catch(() => {});
         }
 
-        const settings = await guild.getSettings("core");
+        const settings = await db.getSettings(guild);
 
         // check if the plugin is disabled
         if (!settings.enabled_plugins.includes(cmd.plugin.name)) {

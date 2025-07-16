@@ -23,10 +23,7 @@ const memberInteract = (issuer, target) => {
 const logModeration = async (issuer, target, reason, type, data = {}) => {
     if (!type) return;
     const { guild } = issuer;
-    const [settings, config] = await Promise.all([
-        plugin.getSettings(guild.id),
-        plugin.getConfig(),
-    ]);
+    const [settings, config] = await Promise.all([db.getSettings(guild), plugin.getConfig()]);
 
     let logChannel;
     if (settings.modlog_channel) logChannel = guild.channels.cache.get(settings.modlog_channel);
@@ -266,7 +263,7 @@ module.exports = class ModUtils {
     static async warnTarget(issuer, target, reason) {
         if (!memberInteract(issuer, target)) return "MEMBER_PERM";
         if (!memberInteract(issuer.guild.members.me, target)) return "BOT_PERM";
-        const settings = await plugin.getSettings(issuer.guild.id);
+        const settings = await db.getSettings(issuer.guild);
 
         try {
             const warnings = await db

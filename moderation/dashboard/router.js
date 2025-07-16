@@ -1,15 +1,19 @@
 const path = require("path");
 const router = require("express").Router();
+const db = require("../db.service");
 
 router.get("/", async (req, res) => {
-    const ipcResp = await req.broadcast("getChannelsOf", res.locals.guild.id);
+    const [ipcResp, settings] = await Promise.all([
+        req.broadcast("getChannelsOf", res.locals.guild.id),
+        db.getSettings(res.locals.guild),
+    ]);
     const channels = ipcResp.find((d) => d.success)?.data;
-    res.render(path.join(__dirname, "view.ejs"), { channels });
+    res.render(path.join(__dirname, "view.ejs"), { channels, settings });
 });
 
 router.put("/", async (req, res) => {
     const body = req.body;
-    const settings = res.locals.settings;
+    const settings = await db.getSettings(res.locals.guild);
 
     if (!body.log_channel) {
         settings.modlog_channel = null;

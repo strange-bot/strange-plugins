@@ -1,4 +1,5 @@
 const { ApplicationCommandOptionType } = require("discord.js");
+const db = require("../../db.service");
 
 /**
  * @type {import('strange-sdk').CommandType}
@@ -55,7 +56,7 @@ module.exports = {
 };
 
 async function setFlagTranslation({ guild }, input) {
-    const settings = await guild.getSettings("translation");
+    const settings = await db.getSettings(guild);
     const status = input.toLowerCase() === "on" ? true : false;
 
     settings.flag_translation = status;

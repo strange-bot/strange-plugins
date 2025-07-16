@@ -10,6 +10,7 @@ const {
     TextInputBuilder,
     TextInputStyle,
 } = require("discord.js");
+const db = require("../../db.service");
 
 /**
  * @type {import('strange-sdk').CommandType}
@@ -101,7 +102,7 @@ module.exports = {
 
     async messageRun({ message, args }) {
         const sub = args[0].toLowerCase();
-        const settings = await message.guild.getSettings("ticket");
+        const settings = await db.getSettings(message.guild);
         let response;
 
         // list
@@ -139,7 +140,7 @@ module.exports = {
 
     async interactionRun({ interaction }) {
         const sub = interaction.options.getSubcommand();
-        const settings = await interaction.guild.getSettings("ticket");
+        const settings = await db.getSettings(interaction.guild);
         let response;
 
         // list

@@ -1,10 +1,11 @@
 const { buildGreeting } = require("../utils");
+const db = require("../../db.service");
 
 /**
  * @param {import('discord.js').GuildMember} member
  */
 module.exports = async (member) => {
-    const settings = await member.guild.getSettings("greeting");
+    const settings = await db.getSettings(member.guild);
 
     const config = settings?.farewell;
     if (!config || !config.enabled) return;

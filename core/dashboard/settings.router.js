@@ -1,12 +1,14 @@
 const path = require("node:path");
 const router = require("express").Router();
+const db = require("../db.service");
 
-router.get("/", (_req, res) => {
-    res.render(path.join(__dirname, "views/settings.ejs"));
+router.get("/", async (_req, res) => {
+    const settings = await db.getSettings(res.locals.guild);
+    res.render(path.join(__dirname, "views/settings.ejs"), { settings });
 });
 
 router.put("/", async (req, res) => {
-    const { settings } = res.locals;
+    const settings = await db.getSettings(res.locals.guild);
     const body = req.body;
 
     try {

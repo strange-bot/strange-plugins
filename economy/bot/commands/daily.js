@@ -27,7 +27,7 @@ module.exports = {
 };
 
 async function daily(guild, user) {
-    const settings = await guild.getSettings("economy");
+    const settings = await db.getSettings(guild);
     const userDb = await db.getUser(user);
     let streak = 0;
 

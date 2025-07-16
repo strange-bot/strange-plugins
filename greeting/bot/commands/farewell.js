@@ -1,6 +1,7 @@
 const { ApplicationCommandOptionType, ChannelType } = require("discord.js");
 const { MiscUtils } = require("strange-sdk/utils");
 const { buildGreeting } = require("../utils");
+const db = require("../../db.service");
 
 /**
  * @type {import('strange-sdk').CommandType}
@@ -137,7 +138,7 @@ module.exports = {
     },
 
     async messageRun({ message, args }) {
-        const settings = await message.guild.getSettings("greeting");
+        const settings = await db.getSettings(message.guild);
         const type = args[0].toLowerCase();
         let response;
 
@@ -200,7 +201,7 @@ module.exports = {
     },
 
     async interactionRun({ interaction }) {
-        const settings = await interaction.guild.getSettings("greeting");
+        const settings = await db.getSettings(interaction.guild);
         const sub = interaction.options.getSubcommand();
 
         let response;

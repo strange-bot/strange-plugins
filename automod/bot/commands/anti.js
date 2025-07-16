@@ -1,5 +1,5 @@
 const { ApplicationCommandOptionType } = require("discord.js");
-const plugin = require("../index");
+const db = require("../../db.service");
 
 /**
  * @type {import('strange-sdk').CommandType}
@@ -109,7 +109,7 @@ module.exports = {
     },
 
     async messageRun({ message, args }) {
-        const settings = await plugin.getSettings(message.guild);
+        const settings = await db.getSettings(message.guild);
         const sub = args[0].toLowerCase();
 
         let response;
@@ -144,7 +144,7 @@ module.exports = {
 
     async interactionRun({ interaction }) {
         const sub = interaction.options.getSubcommand();
-        const settings = await plugin.getSettings(interaction.guild);
+        const settings = await db.getSettings(interaction.guild);
 
         let response;
         if (sub == "ghostping")

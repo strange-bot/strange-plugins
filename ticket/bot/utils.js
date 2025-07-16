@@ -78,7 +78,7 @@ async function closeTicket(channel, closedBy, reason) {
     const guild = channel.guild;
 
     try {
-        const settings = await guild.getSettings("ticket");
+        const settings = await db.getSettings(guild);
         const messages = await channel.messages.fetch();
 
         const transcript = Array.from(messages.values())

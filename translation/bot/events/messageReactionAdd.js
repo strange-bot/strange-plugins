@@ -11,7 +11,7 @@ const db = require("../../db.service");
  */
 module.exports = async (reaction, user) => {
     if (!reaction.message.guild) return;
-    const settings = await reaction.message.guild.getSettings("translation");
+    const settings = await db.getSettings(reaction.message.guild);
     if (!settings.flag_translation) return;
     if (reaction.partial) {
         try {

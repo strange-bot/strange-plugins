@@ -4,7 +4,7 @@ const db = require("../../../db.service");
 module.exports = async (guild, user, coins) => {
     if (isNaN(coins) || coins <= 0) return guild.getT("economy:BANK.INVALID_WITHDRAW");
 
-    const [settings, userDb] = await Promise.all([guild.getSettings("economy"), db.getUser(user)]);
+    const [settings, userDb] = await Promise.all([db.getSettings(guild), db.getUser(user)]);
 
     if (coins > userDb.bank)
         return guild.getT("economy:BANK.INSUFFICIENT_BANK", {

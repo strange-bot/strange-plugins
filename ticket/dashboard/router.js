@@ -1,13 +1,15 @@
 const path = require("path");
 const router = require("express").Router();
+const db = require("../db.service");
 
 router.get("/", async (req, res) => {
-    const [channelsResp, rolesResp] = await Promise.all([
+    const [channelsResp, rolesResp, settings] = await Promise.all([
         req.broadcast("getChannelsOf", res.locals.guild.id),
         req.broadcast("getRolesOf", res.locals.guild.id),
+        db.getSettings(res.locals.guild),
     ]);
 
-    const categories = res.locals.settings.categories;
+    const categories = settings.categories;
     const roles = rolesResp.find((d) => d.success)?.data;
     const channels = channelsResp.find((d) => d.success)?.data;
 
@@ -20,7 +22,8 @@ router.get("/", async (req, res) => {
 });
 
 router.post("/", async (req, res) => {
-    const { guild, settings } = res.locals;
+    const guild = res.locals.guild;
+    const settings = await db.getSettings(guild);
     const body = req.body;
 
     // settings

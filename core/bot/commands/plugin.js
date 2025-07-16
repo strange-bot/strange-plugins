@@ -6,6 +6,7 @@ const {
     ComponentType,
 } = require("discord.js");
 const { EmbedUtils } = require("strange-sdk/utils");
+const db = require("../../db.service");
 
 /**
  * @type {import('strange-sdk').CommandType}
@@ -113,7 +114,7 @@ module.exports = {
  */
 async function listPlugins({ client, guild }) {
     const plugins = client.pluginManager.plugins.filter((p) => !p.ownerOnly);
-    const { enabled_plugins } = await guild.getSettings("core");
+    const { enabled_plugins } = await db.getSettings(guild);
 
     const embed = EmbedUtils.embed()
         .setAuthor({ name: guild.getT("core:PLUGIN.LIST_EMBED_TITLE") })
@@ -148,7 +149,7 @@ async function pluginInfo({ client, guild }, plugin) {
         .find((p) => p.name === plugin);
     if (!p) return guild.getT("core:PLUGIN.NOT_FOUND", { plugin });
 
-    const { enabled_plugins } = await guild.getSettings("core");
+    const { enabled_plugins } = await db.getSettings(guild);
     const embed = EmbedUtils.embed()
         .setAuthor({ name: guild.getT("core:PLUGIN.INFO_EMBED_TITLE", { plugin }) })
         .setDescription(
@@ -171,7 +172,7 @@ async function pluginInfo({ client, guild }, plugin) {
  */
 async function pluginStatus(arg0) {
     const { client, guild } = arg0;
-    const { enabled_plugins } = await guild.getSettings("core");
+    const { enabled_plugins } = await db.getSettings(guild);
 
     const options = [];
     for (const p of client.pluginManager.plugins.filter((p) => !p.ownerOnly)) {
@@ -230,7 +231,7 @@ async function pluginStatus(arg0) {
         }
     }
 
-    const settings = await guild.getSettings("core");
+    const settings = await db.getSettings(guild);
     settings.enabled_plugins = waiter.values;
     await settings.save();
 

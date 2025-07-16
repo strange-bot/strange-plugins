@@ -1,4 +1,5 @@
 const { ApplicationCommandOptionType, ChannelType } = require("discord.js");
+const db = require("../../db.service");
 
 /**
  * @type {import('strange-sdk').CommandType}
@@ -57,7 +58,7 @@ module.exports = {
     async messageRun({ message, args }) {
         const sub = args[0];
         const subcommandArgs = args.slice(1);
-        const settings = await message.guild.getSettings("stats");
+        const settings = await db.getSettings(message.guild);
         let response;
 
         // message
@@ -87,7 +88,7 @@ module.exports = {
 
     async interactionRun({ interaction }) {
         const sub = interaction.options.getSubcommand();
-        const settings = await interaction.guild.getSettings("stats");
+        const settings = await db.getSettings(interaction.guild);
         let response;
 
         if (sub === "message") {

@@ -27,7 +27,7 @@ const parse = (content, member, level) => {
  */
 module.exports = async (message) => {
     if (message.author.bot || message.system || message.webhookId) return;
-    const settings = await message.guild.getSettings("stats");
+    const settings = await db.getSettings(message.guild);
 
     // Log to DB
     const data = {

@@ -46,7 +46,7 @@ const hasPerms = (member, settings) => {
  */
 async function approveSuggestion(member, messageId, reason) {
     const { guild } = member;
-    const settings = await guild.getSettings("suggestion");
+    const settings = await db.getSettings(guild);
 
     // validate permissions
     if (!hasPerms(member, settings)) {
@@ -173,7 +173,7 @@ async function approveSuggestion(member, messageId, reason) {
  */
 async function rejectSuggestion(member, messageId, reason) {
     const { guild } = member;
-    const settings = await guild.getSettings("suggestion");
+    const settings = await db.getSettings(guild);
 
     // validate permissions
     if (!hasPerms(member, settings)) {
@@ -297,7 +297,7 @@ async function rejectSuggestion(member, messageId, reason) {
  */
 async function deleteSuggestion(member, channel, messageId, reason) {
     const { guild } = member;
-    const settings = await guild.getSettings("suggestion");
+    const settings = await db.getSettings(guild);
 
     // validate permissions
     if (!hasPerms(member, settings)) {

@@ -28,7 +28,7 @@ module.exports = {
 };
 
 async function beg(guild, user) {
-    const settings = await guild.getSettings("economy");
+    const settings = await db.getSettings(guild);
     let users = [
         "PewDiePie",
         "T-Series",

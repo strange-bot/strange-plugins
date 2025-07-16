@@ -1,7 +1,7 @@
 const { ApplicationCommandOptionType, ChannelType } = require("discord.js");
 const { EmbedUtils } = require("strange-sdk/utils");
 const { stripIndent } = require("common-tags");
-const plugin = require("../index");
+const db = require("../../db.service");
 
 /**
  * @type {import('strange-sdk').CommandType}
@@ -172,7 +172,7 @@ module.exports = {
 
     async messageRun({ message, args }) {
         const input = args[0].toLowerCase();
-        const settings = await plugin.getSettings(message.guild);
+        const settings = await db.getSettings(message.guild);
 
         let response;
         if (input === "status") {
@@ -231,7 +231,7 @@ module.exports = {
 
     async interactionRun({ interaction }) {
         const sub = interaction.options.getSubcommand();
-        const settings = await plugin.getSettings(interaction.guild);
+        const settings = await db.getSettings(interaction.guild);
 
         let response;
 

@@ -11,6 +11,7 @@ const {
 } = require("discord.js");
 const { EmbedUtils } = require("strange-sdk/utils");
 const { isTicketChannel, closeTicket, closeAllTickets } = require("../utils");
+const db = require("../../db.service");
 
 /**
  * @type {import('strange-sdk').CommandType}
@@ -139,7 +140,7 @@ module.exports = {
     async messageRun({ message, args }) {
         const input = args[0].toLowerCase();
         const guild = message.guild;
-        const settings = await guild.getSettings("ticket");
+        const settings = await db.getSettings(guild);
         let response;
 
         // Setup
@@ -217,7 +218,7 @@ module.exports = {
     async interactionRun({ interaction }) {
         const sub = interaction.options.getSubcommand();
         const guild = interaction.guild;
-        const settings = await guild.getSettings("ticket");
+        const settings = await db.getSettings(guild);
         let response;
 
         // setup

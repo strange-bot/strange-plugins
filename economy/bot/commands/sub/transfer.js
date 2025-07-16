@@ -6,7 +6,7 @@ module.exports = async (guild, self, target, coins) => {
     if (target.bot) return guild.getT("economy:BANK.TRANSFER_BOTS");
     if (target.id === self.id) return guild.getT("economy:BANK.TRANSFER_SELF");
 
-    const [settings, userDb] = await Promise.all([guild.getSettings("economy"), db.getUser(self)]);
+    const [settings, userDb] = await Promise.all([db.getSettings(guild), db.getUser(self)]);
 
     if (userDb.bank < coins) {
         return `${guild.getT("economy:BANK.TRANSFER_INSUFFICIENT", {

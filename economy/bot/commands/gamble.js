@@ -78,7 +78,7 @@ async function gamble(guild, user, betAmount) {
     if (betAmount < 0) return guild.getT("economy:GAMBLE.INVALID_AMOUNT_NEGATIVE");
     if (betAmount < 10) return guild.getT("economy:GAMBLE.INVALID_AMOUNT_MIN", { min: 10 });
 
-    const settings = await guild.getSettings("economy");
+    const settings = await db.getSettings(guild);
     const userDb = await db.getUser(user);
     if (userDb.coins < betAmount)
         return guild.getT("economy:GAMBLE.INSUFFICIENT_COINS", {

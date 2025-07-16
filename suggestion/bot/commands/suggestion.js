@@ -1,6 +1,7 @@
 const { approveSuggestion, rejectSuggestion } = require("../utils");
 const { ApplicationCommandOptionType, ChannelType } = require("discord.js");
 const { MiscUtils } = require("strange-sdk/utils");
+const db = require("../../db.service");
 
 const CHANNEL_PERMS = [
     "ViewChannel",
@@ -190,7 +191,7 @@ module.exports = {
     async messageRun({ message, args }) {
         const sub = args[0];
         const { guild } = message;
-        const settings = await guild.getSettings("suggestion");
+        const settings = await db.getSettings(guild);
         let response;
 
         // channel
@@ -265,7 +266,7 @@ module.exports = {
     async interactionRun({ interaction }) {
         const sub = interaction.options.getSubcommand();
         const guild = interaction.guild;
-        const settings = await guild.getSettings("suggestion");
+        const settings = await db.getSettings(guild);
         let response;
 
         // channel
