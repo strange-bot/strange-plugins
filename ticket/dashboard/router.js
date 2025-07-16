@@ -18,6 +18,7 @@ router.get("/", async (req, res) => {
         categories,
         channels,
         roles,
+        settings,
     });
 });
 
