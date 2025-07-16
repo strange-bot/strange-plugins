@@ -5,7 +5,18 @@
     formData: {
       enabled: <%= settings.welcome.enabled ? 'true' : 'false' %>,
       welcome_channel: '<%= settings.welcome.channel %>',
-      welcome_content: `<%= settings.welcome.content?.replaceAll(/\\n/g, '\\n') || 'Welcome to our server! 🎉' %>`,
+      welcome_content: `<%= 
+        (settings.welcome.content && settings.welcome.content.length > 0)
+          ? settings.welcome.content.replaceAll(/\\n/g, '\\n')
+          : (
+            !settings.welcome.embed.title &&
+            !settings.welcome.embed.description &&
+            !settings.welcome.embed.footer.text &&
+            settings.welcome.embed.fields.length === 0
+              ? 'Welcome to our server, {member:nick}! 🎉'
+              : ''
+          )
+      %>`,
       welcome_embed_title: `<%= settings.welcome.embed.title %>`,
       welcome_embed_description: `<%= settings.welcome.embed.description?.replaceAll(/\\n/g, '\\n') %>`,
       welcome_embed_color: `<%= settings.welcome.embed.color || '#5865F2' %>`,
@@ -136,7 +147,18 @@
     formData: {
       enabled: <%= settings.farewell.enabled ? 'true' : 'false' %>,
       farewell_channel: '<%= settings.farewell.channel %>',
-      farewell_content: `<%= settings.farewell.content?.replaceAll(/\\n/g, '\\n') %>`,
+      farewell_content: `<%= 
+        (settings.farewell.content && settings.farewell.content.length > 0)
+          ? settings.farewell.content.replaceAll(/\\n/g, '\\n')
+          : (
+            !settings.farewell.embed.title &&
+            !settings.farewell.embed.description &&
+            !settings.farewell.embed.footer.text &&
+            settings.farewell.embed.fields.length === 0
+              ? '{member:name} has left the server 👋'
+              : ''
+          )
+      %>`,
       farewell_embed_title: `<%= settings.farewell.embed.title %>`,
       farewell_embed_description: `<%= settings.farewell.embed.description?.replaceAll(/\\n/g, '\\n') %>`,
       farewell_embed_color: `<%= settings.farewell.embed.color || '#5865F2' %>`,
