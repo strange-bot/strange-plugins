@@ -71,7 +71,7 @@ async function getTogetherInvite(member, choice) {
     choice = choice.toLowerCase();
 
     const vc = member.voice.channel?.id;
-    if (!vc) member.guild.getT("fun:TOGETHER.NO_VOICE_CHANNEL");
+    if (!vc) return member.guild.getT("fun:TOGETHER.NO_VOICE_CHANNEL");
 
     if (!discordTogether.includes(choice)) {
         return member.guild.getT("fun:TOGETHER.INVALID_GAME", {
