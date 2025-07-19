@@ -80,5 +80,5 @@ async function getTogetherInvite(member, choice) {
     }
 
     const invite = await member.client.discordTogether.createTogetherCode(vc, choice);
-    return `${invite.code}`;
+    return `https://discord.com/invite/${invite.code}`;
 }
