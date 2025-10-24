@@ -1,0 +1,9 @@
+{
+    "EMBED_TITLE": "A rejoint un serveur",
+    "FIELD_SERVER": "Nom du serveur",
+    "FIELD_ID": "ID du serveur",
+    "FIELD_OWNER": "Propriétaire du serveur",
+    "FIELD_MEMBERS": "Membres du serveur",
+    "EMBED_FOOTER": "Serveur n°{{guilds}}",
+    "DELETED_USER": "Utilisateur supprimé"
+}

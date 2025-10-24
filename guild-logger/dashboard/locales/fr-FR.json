@@ -1,0 +1,8 @@
+{
+    "TITLE": "Journal de Serveur",
+    "DESCRIPTION": "Enregistrer les événements de rejoindre/quitter le serveur vers les webhooks Discord",
+
+    "CONFIG": "Configuration",
+    "WEBHOOK": "URL du Webhook",
+    "WEBHOOK_DESC": "URL du webhook Discord pour envoyer les journaux de rejoindre/quitter le serveur."
+}

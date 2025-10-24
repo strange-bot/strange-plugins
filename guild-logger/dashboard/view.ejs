@@ -1,0 +1,73 @@
+<section class="mb-6">
+  <div class="border-border bg-bg-panel rounded-lg border p-4 shadow-sm sm:p-6 2xl:col-span-2">
+    <!-- START: Card Header -->
+    <div class="border-border mb-4 flex items-center justify-between border-b pb-4">
+      <h3 class="text-text text-lg font-semibold"><%= tr("guild-logger:CONFIG") %></h3>
+    </div>
+    <!-- END: Card Header -->
+
+    <form
+      x-data="{
+        webhook_url: '<%= config.WEBHOOK_URL %>',
+        initialData: {
+          webhook_url: '<%= config.WEBHOOK_URL %>',
+        },
+        saving: false,
+        async saveSettings() {
+          this.saving = true;
+          try {
+            const response = await fetch(window.location.href, {
+              method: 'PUT',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ webhook_url: this.webhook_url })
+            });
+
+            if (!response.ok) {
+              throw new Error(`Failed to save settings`);
+            }
+
+            Alpine.store('toast').show('<%=tr(`SETTINGS_SAVE`)%>', 'success');
+          } catch (error) {
+            this.webhook_url = this.initialData.webhook_url;
+            Alpine.store('toast').show('<%=tr(`SETTINGS_SAVE_ERROR`)%>', 'error');
+          } finally {
+            this.saving = false;
+          }
+        }
+      }"
+      @submit.prevent="submitForm">
+      <!-- START: Content -->
+      <div class="mb-3">
+        <div class="grid gap-4 md:grid-cols-2 xl:grid-cols-2">
+          <!-- START: Column 1 -->
+          <div>
+            <div class="mb-2">
+              <label for="webhook_url" class="text-text text-sm font-semibold"><%= tr("guild-logger:WEBHOOK") %></label>
+              <div class="text-text-muted text-sm font-normal"><%= tr("guild-logger:WEBHOOK_DESC") %></div>
+            </div>
+            <input
+              type="url"
+              x-model="webhook_url"
+              class="focus:border-primary focus:ring-primary border-border bg-bg-interactive text-text block w-full rounded-lg border p-2.5 shadow-sm sm:text-sm" />
+          </div>
+        </div>
+      </div>
+
+      <!-- START: Footer -->
+      <div class="border-border mt-4 flex items-center justify-between border-t pt-3 sm:pt-6">
+        <div></div>
+        <div class="flex-shrink-0">
+          <button
+            type="button"
+            @click="saveSettings()"
+            :disabled="saving"
+            :class="{'opacity-50': saving}"
+            class="bg-primary hover:bg-primary-dark focus:ring-primary inline-flex items-center rounded-lg px-3 py-2 text-center text-sm font-medium text-white focus:outline-none focus:ring-4 disabled:opacity-50">
+            <span x-show="!saving"><%= tr('BTN_SAVE') %></span>
+            <span x-show="saving"><%= tr('BTN_SAVING') %></span>
+          </button>
+        </div>
+      </div>
+    </form>
+  </div>
+</section>

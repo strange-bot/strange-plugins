@@ -1,0 +1,9 @@
+{
+    "EMBED_TITLE": "Joined a server",
+    "FIELD_SERVER": "Server Name",
+    "FIELD_ID": "Server ID",
+    "FIELD_OWNER": "Server Owner",
+    "FIELD_MEMBERS": "Server Members",
+    "EMBED_FOOTER": "Guild #{{guilds}}",
+    "DELETED_USER": "Deleted User"
+}

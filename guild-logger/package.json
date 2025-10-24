@@ -1,0 +1,12 @@
+{
+    "name": "guild-logger",
+    "version": "0.1.0-beta",
+    "description": "Logs guild join/leave events to a webhook",
+    "author": "Sai Teja Madha",
+    "license": "MIT",
+    "peerDependencies": {
+        "discord.js": "^14.19.0",
+        "express": "^4.21.2",
+        "strange-sdk": "workspace:*"
+    }
+}
