@@ -1,6 +1,6 @@
 const start = require("../../commands/sub/start");
 
-module.exports = async (payload, client) => {
+module.exports = async (client, payload) => {
     const guild = client.guilds.cache.get(payload.guildId);
     if (!guild) return;
 

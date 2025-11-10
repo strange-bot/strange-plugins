@@ -3,11 +3,12 @@ const router = require("express").Router();
 const db = require("../db.service");
 
 router.get("/", async (req, res) => {
+    const guildId = res.locals.guild.id;
     const [ipcResp, settings] = await Promise.all([
-        req.broadcast("getChannelsOf", res.locals.guild.id),
-        db.getSettings(res.locals.guild),
+        req.broadcastOne("getChannelsOf", guildId, { guildId }),
+        db.getSettings(guildId),
     ]);
-    const channels = ipcResp.find((d) => d.success)?.data;
+    const channels = ipcResp.success ? ipcResp.data : [];
     res.render(path.join(__dirname, "view.ejs"), { channels, settings });
 });
 

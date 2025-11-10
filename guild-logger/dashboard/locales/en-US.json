@@ -1,7 +1,7 @@
 {
     "TITLE": "Guild Logger",
     "DESCRIPTION": "Log guild join and leave events to Discord webhooks",
-    
+
     "CONFIG": "Configuration",
     "WEBHOOK": "Webhook URL",
     "WEBHOOK_DESC": "Discord webhook URL to send guild join/leave logs to."

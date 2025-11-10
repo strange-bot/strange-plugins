@@ -1,6 +1,6 @@
 const ems = require("enhanced-ms");
 
-module.exports = async (payload, client) => {
+module.exports = async (client, payload) => {
     return client.giveawaysManager.giveaways
         .filter((g) => g.guildId === payload && !g.ended)
         .map((g) => {

@@ -8,7 +8,8 @@ router.get("/", async (_req, res) => {
 });
 
 router.put("/", async (req, res) => {
-    const settings = await db.getSettings(res.locals.guild);
+    const guildId = res.locals.guild.id;
+    const settings = await db.getSettings(guildId);
     const body = req.body;
 
     try {
@@ -21,12 +22,16 @@ router.put("/", async (req, res) => {
                 return res.status(400).json({ error: "Invalid language" });
             }
             if (settings.locale !== body.locale) {
-                const ipcResp = await req.broadcast("setGuildLocale", {
-                    guildId: res.locals.guild.id,
-                    locale: body.locale,
-                });
+                const ipcResp = await req.broadcastOne(
+                    "setGuildLocale",
+                    {
+                        guildId: res.locals.guild.id,
+                        locale: body.locale,
+                    },
+                    { guildId },
+                );
 
-                const status = ipcResp.find((d) => d.success)?.data;
+                const status = ipcResp.success ? ipcResp.data : "ERROR";
                 if (status !== "OK") {
                     return res.status(500).json({ error: "Failed to set locale" });
                 }

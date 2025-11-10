@@ -3,15 +3,16 @@ const router = require("express").Router();
 const db = require("../db.service");
 
 router.get("/", async (req, res) => {
+    const guildId = res.locals.guild.id;
     const [channelsResp, rolesResp, settings] = await Promise.all([
-        req.broadcast("getChannelsOf", res.locals.guild.id),
-        req.broadcast("getRolesOf", res.locals.guild.id),
-        db.getSettings(res.locals.guild),
+        req.broadcastOne("getChannelsOf", guildId, { guildId }),
+        req.broadcastOne("getRolesOf", guildId, { guildId }),
+        db.getSettings(guildId),
     ]);
 
     const categories = settings.categories;
-    const roles = rolesResp.find((d) => d.success)?.data;
-    const channels = channelsResp.find((d) => d.success)?.data;
+    const roles = rolesResp.success ? rolesResp.data : [];
+    const channels = channelsResp.success ? channelsResp.data : [];
 
     res.render(path.join(__dirname, "view.ejs"), {
         tabs: [req.translate("ticket:CATEGORY_TITLE")],
@@ -53,8 +54,8 @@ router.post("/", async (req, res) => {
         return res.sendStatus(200);
     }
 
-    const rolesResp = await req.broadcast("getRolesOf", guild.id);
-    const roles = rolesResp.find((d) => d.success)?.data;
+    const rolesResp = await req.broadcastOne("getRolesOf", guild.id, { guildId: guild.id });
+    const roles = rolesResp.success ? rolesResp.data : [];
 
     // create category
     if (Object.prototype.hasOwnProperty.call(body, "create_category")) {

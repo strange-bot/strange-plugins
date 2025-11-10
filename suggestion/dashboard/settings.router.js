@@ -3,13 +3,14 @@ const router = require("express").Router();
 const db = require("../db.service");
 
 router.get("/", async (req, res) => {
+    const guildId = res.locals.guild.id;
     const [channelsResp, rolesResp, settings] = await Promise.all([
-        req.broadcast("getChannelsOf", res.locals.guild.id),
-        req.broadcast("getRolesOf", res.locals.guild.id),
-        db.getSettings(res.locals.guild),
+        req.broadcastOne("getChannelsOf", guildId, { guildId }),
+        req.broadcastOne("getRolesOf", guildId),
+        db.getSettings(guildId),
     ]);
-    const channels = channelsResp.find((d) => d.success)?.data;
-    const roles = rolesResp.find((d) => d.success)?.data;
+    const channels = channelsResp.success ? channelsResp.data : [];
+    const roles = rolesResp.success ? rolesResp.data : [];
 
     res.render(path.join(__dirname, "views/settings.ejs"), {
         channels,
