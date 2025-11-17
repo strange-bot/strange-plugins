@@ -18,7 +18,7 @@
         async submitForm() {
           this.saving = true;
           try {
-            const response = await fetch('/api/economy/config', {
+            const response = await fetch(window.location.href, {
               method: 'PUT',
               headers: { 'Content-Type': 'application/json' },
               body: JSON.stringify(this.formData)

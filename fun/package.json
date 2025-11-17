@@ -1,6 +1,6 @@
 {
     "name": "fun",
-    "description": "Fun commands for Strange",
+    "description": "Fun commands",
     "version": "0.1.0-beta",
     "main": "index.js",
     "author": "Sai Teja Madha",
