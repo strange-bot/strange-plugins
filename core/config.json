@@ -5,7 +5,7 @@
     "DASHBOARD": {
         "ENABLED": true,
         "ENCRYPT": true,
-        "LOGO_NAME": "Nexcord",
+        "LOGO_NAME": "Nexord",
         "LOGO_URL": "/images/logo.png"
     },
     "PREFIX_COMMANDS": {
