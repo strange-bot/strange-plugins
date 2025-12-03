@@ -12,6 +12,7 @@
     "LIMIT_TITLE": "Limite de billets",
     "LIMIT_DESC": "Nombre maximum de tickets sur le serveur à la fois",
 
+    "CATEGORY_TAB": "Catégories",
     "CATEGORY_TITLE": "Catégories de billets",
     "CATEGORY_DESC": "Gérer les catégories de billets",
     "CREATE_MODAL_BTN": "Créer une catégorie",
@@ -45,5 +46,31 @@
     "DELETE_CONFIRM_BTN": "Oui, supprimer",
     "DELETE_CANCEL_BTN": "Non, annuler",
 
-    "CLOSE_MODAL_BTN": "Fermer"
+    "CLOSE_MODAL_BTN": "Fermer",
+
+    "TL_TAB": "Journaux",
+    "TL_TITLE": "Journaux des billets",
+    "TL_DESC": "Sessions de ticket récentes enregistrées pour examen.",
+    "TL_REFRESH": "Rafraîchir",
+    "TL_CLEAR": "Tout effacer",
+    "TL_PAGE_ENTRIES": "entrées par page",
+    "TL_COL_TICKET": "ID du ticket",
+    "TL_COL_CATEGORY": "Catégorie",
+    "TL_COL_OPENED_BY": "Ouvert par",
+    "TL_COL_CLOSED_BY": "Fermé par",
+    "TL_COL_REASON": "Raison",
+    "TL_COL_TRANSCRIPT": "Transcription",
+    "TL_COL_CREATED_AT": "Créé le",
+    "TL_COL_STATUS": "Statut",
+    "TL_COL_OPENED_AT": "Ouvert le",
+    "TL_VIEW": "Voir",
+    "TL_DELETE": "Supprimer",
+    "TL_EMPTY": "Aucun journal de ticket disponible.",
+    "TL_MODAL_TITLE": "Journal de ticket",
+    "TL_FETCH_ERROR": "Échec de récupération des journaux de ticket.",
+    "TL_DELETE_CONFIRM": "Supprimer ce journal de ticket ?",
+    "TL_DELETE_DONE": "Journal de ticket supprimé.",
+    "TL_DELETE_ERROR": "Échec de suppression du journal de ticket.",
+    "TL_CLEAR_CONFIRM": "Effacer tous les journaux de ticket ? Ceci ne peut pas être annulé.",
+    "TL_CLEAR_DONE": "Tous les journaux de ticket ont été effacés."
 }

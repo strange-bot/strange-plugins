@@ -1,36 +1,40 @@
-<section class="border-border bg-bg-panel rounded-lg border p-4 shadow-sm">
-  <form
-    x-data="{
+<script>
+  function initSettingsView() {
+    return {
       formData: {
-        create_embed: '<%= settings.embed_colors.create %>',
-        close_embed: '<%= settings.embed_colors.close %>',
-        log_channel: '<%= settings.log_channel %>',
-        limit: '<%= settings.limit %>',
-        settings: true
+        create_embed: "<%= settings.embed_colors.create %>",
+        close_embed: "<%= settings.embed_colors.close %>",
+        log_channel: "<%= settings.log_channel %>",
+        limit: "<%= settings.limit %>",
+        settings: true,
       },
       saving: false,
       async submitForm() {
         try {
           this.saving = true;
           const response = await fetch(window.location.href, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(this.formData)
+            method: "PUT",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(this.formData),
           });
-          
+
           if (response.ok) {
-            Alpine.store('toast').show('<%=tr(`SETTINGS_SAVE`)%>', 'success');
+            Alpine.store("toast").show("<%=tr(`SETTINGS_SAVE`)%>", "success");
           } else {
-            throw new Error('Failed to update settings');
+            throw new Error("Failed to update settings");
           }
         } catch (error) {
-          Alpine.store('toast').show('<%=tr(`SETTINGS_SAVE_ERROR`)%>', 'error');
+          Alpine.store("toast").show("<%=tr(`SETTINGS_SAVE_ERROR`)%>", "error");
         } finally {
           this.saving = false;
         }
-      }
-    }"
-    @submit.prevent="submitForm">
+      },
+    };
+  }
+</script>
+
+<section class="border-border bg-bg-panel rounded-lg border p-4 shadow-sm">
+  <form x-data="initSettingsView()" @submit.prevent="submitForm">
     <!-- START: Row 1 -->
     <div class="mb-3">
       <div class="grid gap-4 md:grid-cols-2 xl:grid-cols-2">
@@ -123,24 +127,180 @@
   </form>
 </section>
 
-<%- contentFor(tr("ticket:CATEGORY_TITLE")) %>
-<!-- START: List Categories -->
-<section class="border-border bg-bg-panel rounded-lg border p-4 shadow-sm">
+<%- contentFor(tr("ticket:CATEGORY_TAB")) %>
+<script>
+  function initCategoriesView() {
+    const baseUrl = new URL("ticket/categories", window.location.href).toString();
+    return {
+      categories: [],
+      loading: false,
+      // form state for update modal
+      updateForm: {
+        original_name: null,
+        description: "",
+        staff_roles: [],
+        member_roles: [],
+        embed_title: "",
+        embed_description: "",
+        embed_footer: "",
+      },
+      // state for delete modal
+      deleteName: null,
+
+      async refreshCategories() {
+        this.loading = true;
+        try {
+          const res = await fetch(baseUrl, { method: "GET" });
+          if (res.ok) this.categories = await res.json();
+        } catch (e) {
+          Alpine.store("toast").show("<%= tr('SETTINGS_SAVE_ERROR') %>", "error");
+        } finally {
+          this.loading = false;
+        }
+      },
+      // modal helpers
+      openModalById(id) {
+        const el = document.getElementById(id);
+        if (!el) return;
+        el.classList.remove("hidden");
+      },
+      closeModalById(id) {
+        const el = document.getElementById(id);
+        if (!el) return;
+        // try native modal hide button first
+        const hideBtn = el.querySelector(`[data-modal-hide="${id}"]`);
+        if (hideBtn) hideBtn.click();
+        else el.classList.add("hidden");
+      },
+
+      // called when user clicks update on a row
+      openUpdateModal(index) {
+        const cat = this.categories[index];
+        if (!cat) return;
+        this.updateForm.original_name = cat.name;
+        this.updateForm.description = cat.description || "";
+        // copy arrays (ensure strings)
+        this.updateForm.staff_roles = (cat.staff_roles || []).map(String);
+        this.updateForm.member_roles = (cat.member_roles || []).map(String);
+        this.updateForm.embed_title = cat.open_msg?.title || "";
+        this.updateForm.embed_description = (cat.open_msg?.description || "").replace(/\\n/g, "\n");
+        this.updateForm.embed_footer = cat.open_msg?.footer || "";
+        // Prefer clicking Flowbite trigger so the modal instance centers properly
+        const trigger = document.getElementById("trigger-update-modal");
+        if (trigger) trigger.click();
+        else this.openModalById("update-modal");
+      },
+
+      // called when user clicks delete on a row
+      openDeleteModal(index) {
+        const cat = this.categories[index];
+        if (!cat) return;
+        this.deleteName = cat.name;
+        const trigger = document.getElementById("trigger-delete-modal");
+        if (trigger) trigger.click();
+        else this.openModalById("delete-modal");
+      },
+
+      async createCategory(form, modalId = "create-modal") {
+        this.loading = true;
+        try {
+          const fd = new FormData(form);
+          const data = {
+            name: fd.get("name"),
+            description: fd.get("description"),
+            staff_roles: fd.getAll("staff_roles"),
+            member_roles: fd.getAll("member_roles"),
+            embed_title: fd.get("embed_title"),
+            embed_description: fd.get("embed_description"),
+            embed_footer: fd.get("embed_footer"),
+          };
+          const res = await fetch(baseUrl, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(data),
+          });
+          if (!res.ok) throw new Error("Create failed");
+          await this.refreshCategories();
+          form.reset();
+          this.closeModalById(modalId);
+          Alpine.store("toast").show("<%= tr('ticket:CREATE_BTN') %>", "success");
+        } catch (e) {
+          Alpine.store("toast").show("<%= tr('SETTINGS_SAVE_ERROR') %>", "error");
+        } finally {
+          this.loading = false;
+        }
+      },
+      async updateCategory(form, modalId = "update-modal") {
+        this.loading = true;
+        try {
+          const data = {
+            description: this.updateForm.description,
+            staff_roles: this.updateForm.staff_roles,
+            member_roles: this.updateForm.member_roles,
+            embed_title: this.updateForm.embed_title,
+            embed_description: this.updateForm.embed_description,
+            embed_footer: this.updateForm.embed_footer,
+          };
+          const url = baseUrl.replace(/\/?$/, "/") + encodeURIComponent(this.updateForm.original_name);
+          const res = await fetch(url, {
+            method: "PUT",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(data),
+          });
+          if (!res.ok) throw new Error("Update failed");
+          await this.refreshCategories();
+          this.closeModalById(modalId);
+          Alpine.store("toast").show("<%= tr('ticket:UPDATE_BTN') %>", "success");
+        } catch (e) {
+          Alpine.store("toast").show("<%= tr('SETTINGS_SAVE_ERROR') %>", "error");
+        } finally {
+          this.loading = false;
+        }
+      },
+
+      async deleteCategory(form, modalId = "delete-modal") {
+        this.loading = true;
+        try {
+          const url = baseUrl.replace(/\/?$/, "/") + encodeURIComponent(this.deleteName);
+          const res = await fetch(url, { method: "DELETE" });
+          if (!res.ok) throw new Error("Delete failed");
+          await this.refreshCategories();
+          this.closeModalById(modalId);
+          Alpine.store("toast").show("<%= tr('ticket:DELETE_CONFIRM_BTN') %>", "success");
+        } catch (e) {
+          Alpine.store("toast").show("<%= tr('SETTINGS_SAVE_ERROR') %>", "error");
+        } finally {
+          this.loading = false;
+        }
+      },
+    };
+  }
+</script>
+
+<section
+  x-data="initCategoriesView()"
+  x-init="refreshCategories()"
+  class="border-border bg-bg-panel rounded-lg border p-4 shadow-sm">
   <!-- START: Card Header -->
-  <div class="items-center justify-between lg:flex">
-    <div class="mb-4 lg:mb-0">
-      <span class="text-text-muted text-base font-normal"><%= tr("ticket:CATEGORY_DESC") %></span>
+  <div class="mb-4 items-center justify-between lg:flex">
+    <div>
+      <h3 class="text-text text-lg font-semibold"><%= tr("ticket:CATEGORY_TITLE") %></h3>
+      <div class="text-text-muted text-sm"><%= tr("ticket:CATEGORY_DESC") %></div>
     </div>
-    <div class="items-center sm:flex">
-      <div class="flex-shrink-0">
-        <a
-          data-modal-target="create-modal"
-          data-modal-toggle="create-modal"
-          class="text-primary hover:bg-bg-interactive inline-flex cursor-pointer items-center rounded-lg p-2 text-xs font-medium uppercase sm:text-sm">
-          <%= tr("ticket:CREATE_MODAL_BTN") %>
-          <i class="fa-solid fa-angle-right ml-1"></i>
-        </a>
-      </div>
+    <div class="flex items-center gap-2">
+      <button
+        @click="refreshCategories"
+        :disabled="loading"
+        class="bg-bg-interactive text-text rounded px-3 py-1 text-sm">
+        <i class="fa-solid fa-arrows-rotate mr-2" :class="{'animate-spin': loading}"></i><%= tr("ticket:TL_REFRESH") %>
+      </button>
+
+      <a
+        data-modal-target="create-modal"
+        data-modal-toggle="create-modal"
+        class="bg-primary-light text-text cursor-pointer rounded px-3 py-1 text-sm">
+        <i class="fa-solid fa-plus mr-2"></i><%= tr("ticket:CREATE_MODAL_BTN") %>
+      </a>
     </div>
   </div>
   <!-- END: Card Header -->
@@ -165,27 +325,24 @@
               </tr>
             </thead>
             <tbody class="bg-bg-panel">
-              <% categories.forEach((cat, id) => { %>
-              <tr class="border-border rounded border">
-                <td class="text-text whitespace-nowrap p-4 text-sm font-normal"><%= cat.name %></td>
-                <td class="text-text-muted whitespace-nowrap p-4 text-sm font-normal"><%= cat.description %></td>
-                <td class="whitespace-nowrap p-4">
-                  <button
-                    data-modal-target="update-modal-<%=id+1%>"
-                    data-modal-toggle="update-modal-<%=id+1%>"
-                    class="mr-2 rounded-md border border-green-100 bg-green-100 px-2.5 py-0.5 text-xs font-medium text-green-800">
-                    <%=tr("ticket:ACTION_UPDATE_BTN")%>
-                  </button>
-                  <button
-                    data-modal-target="delete-modal-<%=id+1%>"
-                    data-modal-toggle="delete-modal-<%=id+1%>"
-                    class="rounded-md border border-red-100 bg-red-100 px-2.5 py-0.5 text-xs font-medium text-red-800">
-                    <%=tr("ticket:ACTION_DELETE_BTN")%>
-                  </button>
-                </td>
-              </tr>
-
-              <% }) %>
+              <template x-for="(cat, id) in categories" :key="cat.name">
+                <tr class="border-border rounded border">
+                  <td class="text-text whitespace-nowrap p-4 text-sm font-normal" x-text="cat.name"></td>
+                  <td class="text-text-muted whitespace-nowrap p-4 text-sm font-normal" x-text="cat.description"></td>
+                  <td class="whitespace-nowrap p-4">
+                    <button
+                      @click.prevent="openUpdateModal(id)"
+                      class="bg-primary hover:bg-primary-dark inline-flex items-center rounded px-3 py-1 text-xs font-medium text-white focus:outline-none focus:ring-2 focus:ring-blue-300">
+                      <%= tr("ticket:ACTION_UPDATE_BTN") %>
+                    </button>
+                    <button
+                      @click.prevent="openDeleteModal(id)"
+                      class="ml-2 inline-flex items-center rounded bg-red-600 px-3 py-1 text-xs font-medium text-white hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-300">
+                      <%= tr("ticket:ACTION_DELETE_BTN") %>
+                    </button>
+                  </td>
+                </tr>
+              </template>
             </tbody>
           </table>
         </div>
@@ -193,344 +350,869 @@
     </div>
   </div>
   <!-- END: Card Body -->
-</section>
-<!-- END: List Categories -->
 
-<!-- Create Modal -->
-<div
-  id="create-modal"
-  tabindex="-1"
-  aria-hidden="true"
-  class="fixed left-0 right-0 top-0 z-50 hidden h-[calc(100%-1rem)] max-h-full w-full items-center justify-center overflow-y-auto overflow-x-hidden md:inset-0">
-  <div class="relative max-h-full w-full max-w-2xl p-4">
-    <form method="post">
-      <!-- Modal content -->
-      <div class="bg-bg-panel relative rounded-lg shadow">
-        <!-- Modal header -->
-        <div class="border-border flex items-center justify-between rounded-t border-b p-4 md:p-5">
-          <h4 class="text-text text-xl font-semibold"><%= tr("ticket:CREATE_TITLE") %></h4>
-          <button
-            type="button"
-            class="text-text-muted hover:bg-bg-interactive hover:text-text ms-auto inline-flex h-8 w-8 items-center justify-center rounded-lg bg-transparent text-sm"
-            data-modal-hide="create-modal">
-            <i class="fa-solid fa-xmark h-5 w-5"></i>
-            <span class="sr-only"><%=tr("ticket:CLOSE_MODAL_BTN")%></span>
-          </button>
+  <!-- Create Modal -->
+  <div
+    id="create-modal"
+    tabindex="-1"
+    aria-hidden="true"
+    class="fixed left-0 right-0 top-0 z-50 hidden h-[calc(100%-1rem)] max-h-full w-full items-center justify-center overflow-y-auto overflow-x-hidden md:inset-0">
+    <div class="relative max-h-full w-full max-w-2xl p-4">
+      <form @submit.prevent="createCategory($event.target, 'create-modal')">
+        <!-- Modal content -->
+        <div class="bg-bg-panel relative rounded-lg shadow">
+          <!-- Modal header -->
+          <div class="border-border flex items-center justify-between rounded-t border-b p-4 md:p-5">
+            <h4 class="text-text text-xl font-semibold"><%= tr("ticket:CREATE_TITLE") %></h4>
+            <button
+              type="button"
+              class="text-text-muted hover:bg-bg-interactive hover:text-text ms-auto inline-flex h-8 w-8 items-center justify-center rounded-lg bg-transparent text-sm"
+              data-modal-hide="create-modal">
+              <i class="fa-solid fa-xmark h-5 w-5"></i>
+              <span class="sr-only"><%=tr("ticket:CLOSE_MODAL_BTN")%></span>
+            </button>
+          </div>
+
+          <!-- Modal body -->
+          <div class="space-y-4 p-4 md:p-5">
+            <div class="mb-3">
+              <div class="mb-2">
+                <label for="name" class="text-text text-sm font-semibold"><%= tr("ticket:NAME_TITLE") %>*</label>
+                <div class="text-text-muted text-sm font-normal"><%= tr("ticket:NAME_DESC")%></div>
+              </div>
+              <input
+                type="text"
+                name="name"
+                id="name"
+                class="focus:border-primary focus:ring-primary border-border bg-bg-interactive text-text block w-full rounded-lg border p-2.5 shadow-sm sm:text-sm"
+                required />
+            </div>
+
+            <div class="mb-3">
+              <div class="mb-2">
+                <label for="description" class="text-text text-sm font-semibold"><%= tr("ticket:DESC_TITLE") %>*</label>
+                <div class="text-text-muted text-sm font-normal"><%= tr("ticket:DESC_DESC")%></div>
+              </div>
+              <input
+                type="text"
+                name="description"
+                id="description"
+                class="focus:border-primary focus:ring-primary border-border bg-bg-interactive text-text block w-full rounded-lg border p-2.5 shadow-sm sm:text-sm"
+                required />
+            </div>
+
+            <div class="mb-3">
+              <div class="grid gap-4 md:grid-cols-2 xl:grid-cols-2">
+                <div>
+                  <div class="mb-2">
+                    <label for="staff_roles" class="text-text text-sm font-semibold"
+                      ><%= tr("ticket:STAFF_ROLE_TITLE") %></label
+                    >
+                    <div class="text-text-muted text-sm font-normal"><%= tr("ticket:STAFF_ROLE_DESC") %></div>
+                  </div>
+                  <select
+                    multiple
+                    name="staff_roles"
+                    id="staff_roles"
+                    class="focus:ring-primary focus:border-primary border-border bg-bg-interactive text-text block w-full rounded-lg border p-2.5 text-sm">
+                    <% roles.map((r) => { %>
+                    <option value="<%= r.id %>"><%= r.name %></option>
+                    <% }) %>
+                  </select>
+                </div>
+                <div>
+                  <div class="mb-2">
+                    <label for="member_roles" class="text-text text-sm font-semibold"
+                      ><%= tr("ticket:MEM_ROLE_TITLE") %></label
+                    >
+                    <div class="text-text-muted text-sm font-normal"><%= tr("ticket:MEM_ROLE_DESC") %></div>
+                  </div>
+                  <select
+                    multiple
+                    name="member_roles"
+                    id="member_roles"
+                    class="focus:ring-primary focus:border-primary border-border bg-bg-interactive text-text block w-full rounded-lg border p-2.5 text-sm">
+                    <% roles.map((r) => { %>
+                    <option value="<%= r.id %>"><%= r.name %></option>
+                    <% }) %>
+                  </select>
+                </div>
+              </div>
+            </div>
+
+            <div>
+              <span class="text-text text-sm font-semibold"><%= tr("ticket:OPEN_MSG") %></span>
+              <hr class="border-border my-2" />
+            </div>
+
+            <div class="mb-3">
+              <div class="mb-2">
+                <label for="embed_title" class="text-text text-sm font-semibold"><%= tr("ticket:EMBED_TITLE") %></label>
+                <div class="text-text-muted text-sm font-normal"><%= tr("ticket:EMBED_TITLE_DESC") %></div>
+              </div>
+              <input
+                type="text"
+                name="embed_title"
+                id="embed_title"
+                maxlength="256"
+                class="focus:border-primary focus:ring-primary border-border bg-bg-interactive text-text block w-full rounded-lg border p-2.5 shadow-sm sm:text-sm" />
+            </div>
+
+            <div class="mb-3">
+              <div class="mb-2">
+                <label for="embed_description" class="text-text text-sm font-semibold"
+                  ><%= tr("ticket:EMBED_DESC") %></label
+                >
+                <div class="text-text-muted text-sm font-normal"><%= tr("ticket:EMBED_DESC_DESC") %></div>
+              </div>
+              <textarea
+                rows="3"
+                maxlength="2000"
+                id="embed_description"
+                name="embed_description"
+                class="focus:ring-primary focus:border-primary border-border bg-bg-interactive text-text block w-full rounded-lg border p-2.5 text-sm"></textarea>
+            </div>
+
+            <div class="mb-3">
+              <div class="mb-2">
+                <label for="embed_footer" class="text-text text-sm font-semibold"
+                  ><%= tr("ticket:EMBED_FOOTER") %></label
+                >
+                <div class="text-text-muted text-sm font-normal"><%= tr("ticket:EMBED_FOOTER_DESC") %></div>
+              </div>
+              <input
+                type="text"
+                name="embed_footer"
+                id="embed_footer"
+                maxlength="256"
+                class="focus:border-primary focus:ring-primary border-border bg-bg-interactive text-text block w-full rounded-lg border p-2.5 shadow-sm sm:text-sm" />
+            </div>
+          </div>
+
+          <!-- Modal footer -->
+          <div class="border-border mt-2 flex items-center rounded-b border-t p-4 md:p-5">
+            <button
+              name="create_category"
+              type="submit"
+              class="bg-primary hover:bg-primary-dark focus:ring-primary rounded-lg px-5 py-2.5 text-center text-sm font-medium text-white focus:outline-none focus:ring-4">
+              <%= tr("ticket:CREATE_BTN") %>
+            </button>
+          </div>
         </div>
+      </form>
+    </div>
+  </div>
 
-        <!-- Modal body -->
-        <div class="space-y-4 p-4 md:p-5">
-          <div class="mb-3">
-            <div class="mb-2">
-              <label for="name" class="text-text text-sm font-semibold"><%= tr("ticket:NAME_TITLE") %>*</label>
-              <div class="text-text-muted text-sm font-normal"><%= tr("ticket:NAME_DESC")%></div>
-            </div>
-            <input
-              type="text"
-              name="name"
-              id="name"
-              class="focus:border-primary focus:ring-primary border-border bg-bg-interactive text-text block w-full rounded-lg border p-2.5 shadow-sm sm:text-sm"
-              required />
+  <!-- Update Modal -->
+  <button
+    id="trigger-update-modal"
+    data-modal-target="update-modal"
+    data-modal-toggle="update-modal"
+    class="hidden"
+    aria-hidden="true"></button>
+  <div
+    id="update-modal"
+    tabindex="-1"
+    aria-hidden="true"
+    class="fixed left-0 right-0 top-0 z-50 hidden h-[calc(100%-1rem)] max-h-full w-full items-center justify-center overflow-y-auto overflow-x-hidden md:inset-0">
+    <div class="relative max-h-full w-full max-w-2xl p-4">
+      <form @submit.prevent="updateCategory($event.target, 'update-modal')" x-data>
+        <div class="bg-bg-panel relative rounded-lg shadow">
+          <div class="border-border flex items-center justify-between rounded-t border-b p-4 md:p-5">
+            <h4 class="text-text text-xl font-semibold"><%= tr("ticket:UPDATE_TITLE") %></h4>
+            <button
+              type="button"
+              class="text-text-muted hover:bg-bg-interactive hover:text-text ms-auto inline-flex h-8 w-8 items-center justify-center rounded-lg bg-transparent text-sm"
+              data-modal-hide="update-modal">
+              <i class="fa-solid fa-x"></i>
+            </button>
           </div>
 
-          <div class="mb-3">
-            <div class="mb-2">
-              <label for="description" class="text-text text-sm font-semibold"><%= tr("ticket:DESC_TITLE") %>*</label>
+          <div class="space-y-4 p-4 md:p-5">
+            <input type="hidden" name="original_name" x-model="updateForm.original_name" />
+
+            <div class="mb-3">
+              <label class="text-text text-sm font-semibold"><%= tr("ticket:DESC_TITLE") %>*</label>
               <div class="text-text-muted text-sm font-normal"><%= tr("ticket:DESC_DESC")%></div>
+              <input
+                type="text"
+                name="description"
+                required
+                x-model="updateForm.description"
+                class="focus:border-primary focus:ring-primary border-border bg-bg-interactive text-text block w-full rounded-lg border p-2.5 shadow-sm sm:text-sm" />
             </div>
-            <input
-              type="text"
-              name="description"
-              id="description"
-              class="focus:border-primary focus:ring-primary border-border bg-bg-interactive text-text block w-full rounded-lg border p-2.5 shadow-sm sm:text-sm"
-              required />
-          </div>
 
-          <div class="mb-3">
-            <div class="grid gap-4 md:grid-cols-2 xl:grid-cols-2">
+            <div class="mb-3 grid gap-4 md:grid-cols-2 xl:grid-cols-2">
               <div>
                 <div class="mb-2">
-                  <label for="staff_roles" class="text-text text-sm font-semibold"
-                    ><%= tr("ticket:STAFF_ROLE_TITLE") %></label
-                  >
+                  <label class="text-text text-sm font-semibold"><%= tr("ticket:STAFF_ROLE_TITLE") %></label>
                   <div class="text-text-muted text-sm font-normal"><%= tr("ticket:STAFF_ROLE_DESC") %></div>
                 </div>
                 <select
                   multiple
                   name="staff_roles"
-                  id="staff_roles"
+                  x-model="updateForm.staff_roles"
                   class="focus:ring-primary focus:border-primary border-border bg-bg-interactive text-text block w-full rounded-lg border p-2.5 text-sm">
-                  <% roles.map((r) => { %>
+                  <% roles.forEach((r) => { %>
                   <option value="<%= r.id %>"><%= r.name %></option>
                   <% }) %>
                 </select>
               </div>
+
               <div>
                 <div class="mb-2">
-                  <label for="member_roles" class="text-text text-sm font-semibold"
-                    ><%= tr("ticket:MEM_ROLE_TITLE") %></label
-                  >
+                  <label class="text-text text-sm font-semibold"><%= tr("ticket:MEM_ROLE_TITLE") %></label>
                   <div class="text-text-muted text-sm font-normal"><%= tr("ticket:MEM_ROLE_DESC") %></div>
                 </div>
                 <select
                   multiple
                   name="member_roles"
-                  id="member_roles"
+                  x-model="updateForm.member_roles"
                   class="focus:ring-primary focus:border-primary border-border bg-bg-interactive text-text block w-full rounded-lg border p-2.5 text-sm">
-                  <% roles.map((r) => { %>
+                  <% roles.forEach((r) => { %>
                   <option value="<%= r.id %>"><%= r.name %></option>
                   <% }) %>
                 </select>
               </div>
             </div>
-          </div>
 
-          <div>
-            <span class="text-text text-sm font-semibold"><%= tr("ticket:OPEN_MSG") %></span>
-            <hr class="border-border my-2" />
-          </div>
+            <div>
+              <span class="text-text text-sm font-semibold"><%= tr("ticket:OPEN_MSG") %></span>
+              <hr class="border-border my-2" />
+            </div>
 
-          <div class="mb-3">
-            <div class="mb-2">
-              <label for="embed_title" class="text-text text-sm font-semibold"><%= tr("ticket:EMBED_TITLE") %></label>
+            <div class="mb-3">
+              <label class="text-text text-sm font-semibold"><%= tr("ticket:EMBED_TITLE") %></label>
               <div class="text-text-muted text-sm font-normal"><%= tr("ticket:EMBED_TITLE_DESC") %></div>
+              <input
+                type="text"
+                name="embed_title"
+                maxlength="256"
+                x-model="updateForm.embed_title"
+                class="focus:border-primary focus:ring-primary border-border bg-bg-interactive text-text block w-full rounded-lg border p-2.5 shadow-sm sm:text-sm" />
             </div>
-            <input
-              type="text"
-              name="embed_title"
-              id="embed_title"
-              maxlength="256"
-              class="focus:border-primary focus:ring-primary border-border bg-bg-interactive text-text block w-full rounded-lg border p-2.5 shadow-sm sm:text-sm" />
-          </div>
 
-          <div class="mb-3">
-            <div class="mb-2">
-              <label for="embed_description" class="text-text text-sm font-semibold"
-                ><%= tr("ticket:EMBED_DESC") %></label
-              >
+            <div class="mb-3">
+              <label class="text-text text-sm font-semibold"><%= tr("ticket:EMBED_DESC") %></label>
               <div class="text-text-muted text-sm font-normal"><%= tr("ticket:EMBED_DESC_DESC") %></div>
+              <textarea
+                rows="3"
+                maxlength="2000"
+                name="embed_description"
+                x-model="updateForm.embed_description"
+                class="focus:ring-primary focus:border-primary border-border bg-bg-interactive text-text block w-full rounded-lg border p-2.5 text-sm"></textarea>
             </div>
-            <textarea
-              rows="3"
-              maxlength="2000"
-              id="embed_description"
-              name="embed_description"
-              class="focus:ring-primary focus:border-primary border-border bg-bg-interactive text-text block w-full rounded-lg border p-2.5 text-sm"></textarea>
-          </div>
 
-          <div class="mb-3">
-            <div class="mb-2">
-              <label for="embed_footer" class="text-text text-sm font-semibold"><%= tr("ticket:EMBED_FOOTER") %></label>
+            <div class="mb-3">
+              <label class="text-text text-sm font-semibold"><%= tr("ticket:EMBED_FOOTER") %></label>
               <div class="text-text-muted text-sm font-normal"><%= tr("ticket:EMBED_FOOTER_DESC") %></div>
+              <input
+                type="text"
+                name="embed_footer"
+                maxlength="256"
+                x-model="updateForm.embed_footer"
+                class="focus:border-primary focus:ring-primary border-border bg-bg-interactive text-text block w-full rounded-lg border p-2.5 shadow-sm sm:text-sm" />
             </div>
-            <input
-              type="text"
-              name="embed_footer"
-              id="embed_footer"
-              maxlength="256"
-              class="focus:border-primary focus:ring-primary border-border bg-bg-interactive text-text block w-full rounded-lg border p-2.5 shadow-sm sm:text-sm" />
+          </div>
+
+          <div class="border-border mt-2 flex items-center rounded-b border-t p-4 md:p-5">
+            <button
+              type="submit"
+              class="bg-primary hover:bg-primary-dark focus:ring-primary rounded-lg px-5 py-2.5 text-center text-sm font-medium text-white focus:outline-none focus:ring-4">
+              <%= tr("ticket:UPDATE_BTN") %>
+            </button>
           </div>
         </div>
-
-        <!-- Modal footer -->
-        <div class="border-border mt-2 flex items-center rounded-b border-t p-4 md:p-5">
-          <button
-            name="create_category"
-            type="submit"
-            class="bg-primary hover:bg-primary-dark focus:ring-primary rounded-lg px-5 py-2.5 text-center text-sm font-medium text-white focus:outline-none focus:ring-4">
-            <%= tr("ticket:CREATE_BTN") %>
-          </button>
-        </div>
-      </div>
-    </form>
+      </form>
+    </div>
   </div>
-</div>
 
-<!-- Update Modals -->
-<% categories.forEach((cat, i) => { %>
-<div
-  id="update-modal-<%=i+1%>"
-  tabindex="-1"
-  aria-hidden="true"
-  class="fixed left-0 right-0 top-0 z-50 hidden h-[calc(100%-1rem)] max-h-full w-full items-center justify-center overflow-y-auto overflow-x-hidden md:inset-0">
-  <div class="relative max-h-full w-full max-w-2xl p-4">
-    <form method="post">
-      <!-- Modal content -->
+  <!-- Delete Modal -->
+  <button
+    id="trigger-delete-modal"
+    data-modal-target="delete-modal"
+    data-modal-toggle="delete-modal"
+    class="hidden"
+    aria-hidden="true"></button>
+  <div
+    id="delete-modal"
+    tabindex="-1"
+    class="fixed left-0 right-0 top-0 z-50 hidden h-[calc(100%-1rem)] max-h-full w-full items-center justify-center overflow-y-auto overflow-x-hidden md:inset-0">
+    <div class="relative max-h-full w-full max-w-md p-4">
       <div class="bg-bg-panel relative rounded-lg shadow">
-        <!-- Modal header -->
-        <div class="border-border flex items-center justify-between rounded-t border-b p-4 md:p-5">
-          <h4 class="text-text text-xl font-semibold"><%= tr("ticket:UPDATE_TITLE") %></h4>
-          <button
-            type="button"
-            class="text-text-muted hover:bg-bg-interactive hover:text-text ms-auto inline-flex h-8 w-8 items-center justify-center rounded-lg bg-transparent text-sm"
-            data-modal-hide="update-modal-<%=i+1%>">
-            <i class="fa-solid fa-x"></i>
-            <span class="sr-only"><%=tr("ticket:CLOSE_MODAL_BTN")%></span>
-          </button>
+        <button
+          type="button"
+          class="text-text-muted hover:bg-bg-interactive hover:text-text absolute end-2.5 top-3 ms-auto inline-flex h-8 w-8 items-center justify-center rounded-lg bg-transparent text-sm"
+          data-modal-hide="delete-modal">
+          <i class="fa-solid fa-xmark h-5 w-5"></i>
+          <span class="sr-only"><%=tr("ticket:CLOSE_MODAL_BTN")%></span>
+        </button>
+        <div class="p-4 text-center md:p-5">
+          <i class="fa-regular fa-circle-exclamation text-text-muted mb-3 h-12 w-12"></i>
+          <h3 class="text-text-muted mb-5 text-lg font-normal"><%=tr("ticket:DELETE_CONFIRM")%></h3>
+          <form @submit.prevent="deleteCategory($event.target, 'delete-modal')">
+            <input type="hidden" name="name" x-bind:value="deleteName" />
+            <button
+              type="submit"
+              class="inline-flex items-center rounded-lg bg-red-600 px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-red-800 focus:outline-none focus:ring-4 focus:ring-red-300">
+              <%=tr("ticket:DELETE_CONFIRM_BTN")%>
+            </button>
+            <button
+              data-modal-hide="delete-modal"
+              type="button"
+              class="border-border bg-bg-panel text-text hover:bg-bg-interactive focus:ring-border ms-3 rounded-lg border px-5 py-2.5 text-sm font-medium focus:z-10 focus:outline-none focus:ring-4">
+              <%=tr("ticket:DELETE_CANCEL_BTN")%>
+            </button>
+          </form>
         </div>
-
-        <!-- Modal body -->
-        <div class="space-y-4 p-4 md:p-5">
-          <input type="hidden" name="name" value="<%= cat.name %>" />
-
-          <div class="mb-3">
-            <div class="mb-2">
-              <label for="description" class="text-text text-sm font-semibold"><%= tr("ticket:DESC_TITLE") %>*</label>
-              <div class="text-text-muted text-sm font-normal"><%= tr("ticket:DESC_DESC")%></div>
-            </div>
-            <input
-              type="text"
-              name="description"
-              id="description"
-              class="focus:border-primary focus:ring-primary border-border bg-bg-interactive text-text block w-full rounded-lg border p-2.5 shadow-sm sm:text-sm"
-              value="<%= cat.description %>"
-              required />
-          </div>
-
-          <div class="mb-3">
-            <div class="grid gap-4 md:grid-cols-2 xl:grid-cols-2">
-              <div>
-                <div class="mb-2">
-                  <label for="staff_roles" class="text-text text-sm font-semibold"
-                    ><%= tr("ticket:STAFF_ROLE_TITLE") %></label
-                  >
-                  <div class="text-text-muted text-sm font-normal"><%= tr("ticket:STAFF_ROLE_DESC") %></div>
-                </div>
-                <select
-                  multiple
-                  name="staff_roles"
-                  id="staff_roles"
-                  class="focus:ring-primary focus:border-primary border-border bg-bg-interactive text-text block w-full rounded-lg border p-2.5 text-sm">
-                  <% roles.map((r) => { %> <% if (cat.staff_roles.includes(r.id)) { %>
-                  <option value="<%= r.id %>" selected><%= r.name %></option>
-                  <% } else { %>
-                  <option value="<%= r.id %>"><%= r.name %></option>
-                  <% } %> <% }) %>
-                </select>
-              </div>
-              <div>
-                <div class="mb-2">
-                  <label for="member_roles" class="text-text text-sm font-semibold"
-                    ><%= tr("ticket:MEM_ROLE_TITLE") %></label
-                  >
-                  <div class="text-text-muted text-sm font-normal"><%= tr("ticket:MEM_ROLE_DESC") %></div>
-                </div>
-                <select
-                  multiple
-                  name="member_roles"
-                  id="member_roles"
-                  class="focus:ring-primary focus:border-primary border-border bg-bg-interactive text-text block w-full rounded-lg border p-2.5 text-sm">
-                  <% roles.map((r) => { %> <% if (cat.member_roles.includes(r.id)) { %>
-                  <option value="<%= r.id %>" selected><%= r.name %></option>
-                  <% } else { %>
-                  <option value="<%= r.id %>"><%= r.name %></option>
-                  <% } %> <% }) %>
-                </select>
-              </div>
-            </div>
-          </div>
-
-          <div>
-            <span class="text-text text-sm font-semibold"><%= tr("ticket:OPEN_MSG") %></span>
-            <hr class="border-border my-2" />
-          </div>
-
-          <div class="mb-3">
-            <div class="mb-2">
-              <label for="embed_title" class="text-text text-sm font-semibold"><%= tr("ticket:EMBED_TITLE") %></label>
-              <div class="text-text-muted text-sm font-normal"><%= tr("ticket:EMBED_TITLE_DESC") %></div>
-            </div>
-            <input
-              type="text"
-              name="embed_title"
-              id="embed_title"
-              maxlength="256"
-              class="focus:border-primary focus:ring-primary border-border bg-bg-interactive text-text block w-full rounded-lg border p-2.5 shadow-sm sm:text-sm"
-              value="<%= cat.open_msg.title %>" />
-          </div>
-
-          <div class="mb-3">
-            <div class="mb-2">
-              <label for="embed_description" class="text-text text-sm font-semibold"
-                ><%= tr("ticket:EMBED_DESC") %></label
-              >
-              <div class="text-text-muted text-sm font-normal"><%= tr("ticket:EMBED_DESC_DESC") %></div>
-            </div>
-            <textarea
-              rows="3"
-              maxlength="2000"
-              id="embed_description"
-              name="embed_description"
-              class="focus:ring-primary focus:border-primary border-border bg-bg-interactive text-text block w-full rounded-lg border p-2.5 text-sm">
-<%-cat.open_msg.description?.replaceAll(/\n/g, '&#10;')%></textarea
-            >
-          </div>
-
-          <div class="mb-3">
-            <div class="mb-2">
-              <label for="embed_footer" class="text-text text-sm font-semibold"><%= tr("ticket:EMBED_FOOTER") %></label>
-              <div class="text-text-muted text-sm font-normal"><%= tr("ticket:EMBED_FOOTER_DESC") %></div>
-            </div>
-            <input
-              type="text"
-              name="embed_footer"
-              id="embed_footer"
-              maxlength="256"
-              class="focus:border-primary focus:ring-primary border-border bg-bg-interactive text-text block w-full rounded-lg border p-2.5 shadow-sm sm:text-sm"
-              value="<%= cat.open_msg.footer %>" />
-          </div>
-        </div>
-
-        <!-- Modal footer -->
-        <div class="border-border mt-2 flex items-center rounded-b border-t p-4 md:p-5">
-          <button
-            name="update_category"
-            type="submit"
-            class="bg-primary hover:bg-primary-dark focus:ring-primary rounded-lg px-5 py-2.5 text-center text-sm font-medium text-white focus:outline-none focus:ring-4">
-            <%= tr("ticket:UPDATE_BTN") %>
-          </button>
-        </div>
-      </div>
-    </form>
-  </div>
-</div>
-<% }) %>
-
-<!-- Delete Modals -->
-<% categories.forEach((cat, i) => { %>
-<div
-  id="delete-modal-<%=i+1%>"
-  tabindex="-1"
-  class="fixed left-0 right-0 top-0 z-50 hidden h-[calc(100%-1rem)] max-h-full w-full items-center justify-center overflow-y-auto overflow-x-hidden md:inset-0">
-  <div class="relative max-h-full w-full max-w-md p-4">
-    <div class="bg-bg-panel relative rounded-lg shadow">
-      <button
-        type="button"
-        class="text-text-muted hover:bg-bg-interactive hover:text-text absolute end-2.5 top-3 ms-auto inline-flex h-8 w-8 items-center justify-center rounded-lg bg-transparent text-sm"
-        data-modal-hide="delete-modal-<%=i+1%>">
-        <i class="fa-solid fa-angle-right ml-1"></i>
-        <span class="sr-only"><%=tr("ticket:CLOSE_MODAL_BTN")%></span>
-      </button>
-      <div class="p-4 text-center md:p-5">
-        <i class="fa-regular fa-circle-exclamation text-text-muted mb-3 h-12 w-12"></i>
-        <h3 class="text-text-muted mb-5 text-lg font-normal"><%=tr("ticket:DELETE_CONFIRM")%></h3>
-        <form method="post">
-          <input type="hidden" name="name" value="<%= cat.name %>" />
-          <button
-            type="submit"
-            name="delete_category"
-            class="inline-flex items-center rounded-lg bg-red-600 px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-red-800 focus:outline-none focus:ring-4 focus:ring-red-300">
-            <%=tr("ticket:DELETE_CONFIRM_BTN")%>
-          </button>
-          <button
-            data-modal-hide="delete-modal-<%=i+1%>"
-            type="button"
-            class="hover:text-primary border-border bg-bg-panel text-text hover:bg-bg-interactive focus:ring-border ms-3 rounded-lg border px-5 py-2.5 text-sm font-medium focus:z-10 focus:outline-none focus:ring-4">
-            <%=tr("ticket:DELETE_CANCEL_BTN")%>
-          </button>
-        </form>
       </div>
     </div>
   </div>
-</div>
-<% }) %>
+</section>
+
+<%- contentFor(tr("ticket:TL_TAB")) %>
+<script>
+  function initLogsView() {
+    const baseUrl = new URL("ticket/logs", window.location.href).toString();
+    return {
+      logs: [],
+      total: 0,
+      page: 1,
+      perPage: 25,
+      q: "",
+      status: "ALL", // ALL | OPEN | CLOSED
+      loading: false,
+      viewing: null,
+      viewingLoading: false,
+      viewingTranscriptLoading: false,
+      deleteId: null,
+      // debounce timer for search
+      _searchTimer: null,
+
+      async refresh() {
+        this.loading = true;
+        try {
+          const params = new URLSearchParams({
+            page: this.page,
+            perPage: this.perPage,
+            q: this.q || "",
+            status: this.status || "ALL",
+          });
+          const res = await fetch(`${baseUrl}?${params.toString()}`);
+          if (!res.ok) throw new Error("Failed to fetch logs");
+          const data = await res.json();
+          this.logs = data.items || [];
+          this.total = data.total || 0;
+          this.page = data.page || this.page;
+          this.perPage = data.perPage || this.perPage;
+        } catch (e) {
+          Alpine.store("toast").show("<%= tr('ticket:TL_FETCH_ERROR') %>", "error");
+        } finally {
+          this.loading = false;
+        }
+      },
+
+      // status filter helper
+      setStatus(s) {
+        this.status = s;
+        this.page = 1;
+        this.refresh();
+      },
+
+      // UI helpers
+      setPerPage(n) {
+        this.perPage = n;
+        this.page = 1;
+        this.refresh();
+      },
+
+      goToPage(n) {
+        if (n < 1) return;
+        const totalPages = Math.max(1, Math.ceil((this.total || 0) / this.perPage));
+        if (n > totalPages) return;
+        this.page = n;
+        this.refresh();
+      },
+
+      prevPage() {
+        this.goToPage(this.page - 1);
+      },
+      nextPage() {
+        this.goToPage(this.page + 1);
+      },
+
+      onSearchChange(val) {
+        clearTimeout(this._searchTimer);
+        this._searchTimer = setTimeout(() => {
+          this.q = val;
+          this.page = 1;
+          this.refresh();
+        }, 350);
+      },
+
+      // modal helpers (used for the clear / delete confirmation modals)
+      openModalById(id) {
+        const el = document.getElementById(id);
+        if (!el) return;
+        el.classList.remove("hidden");
+      },
+      closeModalById(id) {
+        const el = document.getElementById(id);
+        if (!el) return;
+        const hideBtn = el.querySelector(`[data-modal-hide="${id}"]`);
+        if (hideBtn) hideBtn.click();
+        else el.classList.add("hidden");
+      },
+
+      async viewLog(id) {
+        // populate modal with row data first (fast)
+        const found = this.logs.find((l) => String(l._id) === String(id));
+        this.viewing = found || null;
+        this.viewingLoading = false; // preserve if used elsewhere
+        this.viewingTranscriptLoading = true;
+
+        const trigger = document.getElementById("trigger-tl-modal");
+        if (trigger) trigger.click();
+        else this.openModalById("tl-view-modal");
+
+        // fetch transcript only
+        try {
+          const res = await fetch(`${baseUrl}/${encodeURIComponent(id)}/transcript`);
+          if (!res.ok) throw new Error("Failed to fetch transcript");
+          const data = await res.json();
+          // ensure viewing exists (user may have closed modal)
+          if (this.viewing) this.viewing.transcript = data.transcript || [];
+        } catch (e) {
+          Alpine.store("toast").show("<%= tr('ticket:TL_FETCH_ERROR') %>", "error");
+        } finally {
+          this.viewingTranscriptLoading = false;
+        }
+      },
+
+      // open delete confirmation modal for a single log
+      openDeleteModal(id) {
+        this.deleteId = id;
+        const trigger = document.getElementById("trigger-delete-log-modal");
+        if (trigger) trigger.click();
+        else this.openModalById("delete-log-modal");
+      },
+
+      async doDeleteLog(form, modalId = "delete-log-modal") {
+        if (!this.deleteId) return;
+        this.loading = true;
+        try {
+          const res = await fetch(`${baseUrl}/${encodeURIComponent(this.deleteId)}`, { method: "DELETE" });
+          if (!res.ok) throw new Error("Delete failed");
+          await this.refresh();
+          this.closeModalById(modalId);
+          Alpine.store("toast").show("<%= tr('ticket:TL_DELETE_DONE') %>", "success");
+        } catch (e) {
+          Alpine.store("toast").show("<%= tr('ticket:TL_DELETE_ERROR') %>", "error");
+        } finally {
+          this.loading = false;
+          this.deleteId = null;
+        }
+      },
+
+      // open the styled confirm modal (replaces window.confirm)
+      clearAll() {
+        const trigger = document.getElementById("trigger-clear-modal");
+        if (trigger) trigger.click();
+        else this.openModalById("clear-modal");
+      },
+
+      // actual clear action triggered by the modal form
+      async doClearAll(form, modalId = "clear-modal") {
+        this.loading = true;
+        try {
+          const res = await fetch(baseUrl, { method: "DELETE" });
+          if (!res.ok) throw new Error("Clear failed");
+          await this.refresh();
+          this.closeModalById(modalId);
+          Alpine.store("toast").show("<%= tr('ticket:TL_CLEAR_DONE') %>", "success");
+        } catch (e) {
+          Alpine.store("toast").show("<%= tr('ticket:TL_DELETE_ERROR') %>", "error");
+        } finally {
+          this.loading = false;
+        }
+      },
+    };
+  }
+</script>
+
+<section x-data="initLogsView()" x-init="refresh()" class="border-border bg-bg-panel rounded-lg border p-4 shadow-sm">
+  <div class="mb-4 items-center justify-between lg:flex">
+    <div>
+      <h3 class="text-text text-lg font-semibold"><%= tr("ticket:TL_TITLE") %></h3>
+      <div class="text-text-muted text-sm"><%= tr("ticket:TL_DESC") %></div>
+    </div>
+    <div class="flex items-center gap-2">
+      <button
+        @click="refresh"
+        :disabled="loading"
+        class="bg-bg-interactive text-text hover:bg-bg-interactive/90 inline-flex items-center gap-2 rounded px-3 py-1 text-sm">
+        <i class="fa-solid fa-arrows-rotate" :class="{'animate-spin': loading}"></i>
+        <span><%= tr("ticket:TL_REFRESH") %></span>
+      </button>
+
+      <button
+        @click="clearAll"
+        :disabled="loading"
+        class="bg-bg-interactive text-text hover:bg-bg-interactive/90 inline-flex items-center gap-2 rounded px-3 py-1 text-sm">
+        <i class="fa-solid fa-trash"></i>
+        <span><%= tr("ticket:TL_CLEAR") %></span>
+      </button>
+    </div>
+  </div>
+
+  <!-- Add small toolbar: search + per-page -->
+  <div class="mb-3 flex items-center justify-between gap-2">
+    <!-- Left: search + status grouped closely -->
+    <div class="flex items-center gap-2">
+      <div class="w-56 md:w-64">
+        <input
+          type="search"
+          placeholder="<%= tr('ticket:TL_COL_TICKET') %>"
+          @input="onSearchChange($event.target.value)"
+          class="focus:ring-primary focus:border-primary border-border bg-bg-interactive text-text w-full rounded p-2 text-sm" />
+      </div>
+
+      <div>
+        <select
+          @change="setStatus($event.target.value)"
+          class="focus:ring-primary focus:border-primary border-border bg-bg-interactive text-text rounded p-1 text-sm">
+          <option value="ALL" selected>ALL</option>
+          <option value="OPEN">OPEN</option>
+          <option value="CLOSED">CLOSED</option>
+        </select>
+      </div>
+    </div>
+
+    <!-- Right: per-page control -->
+    <div class="flex items-center gap-2">
+      <select
+        @change="setPerPage(parseInt($event.target.value))"
+        class="focus:ring-primary focus:border-primary border-border bg-bg-interactive text-text rounded p-1 text-sm">
+        <option value="10" :selected="perPage==10">10</option>
+        <option value="25" :selected="perPage==25">25</option>
+        <option value="50" :selected="perPage==50">50</option>
+        <option value="100" :selected="perPage==100">100</option>
+      </select>
+      <label class="text-text-muted text-sm"><%= tr("ticket:TL_PAGE_ENTRIES") %></label>
+    </div>
+  </div>
+
+  <div class="overflow-x-auto">
+    <table class="divide-border min-w-full divide-y">
+      <thead>
+        <tr>
+          <th class="text-text-muted p-4 text-left text-xs font-medium uppercase tracking-wider">
+            <%= tr("ticket:TL_COL_TICKET") %>
+          </th>
+          <th class="text-text-muted p-4 text-left text-xs font-medium uppercase tracking-wider">
+            <%= tr("ticket:TL_COL_STATUS") %>
+          </th>
+          <th class="text-text-muted p-4 text-left text-xs font-medium uppercase tracking-wider">
+            <%= tr("ticket:TL_COL_OPENED_BY") %>
+          </th>
+          <th class="text-text-muted p-4 text-left text-xs font-medium uppercase tracking-wider">
+            <%= tr("ticket:TL_COL_CATEGORY") %>
+          </th>
+          <th class="text-text-muted p-4 text-left text-xs font-medium uppercase tracking-wider">
+            <%= tr("ticket:TL_COL_OPENED_AT") %>
+          </th>
+          <th class="text-text-muted p-4 text-left text-xs font-medium uppercase tracking-wider">
+            <%= tr("ticket:ACTION_COL") %>
+          </th>
+        </tr>
+      </thead>
+      <tbody class="bg-bg-panel">
+        <template x-for="log in logs" :key="log._id">
+          <tr class="border-border">
+            <td class="text-text p-4 text-sm font-normal" x-text="log.ticket_id"></td>
+            <td class="text-text p-4 text-sm font-medium uppercase" x-text="log.status || '-'"></td>
+            <td class="text-text p-4 text-sm" x-text="log.opener_username || '-'"></td>
+            <td class="text-text-muted p-4 text-sm" x-text="log.category"></td>
+            <td
+              class="text-text-muted p-4 text-sm"
+              x-text="log.createdAt ? new Date(log.createdAt).toLocaleString() : '-'"></td>
+            <td class="whitespace-nowrap p-4">
+              <button
+                @click.prevent="viewLog(log._id)"
+                class="bg-primary hover:bg-primary-dark inline-flex items-center rounded px-3 py-1 text-xs font-medium text-white focus:outline-none focus:ring-2 focus:ring-blue-300">
+                <%= tr("ticket:TL_VIEW") %>
+              </button>
+              <button
+                @click.prevent="openDeleteModal(log._id)"
+                class="ml-2 inline-flex items-center rounded bg-red-600 px-3 py-1 text-xs font-medium text-white hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-300">
+                <%= tr("ticket:TL_DELETE") %>
+              </button>
+            </td>
+          </tr>
+        </template>
+        <tr x-show="!logs.length && !loading">
+          <td class="text-text-muted p-4" colspan="6"><%= tr("ticket:TL_EMPTY") %></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- View Modal trigger (hidden) for Flowbite/modal behaviour -->
+  <button
+    id="trigger-tl-modal"
+    data-modal-target="tl-view-modal"
+    data-modal-toggle="tl-view-modal"
+    class="hidden"
+    aria-hidden="true"></button>
+
+  <!-- Hidden trigger for Clear All modal -->
+  <button
+    id="trigger-clear-modal"
+    data-modal-target="clear-modal"
+    data-modal-toggle="clear-modal"
+    class="hidden"
+    aria-hidden="true"></button>
+
+  <!-- Hidden trigger for single-delete modal -->
+  <button
+    id="trigger-delete-log-modal"
+    data-modal-target="delete-log-modal"
+    data-modal-toggle="delete-log-modal"
+    class="hidden"
+    aria-hidden="true"></button>
+
+  <!-- Clear All Confirmation Modal (styled like the delete modal) -->
+  <div
+    id="clear-modal"
+    tabindex="-1"
+    class="fixed left-0 right-0 top-0 z-50 hidden h-[calc(100%-1rem)] max-h-full w-full items-center justify-center overflow-y-auto overflow-x-hidden md:inset-0">
+    <div class="relative max-h-full w-full max-w-md p-4">
+      <div class="bg-bg-panel relative rounded-lg shadow">
+        <button
+          type="button"
+          class="text-text-muted hover:bg-bg-interactive hover:text-text absolute end-2.5 top-3 ms-auto inline-flex h-8 w-8 items-center justify-center rounded-lg bg-transparent text-sm"
+          data-modal-hide="clear-modal">
+          <i class="fa-solid fa-xmark h-5 w-5"></i>
+          <span class="sr-only"><%= tr("ticket:CLOSE_MODAL_BTN") %></span>
+        </button>
+        <div class="p-4 text-center md:p-5">
+          <i class="fa-regular fa-circle-exclamation text-text-muted mb-3 h-12 w-12"></i>
+          <h3 class="text-text-muted mb-5 text-lg font-normal"><%= tr("ticket:TL_CLEAR_CONFIRM") %></h3>
+          <form @submit.prevent="doClearAll($event.target, 'clear-modal')">
+            <button
+              type="submit"
+              class="inline-flex items-center rounded-lg bg-red-600 px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-red-800 focus:outline-none focus:ring-4 focus:ring-red-300">
+              <%= tr("ticket:TL_CLEAR") %>
+            </button>
+            <button
+              data-modal-hide="clear-modal"
+              type="button"
+              class="border-border bg-bg-panel text-text hover:bg-bg-interactive focus:ring-border ms-3 rounded-lg border px-5 py-2.5 text-sm font-medium focus:z-10 focus:outline-none focus:ring-4">
+              <%= tr("ticket:DELETE_CANCEL_BTN") %>
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Delete Single Log Confirmation Modal -->
+  <div
+    id="delete-log-modal"
+    tabindex="-1"
+    class="fixed left-0 right-0 top-0 z-50 hidden h-[calc(100%-1rem)] max-h-full w-full items-center justify-center overflow-y-auto overflow-x-hidden md:inset-0">
+    <div class="relative max-h-full w-full max-w-md p-4">
+      <div class="bg-bg-panel relative rounded-lg shadow">
+        <button
+          type="button"
+          class="text-text-muted hover:bg-bg-interactive hover:text-text absolute end-2.5 top-3 ms-auto inline-flex h-8 w-8 items-center justify-center rounded-lg bg-transparent text-sm"
+          data-modal-hide="delete-log-modal">
+          <i class="fa-solid fa-xmark h-5 w-5"></i>
+          <span class="sr-only"><%=tr("ticket:CLOSE_MODAL_BTN")%></span>
+        </button>
+        <div class="p-4 text-center md:p-5">
+          <i class="fa-regular fa-circle-exclamation text-text-muted mb-3 h-12 w-12"></i>
+          <h3 class="text-text-muted mb-5 text-lg font-normal"><%=tr("ticket:TL_DELETE_CONFIRM")%></h3>
+          <form @submit.prevent="doDeleteLog($event.target, 'delete-log-modal')">
+            <button
+              type="submit"
+              class="inline-flex items-center rounded-lg bg-red-600 px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-red-800 focus:outline-none focus:ring-4 focus:ring-red-300">
+              <%= tr("ticket:TL_DELETE") %>
+            </button>
+            <button
+              data-modal-hide="delete-log-modal"
+              type="button"
+              class="border-border bg-bg-panel text-text hover:bg-bg-interactive focus:ring-border ms-3 rounded-lg border px-5 py-2.5 text-sm font-medium focus:z-10 focus:outline-none focus:ring-4">
+              <%= tr("ticket:DELETE_CANCEL_BTN") %>
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- View Modal -->
+  <div
+    id="tl-view-modal"
+    tabindex="-1"
+    aria-hidden="true"
+    class="fixed left-0 right-0 top-0 z-50 hidden h-[calc(100%-1rem)] max-h-full w-full items-center justify-center overflow-y-auto">
+    <div class="relative max-h-full w-full max-w-4xl p-4">
+      <div class="bg-bg-panel relative rounded-lg shadow">
+        <div class="border-border flex items-center justify-between rounded-t border-b p-4">
+          <h4 class="text-text text-xl font-semibold"><%= tr("ticket:TL_MODAL_TITLE") %></h4>
+          <button
+            type="button"
+            data-modal-hide="tl-view-modal"
+            class="text-text-muted hover:bg-bg-interactive hover:text-text ms-auto inline-flex h-8 w-8 items-center justify-center rounded-lg bg-transparent text-sm">
+            <i class="fa-solid fa-xmark h-5 w-5"></i>
+          </button>
+        </div>
+        <div class="p-4">
+          <template x-if="viewingLoading">
+            <div class="flex items-center justify-center py-8">
+              <i class="fa-solid fa-spinner fa-spin text-text-muted text-xl"></i>
+            </div>
+          </template>
+
+          <template x-if="!viewingLoading">
+            <div class="grid grid-cols-2 gap-4">
+              <div>
+                <label class="text-text-muted text-sm">Ticket ID</label>
+                <div class="text-text text-sm" x-text="viewing ? viewing.ticket_id : ''"></div>
+              </div>
+              <div>
+                <label class="text-text-muted text-sm">Channel</label>
+                <div class="text-text text-sm" x-text="viewing ? (viewing.channel_id || '-') : ''"></div>
+              </div>
+              <div>
+                <label class="text-text-muted text-sm"><%= tr("ticket:TL_COL_CREATED_AT") %></label>
+                <div
+                  class="text-text text-sm"
+                  x-text="viewing && viewing.createdAt ? new Date(viewing.createdAt).toLocaleString() : ''"></div>
+              </div>
+              <div>
+                <label class="text-text-muted text-sm"><%= tr("ticket:TL_COL_CATEGORY") %></label>
+                <div class="text-text text-sm" x-text="viewing ? viewing.category : ''"></div>
+              </div>
+              <div>
+                <label class="text-text-muted text-sm"><%= tr("ticket:TL_COL_OPENED_BY") %></label>
+                <div
+                  class="text-text text-sm"
+                  x-text="viewing ? (viewing.opener_username || viewing.opener_id || '-') : ''"></div>
+              </div>
+              <div>
+                <label class="text-text-muted text-sm">Opened Reason</label>
+                <div class="text-text text-sm" x-text="viewing ? (viewing.reason || '-') : ''"></div>
+              </div>
+              <div>
+                <label class="text-text-muted text-sm"><%= tr("ticket:TL_COL_CLOSED_BY") %></label>
+                <div class="text-text text-sm" x-text="viewing ? (viewing.closed_by_id || '-') : ''"></div>
+              </div>
+              <div>
+                <label class="text-text-muted text-sm"><%= tr("ticket:TL_COL_REASON") %></label>
+                <div class="text-text text-sm" x-text="viewing ? (viewing.close_reason || '-') : ''"></div>
+              </div>
+              <div class="col-span-2">
+                <label class="text-text-muted text-sm"><%= tr("ticket:TL_COL_TRANSCRIPT") %></label>
+                <template x-if="viewingTranscriptLoading">
+                  <div class="flex items-center justify-center py-6">
+                    <i class="fa-solid fa-spinner fa-spin text-text-muted text-xl"></i>
+                  </div>
+                </template>
+                <template x-if="!viewingTranscriptLoading">
+                  <pre class="border-border bg-bg-interactive max-h-72 overflow-auto rounded border p-2 text-sm">
+                    <code class="font-mono text-text whitespace-pre-wrap break-words" x-text="viewing ? JSON.stringify(viewing.transcript || [], null, 2) : ''"></code>
+                  </pre>
+                </template>
+              </div>
+            </div>
+          </template>
+        </div>
+
+        <div class="border-border flex items-center justify-end rounded-b border-t p-4">
+          <button
+            data-modal-hide="tl-view-modal"
+            type="button"
+            class="border-border bg-bg-interactive hover:bg-bg-interactive/80 text-text focus:ring-border rounded px-4 py-2 focus:outline-none">
+            <%= tr("ticket:CLOSE_MODAL_BTN") %>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- after table add pagination control -->
+  <div class="mt-4 flex items-center justify-between">
+    <div class="text-text-muted text-sm">
+      <span>Showing</span>
+      <span class="mx-1 font-medium" x-text="total ? Math.min(total, (page-1)*perPage+1) : 0"></span>
+      <span>-</span>
+      <span class="mx-1 font-medium" x-text="total ? Math.min(total, page*perPage) : 0"></span>
+      <span>of</span>
+      <span class="ml-1 font-medium" x-text="total"></span>
+    </div>
+
+    <nav aria-label="Page navigation example">
+      <ul class="flex h-8 items-center -space-x-px text-sm">
+        <li>
+          <a
+            href="#"
+            @click.prevent="prevPage()"
+            :class="page<=1 ? 'opacity-50 pointer-events-none flex items-center justify-center px-3 h-8 ms-0 leading-tight text-gray-400 bg-white border border-e-0 border-gray-300 rounded-s-lg dark:bg-gray-800 dark:border-gray-700' : 'flex items-center justify-center px-3 h-8 ms-0 leading-tight text-gray-500 bg-white border border-e-0 border-gray-300 rounded-s-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white'"
+            class="ms-0 flex h-8 items-center justify-center px-3 leading-tight"
+            aria-hidden="true">
+            <span class="sr-only">Previous</span>
+            <svg
+              class="h-2.5 w-2.5 rtl:rotate-180"
+              aria-hidden="true"
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 6 10">
+              <path
+                stroke="currentColor"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M5 1 1 5l4 4" />
+            </svg>
+          </a>
+        </li>
+
+        <template x-for="p in Array.from({length: Math.max(1, Math.ceil(total/perPage))}).map((_,i)=>i+1)" :key="p">
+          <li>
+            <a
+              href="#"
+              @click.prevent="goToPage(p)"
+              :class="p===page ? 'z-10 flex items-center justify-center px-3 h-8 leading-tight text-primary border border-blue-300 bg-blue-50 hover:bg-primary-light hover:text-blue-700 dark:border-gray-700 dark:bg-gray-700 dark:text-white' : 'flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white'"
+              x-text="p">
+            </a>
+          </li>
+        </template>
+
+        <li>
+          <a
+            href="#"
+            @click.prevent="nextPage()"
+            :class="page>=Math.ceil((total||0)/perPage) ? 'opacity-50 pointer-events-none flex items-center justify-center px-3 h-8 leading-tight text-gray-400 bg-white border border-gray-300 rounded-e-lg dark:bg-gray-800 dark:border-gray-700' : 'flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 rounded-e-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white'"
+            class="flex h-8 items-center justify-center px-3 leading-tight">
+            <span class="sr-only">Next</span>
+            <svg
+              class="h-2.5 w-2.5 rtl:rotate-180"
+              aria-hidden="true"
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 6 10">
+              <path
+                stroke="currentColor"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="m1 9 4-4-4-4" />
+            </svg>
+          </a>
+        </li>
+      </ul>
+    </nav>
+  </div>
+</section>

@@ -314,7 +314,8 @@ module.exports = async (interaction) => {
                 guild_id: guild.id,
                 channel_id: tktChannel.id,
                 category: category.name,
-                opened_by: user.id,
+                opener_id: user.id,
+                opener_username: user.displayName,
             });
 
             await interaction.editReply(guild.getT("ticket:HANDLER.OPEN_SUCCESS"));

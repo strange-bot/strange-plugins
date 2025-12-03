@@ -84,7 +84,8 @@ async function closeTicket(channel, closedBy, reason) {
         const transcript = Array.from(messages.values())
             .reverse()
             .map((m) => ({
-                author: m.author.username,
+                author_id: m.author.id,
+                author_username: m.author.displayName,
                 content: m.cleanContent,
                 embeds: m.embeds.map((e) => e.toJSON()),
                 timestamp: m.createdAt,

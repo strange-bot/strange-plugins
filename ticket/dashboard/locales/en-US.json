@@ -12,6 +12,7 @@
     "LIMIT_TITLE": "Ticket Limit",
     "LIMIT_DESC": "Maximum amount of tickets in the server at once",
 
+    "CATEGORY_TAB": "Categories",
     "CATEGORY_TITLE": "Ticket Categories",
     "CATEGORY_DESC": "Manage ticket categories",
     "CREATE_MODAL_BTN": "Create Category",
@@ -45,5 +46,31 @@
     "DELETE_CONFIRM_BTN": "Yes, delete",
     "DELETE_CANCEL_BTN": "No, cancel",
 
-    "CLOSE_MODAL_BTN": "Close"
+    "CLOSE_MODAL_BTN": "Close",
+
+    "TL_TAB": "Logs",
+    "TL_TITLE": "Ticket Logs",
+    "TL_DESC": "Recent ticket sessions recorded for review.",
+    "TL_REFRESH": "Refresh",
+    "TL_CLEAR": "Clear All",
+    "TL_PAGE_ENTRIES": "entries per page",
+    "TL_COL_TICKET": "Ticket ID",
+    "TL_COL_CATEGORY": "Category",
+    "TL_COL_OPENED_BY": "Opened By",
+    "TL_COL_CLOSED_BY": "Closed By",
+    "TL_COL_REASON": "Reason",
+    "TL_COL_TRANSCRIPT": "Transcript",
+    "TL_COL_CREATED_AT": "Created At",
+    "TL_COL_STATUS": "Status",
+    "TL_COL_OPENED_AT": "Opened At",
+    "TL_VIEW": "View",
+    "TL_DELETE": "Delete",
+    "TL_EMPTY": "No ticket logs available.",
+    "TL_MODAL_TITLE": "Ticket Log",
+    "TL_FETCH_ERROR": "Failed to fetch ticket logs.",
+    "TL_DELETE_CONFIRM": "Delete this ticket log?",
+    "TL_DELETE_DONE": "Ticket log deleted.",
+    "TL_DELETE_ERROR": "Failed to delete ticket log.",
+    "TL_CLEAR_CONFIRM": "Clear all ticket logs? This cannot be undone.",
+    "TL_CLEAR_DONE": "All ticket logs cleared."
 }
