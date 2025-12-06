@@ -6,7 +6,7 @@ router.get("/", async (req, res) => {
     const guildId = res.locals.guild.id;
     const [channelsResp, rolesResp, settings] = await Promise.all([
         req.broadcastOne("getChannelsOf", guildId, { guildId }),
-        req.broadcastOne("getRolesOf", guildId),
+        req.broadcastOne("getRolesOf", guildId, { guildId }),
         db.getSettings(guildId),
     ]);
     const channels = channelsResp.success ? channelsResp.data : [];
